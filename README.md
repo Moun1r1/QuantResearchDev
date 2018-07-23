@@ -13,7 +13,6 @@ Quant Research dev & Traders open source project
  - As a user who wants to create some strat, I want to be able to easily draw some graphs with some custom info ( indicators / max / min / Sell / buy / anything )(edited)
  - As a user I want this bot to run on several coins
  -  As a user I want fine tuned buy and sell signal, at sub minute timings, ( probably though web sockets )
- - As a user, I want to get rich ? Is it valid ?
  - as a user, I want an integration with somethign like discord or telegram, so I can get some information from my running bot from my phone
  -  I would like to be able to monitor account holdings
  -  I would like to be able to manage the asks and bids volume based on my own rules
