@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Trady.Analysis;
@@ -47,6 +48,7 @@ namespace Moon.Data.Provider
                 var indexdcandles = new IndexedCandle(RawData, RawData.Count() - 1);
                 var LastBinanceCandle = (BinanceCandle)e.NewItems[0];
                 LastBinanceCandle.Properties.Add("Bearish",indexdcandles.IsBearish());
+                LastBinanceCandle.Properties.Add("IsBullish", indexdcandles.IsBullish());
 
             }
 
@@ -74,6 +76,16 @@ namespace Moon.Data.Provider
                     BinanceCandle Standardize = new BinanceCandle();
                     Standardize.Name = Candle.Symbol;
                     Standardize.Candle = sourcedata;
+                    Type myType = Candle.Data.GetType();
+
+                    //Extract all exchanger candle properties
+                    IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
+                    foreach (PropertyInfo prop in props)
+                    {
+                        object propValue = prop.GetValue(Candle.Data, null);
+                        Standardize.Properties.Add(prop.Name, propValue);
+
+                    }
                     Candles.Add(Standardize);
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
