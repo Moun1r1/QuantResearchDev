@@ -1,2 +1,21 @@
 # QuantResearchDev
 https://discord.gg/Qq4MVVV
+
+
+US In
+
+ - I want to be able to run backtests against 1 coin pair
+ - I want to be abke to run backtests against multiple coins
+ - I want to be able to run backtrsts using different candle sizes
+ - I want to be able to implement multiple indicators in a single strategy using multiple time frames
+ - I want to be able to see the order book in the strategy
+ - As a user who wants to create some strat, I want to be able to easily draw some graphs with some custom info ( indicators / max / min / Sell / buy / anything )(edited)
+ - As a user I want this bot to run on several coins
+ -  As a user I want fine tuned buy and sell signal, at sub minute timings, ( probably though web sockets )
+ - As a user, I want to get rich ? Is it valid ?
+ - as a user, I want an integration with somethign like discord or telegram, so I can get some information from my running bot from my phone
+ -  I would like to be able to monitor account holdings
+ -  I would like to be able to manage the asks and bids volume based on my own rules
+ -  i want: function of strategy responded for currency/fiat . ex: btc in last 2 minutes -2% then sell asset, currency to USDT
+ -  i want: strategy for execution orders (can write do use market, limit and when - high volume, retries failed etc)
+ -  As a strat explorer, I want to have several strat running on paper trade at the same time
