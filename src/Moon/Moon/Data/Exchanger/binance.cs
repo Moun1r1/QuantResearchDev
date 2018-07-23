@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Binance.Net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,12 @@ namespace Moon.Data.Exchanger
 {
     class binance
     {
+        public BinanceClient Client { get; set; } = new Binance.Net.BinanceClient();
+        public BinanceSocketClient Socket { get; set; } = new BinanceSocketClient();
+        public binance()
+        {
+            
+
+        }
     }
 }
