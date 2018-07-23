@@ -204,6 +204,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Exchanger\binance.cs" />
+    <Compile Include="Data\History\DataProvider.cs" />
+    <Compile Include="Data\Model\Factors.cs" />
+    <Compile Include="Data\Provider\core.cs" />
+    <Compile Include="Finance\Extender\Patterns.cs" />
+    <Compile Include="Finance\Indicators\RSI.cs" />
+    <Compile Include="Finance\Model\Risk.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -211,12 +218,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Exchanger\" />
-    <Folder Include="Data\History\" />
-    <Folder Include="Data\Model\" />
-    <Folder Include="Data\Provider\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />

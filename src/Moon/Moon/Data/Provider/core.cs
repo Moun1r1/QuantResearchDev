@@ -9,7 +9,7 @@ namespace Moon.Data.Provider
 {
     class Core
     {
-        public binance bclient { get; set; }
+        public binance bclient { get; set; } = new binance();
         public Core()
         {
 
