@@ -1,7 +1,7 @@
 # QuantResearchDev
 https://discord.gg/Qq4MVVV
 
-Quant Research & Traders open source project
+Quant Research dev & Traders open source project
 
 User stories
 
