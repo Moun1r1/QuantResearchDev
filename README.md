@@ -1,8 +1,9 @@
 # QuantResearchDev
 https://discord.gg/Qq4MVVV
 
+Quant Research & Traders open source project
 
-US In
+User stories
 
  - I want to be able to run backtests against 1 coin pair
  - I want to be abke to run backtests against multiple coins
