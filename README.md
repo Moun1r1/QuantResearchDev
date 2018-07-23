@@ -25,3 +25,8 @@ Concept
 - Rebuilt time candle dynamicaly to expand view 
 - Invoke dynamicaly strategy by weight score
 - Use direct websocket & Azure Data Table stored data
+
+
+Data Model
+![GitHub Logo](/media/DataModel.jpg)
+
