@@ -20,3 +20,8 @@ User stories
  -  i want: function of strategy responded for currency/fiat . ex: btc in last 2 minutes -2% then sell asset, currency to USDT
  -  i want: strategy for execution orders (can write do use market, limit and when - high volume, retries failed etc)
  -  As a strat explorer, I want to have several strat running on paper trade at the same time
+
+Concept
+- Rebuilt time candle dynamicaly to expand view 
+- Invoke dynamicaly strategy by weight score
+- Use direct websocket & Azure Data Table stored data
