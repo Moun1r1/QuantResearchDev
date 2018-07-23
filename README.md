@@ -3,7 +3,7 @@ https://discord.gg/Qq4MVVV
 
 Quant Research dev & Traders open source project
 
-User stories
+## User stories
 
  - I want to be able to run backtests against 1 coin pair
  - I want to be abke to run backtests against multiple coins
@@ -27,6 +27,6 @@ Concept
 - Use direct websocket & Azure Data Table stored data
 
 
-Data Model
+## Data Model
 ![GitHub Logo](/media/DataModel.jpg)
 
