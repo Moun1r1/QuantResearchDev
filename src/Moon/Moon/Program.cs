@@ -14,8 +14,8 @@ namespace Moon
         {
             Core IncomingBinance = new Core();
             IncomingBinance.SubscribeTo("ETHBTC");
-            IncomingBinance.SubscribeTo("BTCUSDT");
-            IncomingBinance.SubscribeTo("BTCXLM");
+            //IncomingBinance.SubscribeTo("BTCUSDT");
+            //IncomingBinance.SubscribeTo("BTCXLM");
 
             //var tick = IncomingBinance.bclient.Socket.SubscribeToKlineStreamAsync("ETHBTC", KlineInterval.OneMinute, (data) =>
             //{
