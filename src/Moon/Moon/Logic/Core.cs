@@ -6,6 +6,16 @@ using System.Threading.Tasks;
 
 namespace Moon.Logic
 {
+
+    public enum logic
+    {
+        iff,
+        elsee,
+        ifelsee,
+        elseiff,
+        whilee
+        
+    }
     class Core
     {
     }
