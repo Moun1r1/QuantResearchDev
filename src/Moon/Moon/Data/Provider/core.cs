@@ -49,7 +49,15 @@ namespace Moon.Data.Provider
                 var LastBinanceCandle = (BinanceCandle)e.NewItems[0];
                 LastBinanceCandle.Properties.Add("Bearish",indexdcandles.IsBearish());
                 LastBinanceCandle.Properties.Add("IsBullish", indexdcandles.IsBullish());
-
+                LastBinanceCandle.Properties.Add("IsAccumDistBearish", indexdcandles.IsAccumDistBearish());
+                LastBinanceCandle.Properties.Add("IsAccumDistBullish", indexdcandles.IsAccumDistBullish());
+                LastBinanceCandle.Properties.Add("ClosePricePercentageChange", indexdcandles.ClosePricePercentageChange());
+                LastBinanceCandle.Properties.Add("ClosePriceChange", indexdcandles.ClosePriceChange());
+                LastBinanceCandle.Properties.Add("IsBreakingHistoricalHighestClose", indexdcandles.IsBreakingHistoricalHighestClose());
+                LastBinanceCandle.Properties.Add("IsBreakingHistoricalHighestHigh", indexdcandles.IsBreakingHistoricalHighestHigh());
+                LastBinanceCandle.Properties.Add("IsBreakingHistoricalLowestLow", indexdcandles.IsBreakingHistoricalLowestLow());
+                LastBinanceCandle.Properties.Add("IsObvBearish", indexdcandles.IsObvBearish());
+                LastBinanceCandle.Properties.Add("IsObvBullish", indexdcandles.IsObvBullish());
             }
 
 
@@ -86,7 +94,15 @@ namespace Moon.Data.Provider
                         Standardize.Properties.Add(prop.Name, propValue);
 
                     }
-                    Candles.Add(Standardize);
+
+                    //Until fix
+                    try
+                    {
+                        Candles.Add(Standardize);
+
+                    }
+                    catch { }
+
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
                     break;
@@ -111,6 +127,7 @@ namespace Moon.Data.Provider
             {
                 var tick = this.bclient.Socket.SubscribeToKlineStreamAsync(Pair, KlineInterval.OneMinute, (data) =>
                 {
+                    Console.WriteLine("Receiving data..");
                     BData.Add(data);
                 });
                 while (true)
