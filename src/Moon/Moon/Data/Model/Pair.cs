@@ -22,6 +22,7 @@ namespace Moon.Data.Model
           
         }
         public Trady.Core.Candle Candle { get; set; }
+        public FactorDefintion Factor { get; set; }
         public string Name { get; set; }
         public string Exchanger { get; set; } = "Binance";
         public DateTime CollectedDate { get; set; } = DateTime.Now;

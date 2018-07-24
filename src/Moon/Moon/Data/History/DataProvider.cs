@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.History
 {
+
+    /// <summary>
+    /// Manage Azure Data Table 
+    /// </summary>
     class DataProvider
     {
     }
