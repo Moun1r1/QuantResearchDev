@@ -1,5 +1,5 @@
 ﻿{
-    "Config"[
+    "Config_global_vars" :[
         { "Vars_ShouldBuy": false },
         { "Vars_ShouldSell": false },
         { "Vars_ShouldMonitor": false },
