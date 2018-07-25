@@ -219,17 +219,27 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Azure\STA.cs" />
     <Compile Include="Config\Configuration.cs" />
+    <Compile Include="Data\Bacher\Grouper.cs" />
     <Compile Include="Data\Exchanger\binance.cs" />
     <Compile Include="Data\History\DataProvider.cs" />
     <Compile Include="Data\Model\Factors.cs" />
     <Compile Include="Data\Model\Pair.cs" />
     <Compile Include="Data\Provider\core.cs" />
+    <Compile Include="DNE\SourceMgmt.cs" />
     <Compile Include="Finance\Extender\Patterns.cs" />
     <Compile Include="Finance\Indicators\RSI.cs" />
     <Compile Include="Finance\Model\Risk.cs" />
+    <Compile Include="Finance\Risk\Core.cs" />
+    <Compile Include="Logic\Core.cs" />
+    <Compile Include="MarketWatcher\watch.cs" />
+    <Compile Include="NeuralNetwork\Core.cs" />
+    <Compile Include="NeuralNetwork\Data\RNNLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Orchestrator.cs" />
+    <Compile Include="Resources\Perf.cs" />
     <Compile Include="Visualizer\Chart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -254,6 +264,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Files\Config.js" />
+    <Compile Include="NeuralNetwork\Models\LearningModels.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
