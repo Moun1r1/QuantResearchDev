@@ -11,6 +11,13 @@ namespace Moon.Finance.Risk
     }
 
    
+    public enum RiskDecision
+    {
+        Minimize,
+        Avoid,
+        Review
+    }
+
 
     class Identity
     {
@@ -35,23 +42,36 @@ namespace Moon.Finance.Risk
             public TimeSpan RoT { get; set; }
         }
 
-
+        //Return Modelized tree of risk factorss layers
     }
     class Classify
     {
+        class RiskCategories { }
+        class RiskClassifications { }
 
+        // Return Classified Risk
     }
     class Quantify
     {
-
+        class ProbabilityAnalysis { }
+        class KeySensitiities { }
+        class KeyCriticalities { }
+        //Return Quantified Risks
     }
     class Grade
     {
-
+        class RiskProbability { }
+        class ImpactAnalysis { }
+        
+        //Return prioritized Risks
     }
     class Manage
     {
+        class HistoricalRiskData { }
+        class RiskManagementPlan { }
 
+        //Return Final Action (Minimize - Avoid - Review)
     }
+
 }
     
