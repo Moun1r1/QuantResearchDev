@@ -22,6 +22,13 @@ namespace Moon.MarketWatcher
             this.TopSymbol = this.KeyPairsCapital.Select(y => y.Symbol).ToList();
         }
 
+        public void Update()
+        {
+            this.Market = client.GetGlobalDataAsync(CoinMarketCap.Enums.ConvertEnum.USD).Result;
+            this.KeyPairsCapital = client.GetTickerListAsync(10, CoinMarketCap.Enums.ConvertEnum.USD).Result;
+            this.TopSymbol = this.KeyPairsCapital.Select(y => y.Symbol).ToList();
+
+        }
         //ICoinMarketCapClient client = new CoinMarketCapClient();
         //var currency = client.GetGlobalDataAsync(CoinMarketCap.Enums.ConvertEnum.USD).Result;
 

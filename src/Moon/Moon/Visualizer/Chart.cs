@@ -53,7 +53,6 @@ namespace Moon.Visualizer
         }
         private void LoadMarketData()
         {
-            Market = new Statistics();
             #region "Load Market Data"
             BTCMarketCap.Text = string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap);
             decimal overallchange = 0;
@@ -285,6 +284,7 @@ namespace Moon.Visualizer
 
         private void MarketRefresh_Tick(object sender, EventArgs e)
         {
+            Market.Update();
             KeyPairsListView.Items.Clear();
             LoadMarketData();
         }
