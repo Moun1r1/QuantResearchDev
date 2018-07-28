@@ -226,6 +226,7 @@
     <Compile Include="Data\History\DataProvider.cs" />
     <Compile Include="Data\Model\Factors.cs" />
     <Compile Include="Data\Model\Pair.cs" />
+    <Compile Include="Data\Provider\CandleExtension.cs" />
     <Compile Include="Data\Provider\core.cs" />
     <Compile Include="DNE\SourceMgmt.cs" />
     <Compile Include="Finance\Extender\Patterns.cs" />
@@ -238,11 +239,14 @@
     <Compile Include="NeuralNetwork\Data\RNNLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Resources\Orchestrator.cs" />
     <Compile Include="Resources\Perf.cs" />
-    <Compile Include="Visualizer\Chart.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Visualizer\Chart.cs" />
     <Compile Include="Visualizer\Chart.Designer.cs">
       <DependentUpon>Chart.cs</DependentUpon>
     </Compile>
@@ -254,6 +258,10 @@
     <None Include="Properties\DataSources\Moon.Data.Provider.Core.datasource" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Visualizer\Chart.resx">
       <DependentUpon>Chart.cs</DependentUpon>
     </EmbeddedResource>
@@ -265,6 +273,7 @@
   <ItemGroup>
     <Content Include="Files\Config.js" />
     <Compile Include="NeuralNetwork\Models\LearningModels.cs" />
+    <None Include="Resources\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

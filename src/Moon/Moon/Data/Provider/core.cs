@@ -24,6 +24,9 @@ namespace Moon.Data.Provider
     {
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
+        public ObservableCollection<BinanceStreamTrade> BDataTradeSeller { get; set; } = new ObservableCollection<BinanceStreamTrade>();
+        public ObservableCollection<BinanceStreamTrade> BDataTradeBuyer { get; set; } = new ObservableCollection<BinanceStreamTrade>();
+
         public ObservableCollection<BinanceCandle> Candles { get; set; } = new ObservableCollection<BinanceCandle>();
         public binance bclient { get; set; } = new binance();
         public List<BinanceCandle> GenericCandle = new List<BinanceCandle>();
@@ -32,7 +35,12 @@ namespace Moon.Data.Provider
         {
             BData.CollectionChanged += BData_CollectionChanged;
             Candles.CollectionChanged += Candles_CollectionChanged;
+            BDataTradeSeller.CollectionChanged += BDataTrade_CollectionChanged;
 
+        }
+
+        private void BDataTrade_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
         }
 
         /// <summary>
@@ -130,6 +138,19 @@ namespace Moon.Data.Provider
                     Console.WriteLine("Receiving data..");
                     BData.Add(data);
                 });
+                var trades = this.bclient.Socket.SubscribeToTradesStreamAsync(Pair, (data) =>
+                {
+                    Console.WriteLine("Receiving data..");
+                    if(!data.BuyerIsMaker)
+                    {
+                        BDataTradeSeller.Add(data);
+                    }
+                    else
+                    {
+                        BDataTradeBuyer.Add(data);
+                    }
+                });
+
                 while (true)
                 {
                     System.Threading.Thread.Sleep(500);
