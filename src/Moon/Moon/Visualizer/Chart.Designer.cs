@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.solidGauge4 = new LiveCharts.WinForms.SolidGauge();
@@ -42,17 +42,31 @@
             this.solidGauge2 = new LiveCharts.WinForms.SolidGauge();
             this.label1 = new System.Windows.Forms.Label();
             this.solidGauge1 = new LiveCharts.WinForms.SolidGauge();
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label6 = new System.Windows.Forms.Label();
+            this.MarketSent = new LiveCharts.WinForms.SolidGauge();
+            this.KeyPairsListView = new System.Windows.Forms.ListView();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.BTCMarketCap = new System.Windows.Forms.Label();
+            this.MarketRefresh = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -84,20 +98,10 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1735, 1035);
+            this.tabPage1.Size = new System.Drawing.Size(1735, 1031);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Live WebSocket";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1735, 1031);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Market Watcher";
-            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -204,37 +208,6 @@
             this.solidGauge1.TabIndex = 15;
             this.solidGauge1.Text = "solidGauge1";
             // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Volume";
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "High";
-            this.columnHeader7.Width = 136;
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "Low";
-            this.columnHeader6.Width = 113;
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Close";
-            this.columnHeader5.Width = 108;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Open";
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Date";
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Symbol";
-            // 
             // cartesianChart1
             // 
             this.cartesianChart1.BackColor = System.Drawing.SystemColors.Menu;
@@ -262,6 +235,136 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Symbol";
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Date";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Open";
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Close";
+            this.columnHeader5.Width = 108;
+            // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Low";
+            this.columnHeader6.Width = 113;
+            // 
+            // columnHeader7
+            // 
+            this.columnHeader7.Text = "High";
+            this.columnHeader7.Width = 136;
+            // 
+            // columnHeader8
+            // 
+            this.columnHeader8.Text = "Volume";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Controls.Add(this.label6);
+            this.tabPage2.Controls.Add(this.MarketSent);
+            this.tabPage2.Controls.Add(this.KeyPairsListView);
+            this.tabPage2.Controls.Add(this.BTCMarketCap);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1735, 1031);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Market Watcher";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label6.Location = new System.Drawing.Point(8, 82);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(230, 26);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "Market 1 Hr Sentiment";
+            // 
+            // MarketSent
+            // 
+            this.MarketSent.Location = new System.Drawing.Point(13, 124);
+            this.MarketSent.Name = "MarketSent";
+            this.MarketSent.Size = new System.Drawing.Size(200, 100);
+            this.MarketSent.TabIndex = 2;
+            // 
+            // KeyPairsListView
+            // 
+            this.KeyPairsListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3,
+            this.columnHeader9,
+            this.columnHeader10,
+            this.columnHeader11,
+            this.columnHeader12,
+            this.columnHeader13,
+            this.columnHeader14});
+            this.KeyPairsListView.Location = new System.Drawing.Point(8, 282);
+            this.KeyPairsListView.Name = "KeyPairsListView";
+            this.KeyPairsListView.Size = new System.Drawing.Size(1039, 528);
+            this.KeyPairsListView.TabIndex = 1;
+            this.KeyPairsListView.UseCompatibleStateImageBehavior = false;
+            this.KeyPairsListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Symbol";
+            // 
+            // columnHeader9
+            // 
+            this.columnHeader9.Text = "Price";
+            // 
+            // columnHeader10
+            // 
+            this.columnHeader10.Text = "1hrchange";
+            this.columnHeader10.Width = 77;
+            // 
+            // columnHeader11
+            // 
+            this.columnHeader11.Text = "24hrchange";
+            this.columnHeader11.Width = 81;
+            // 
+            // columnHeader12
+            // 
+            this.columnHeader12.Text = "7dchange";
+            this.columnHeader12.Width = 78;
+            // 
+            // columnHeader13
+            // 
+            this.columnHeader13.Text = "Rank";
+            // 
+            // columnHeader14
+            // 
+            this.columnHeader14.Text = "MarketCapUsd";
+            this.columnHeader14.Width = 104;
+            // 
+            // BTCMarketCap
+            // 
+            this.BTCMarketCap.AutoSize = true;
+            this.BTCMarketCap.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BTCMarketCap.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.BTCMarketCap.Location = new System.Drawing.Point(8, 20);
+            this.BTCMarketCap.Name = "BTCMarketCap";
+            this.BTCMarketCap.Size = new System.Drawing.Size(211, 26);
+            this.BTCMarketCap.TabIndex = 0;
+            this.BTCMarketCap.Text = "BTC Market Cap : %";
+            // 
+            // MarketRefresh
+            // 
+            this.MarketRefresh.Enabled = true;
+            this.MarketRefresh.Interval = 60000;
+            this.MarketRefresh.Tick += new System.EventHandler(this.MarketRefresh_Tick);
+            // 
             // Chart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -275,6 +378,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -304,5 +409,17 @@
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.ListView KeyPairsListView;
+        private System.Windows.Forms.Label BTCMarketCap;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
+        private System.Windows.Forms.ColumnHeader columnHeader9;
+        private System.Windows.Forms.ColumnHeader columnHeader10;
+        private System.Windows.Forms.ColumnHeader columnHeader11;
+        private System.Windows.Forms.ColumnHeader columnHeader12;
+        private System.Windows.Forms.ColumnHeader columnHeader13;
+        private System.Windows.Forms.ColumnHeader columnHeader14;
+        private System.Windows.Forms.Label label6;
+        private LiveCharts.WinForms.SolidGauge MarketSent;
+        private System.Windows.Forms.Timer MarketRefresh;
     }
 }

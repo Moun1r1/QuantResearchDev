@@ -5,6 +5,7 @@ using LiveCharts.Defaults;
 using LiveCharts.Wpf;
 using Moon.Data.Model;
 using Moon.Data.Provider;
+using Moon.MarketWatcher;
 using Moon.Visualizer.Winforms.Cartesian.ConstantChanges;
 using System;
 using System.Collections;
@@ -33,110 +34,110 @@ namespace Moon.Visualizer
         }
     }
 
+
     public partial class Chart : Form
     {
-
+        public static Statistics Market = new Statistics();
         private ObservableValue value1;
         public ChartValues<ObservableValue> High { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Low { get; set; } = new ChartValues<ObservableValue>();
-
-
         public ChartValues<ObservableValue> Buyer { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Seller { get; set; } = new ChartValues<ObservableValue>();
-
-
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         Core IncomingBinance = new Core();
         private ChartValues<OhlcPoint> candlesvalues = new ChartValues<OhlcPoint>();
         public LiveCharts.SeriesCollection SeriesCollection { get; set; }
-
         public Chart()
         {
             InitializeComponent();
         }
+        private void LoadMarketData()
+        {
+            #region "Load Market Data"
+            BTCMarketCap.Text = string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap);
+            decimal overallchange = 0;
+            foreach (var pair in Market.KeyPairsCapital)
+            {
+                string[] row = {
+                    pair.Symbol,
+                    pair.PriceUsd.ToString(),
+                    pair.PercentChange1h.ToString(),
+                    pair.PercentChange24h.ToString(),
+                    pair.PercentChange7d.ToString(),
+                    pair.Rank.ToString(),
+                    pair.MarketCapUsd.Value.ToString("N"),
+                };
+                overallchange += decimal.Parse(pair.PercentChange1h.Value.ToString());
+                var marktitm = new ListViewItem(row);
+                KeyPairsListView.Items.Add(marktitm);
 
+
+            }
+
+            MarketSent.Value = double.Parse(overallchange.ToString());
+            #endregion
+        }
         private void Chart_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
-
-            #region "Chart Init"
-            //Chart Init
-            //var mapper = Mappers.Xy<MeasureModel>()
-            //.X(model => model.DateTime.Ticks)   //use DateTime.Ticks as X
-            //.Y(model => model.Value);
-
-
-            ////use the value property as Y
-            //Charting.For<MeasureModel>(mapper);
-
+            LoadMarketData();
+            #region "Load Socket Data"
             cartesianChart2.Series = new LiveCharts.SeriesCollection
-            {
-                new LineSeries
-                {
-                    Title = "Buyer",
-                    Values = High,
-                    AreaLimit = 0,
-                    PointGeometry = null,
-                    Fill = System.Windows.Media.Brushes.Transparent
-                },
-                new LineSeries
-                {
-                    Title = "Seller",
-                    Values = High,
-                    AreaLimit = 0,
-                    PointGeometry = null,
-                    Fill = System.Windows.Media.Brushes.Transparent
-                }
-            };
+                    {
+                        new LineSeries
+                        {
+                            Title = "Buyer",
+                            Values = High,
+                            AreaLimit = 0,
+                            PointGeometry = null,
+                            Fill = System.Windows.Media.Brushes.Transparent
+                        },
+                        new LineSeries
+                        {
+                            Title = "Seller",
+                            Values = High,
+                            AreaLimit = 0,
+                            PointGeometry = null,
+                            Fill = System.Windows.Media.Brushes.Transparent
+                        }
+                    };
+                    cartesianChart1.Series = new LiveCharts.SeriesCollection
+                    {
+                        new OhlcSeries
+                        {
+                            Title = "BTCUSDT",
+                            Values = candlesvalues
+                        },
+                        new LineSeries
+                        {
+                            Title = "High",
+                            Values = High,
+                            AreaLimit = 0,
+                            PointGeometry = null,
+                            Fill = System.Windows.Media.Brushes.Transparent
+                        },
+                        new LineSeries
+                        {
+                            Title = "Low",
+                            Values = Low,
+                            AreaLimit = 0,
+                            PointGeometry = null,
+                            Fill = System.Windows.Media.Brushes.Transparent
+                        }
 
+                    };
+                    System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
+                    {
+                        Interval = 500
+                    };
+                    timer.Tick += TimerOnTick;
+                    timer.Start();
+                    IncomingBinance.SubscribeTo("BTCUSDT");
+                    IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
+                    IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
+                    IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
+        #endregion
 
-
-            cartesianChart1.Series = new LiveCharts.SeriesCollection
-            {
-                new OhlcSeries
-                {
-                    Title = "BTCUSDT",
-                    Values = candlesvalues
-                },
-                new LineSeries
-                {
-                    Title = "High",
-                    Values = High,
-                    AreaLimit = 0,
-                    PointGeometry = null,
-                    Fill = System.Windows.Media.Brushes.Transparent
-                },
-                new LineSeries
-                {
-                    Title = "Low",
-                    Values = Low,
-                    AreaLimit = 0,
-                    PointGeometry = null,
-                    Fill = System.Windows.Media.Brushes.Transparent
-                }
-
-            };
-
-
-
-
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
-            {
-                Interval = 500
-            };
-            timer.Tick += TimerOnTick;
-            timer.Start();
-
-            #endregion
-
-            IncomingBinance.SubscribeTo("BTCUSDT");
-            //IncomingBinance.SubscribeTo("ETHBTC");
-
-
-
-            IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
-            IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
-            IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
         }
 
         private void BDataTradeBuyer_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -274,6 +275,17 @@ namespace Moon.Visualizer
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MarketRefresh_Tick(object sender, EventArgs e)
+        {
+            KeyPairsListView.Items.Clear();
+            LoadMarketData();
         }
     }
 

@@ -7,6 +7,9 @@ using Moon.Data.Provider;
 using Binance.Net.Objects;
 using System.Windows.Forms;
 using Moon.Visualizer;
+using CoinMarketCap;
+using CoinMarketCap.Core;
+using Moon.MarketWatcher;
 
 namespace Moon
 {
@@ -16,7 +19,8 @@ namespace Moon
         static void Main(string[] args)
         {
             Core IncomingBinance = new Core();
-            IncomingBinance.SubscribeTo("ETHBTC");
+
+            //IncomingBinance.SubscribeTo("ETHBTC");
             Application.EnableVisualStyles();
             Application.Run(new Chart()); // or whatever
 
