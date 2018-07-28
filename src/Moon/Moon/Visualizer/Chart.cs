@@ -37,7 +37,7 @@ namespace Moon.Visualizer
 
     public partial class Chart : Form
     {
-        public static Statistics Market = new Statistics();
+        public Statistics Market = new Statistics();
         private ObservableValue value1;
         public ChartValues<ObservableValue> High { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Low { get; set; } = new ChartValues<ObservableValue>();
@@ -53,6 +53,7 @@ namespace Moon.Visualizer
         }
         private void LoadMarketData()
         {
+            Market = new Statistics();
             #region "Load Market Data"
             BTCMarketCap.Text = string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap);
             decimal overallchange = 0;
