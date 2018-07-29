@@ -135,13 +135,21 @@ namespace Moon.Data.Provider
             {
                 var tick = this.bclient.Socket.SubscribeToKlineStreamAsync(Pair, KlineInterval.OneMinute, (data) =>
                 {
-                    Console.WriteLine("Receiving data..");
+                    Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}",data.Symbol);
                     BData.Add(data);
                 });
+
+                while (Global.shared.Running)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            });
+            Task.Run(() =>
+            {
                 var trades = this.bclient.Socket.SubscribeToTradesStreamAsync(Pair, (data) =>
                 {
-                    Console.WriteLine("Receiving data..");
-                    if(!data.BuyerIsMaker)
+                    Console.WriteLine("Debug - Provider Core - Receiving data from trade socket : {0}", data.Symbol);
+                    if (!data.BuyerIsMaker)
                     {
                         BDataTradeSeller.Add(data);
                     }
@@ -150,13 +158,12 @@ namespace Moon.Data.Provider
                         BDataTradeBuyer.Add(data);
                     }
                 });
-
-                while (true)
+                while (Global.shared.Running)
                 {
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(100);
                 }
-            });
 
+            });
 
 
         }

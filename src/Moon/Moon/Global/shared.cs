@@ -10,6 +10,6 @@ namespace Moon.Global
     public static class shared
     {
         public static ConfigGlobal Config = new ConfigGlobal();
-
+        public static bool Running = true;
     }
 }
