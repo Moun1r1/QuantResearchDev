@@ -176,6 +176,7 @@
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Text.Encoding.CodePages, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encoding.CodePages.4.3.0\lib\net46\System.Text.Encoding.CodePages.dll</HintPath>
     </Reference>
@@ -239,6 +240,7 @@
     <Compile Include="Finance\Indicators\RSI.cs" />
     <Compile Include="Finance\Model\Risk.cs" />
     <Compile Include="Finance\Risk\Core.cs" />
+    <Compile Include="Global\shared.cs" />
     <Compile Include="Logic\Core.cs" />
     <Compile Include="MarketWatcher\watch.cs" />
     <Compile Include="NeuralNetwork\Core.cs" />
@@ -277,7 +279,7 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\Config.js" />
+    <None Include="Files\Config.json" />
     <Compile Include="NeuralNetwork\Models\LearningModels.cs" />
     <None Include="Resources\logo.png" />
   </ItemGroup>

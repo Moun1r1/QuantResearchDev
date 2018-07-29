@@ -1,0 +1,31 @@
+﻿{
+  "Config_global_vars": [
+    { "Vars_ShouldBuy": false },
+    { "Vars_ShouldSell": false },
+    { "Vars_ShouldMonitor": false },
+    { "Vars_ShouldCollectAndArchive": false },
+    { "Vars_ShouldNNodes": false }
+  ],
+  "SocketPairs": [
+    {
+      "Symbol": false,
+      "Period": "1Minute",
+      "Exchanger": "Binance"
+    }
+  ],
+  "Config_MarketWatcher_vars": [
+    { "KeysPairsToLoad": 15 }
+  ],
+  "NewsSource": [
+    {
+      "Name": "CryptoPanic",
+      "Uri": "https://cryptopanic.com/news/rss/",
+      "LoadSummary": false
+    },
+    {
+      "Name": "ReutersTopNews",
+      "Uri": "http://feeds.reuters.com/reuters/topNews",
+      "LoadSummary": true
+    }
+  ]
+}

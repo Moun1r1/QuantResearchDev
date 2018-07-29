@@ -6,27 +6,37 @@ using System.Threading.Tasks;
 
 namespace Moon.Config
 {
+        public class ConfigGlobalVar
+    {
+        public bool Vars_ShouldBuy { get; set; }
+        public bool? Vars_ShouldSell { get; set; }
+        public bool? Vars_ShouldMonitor { get; set; }
+        public bool? Vars_ShouldCollectAndArchive { get; set; }
+        public bool? Vars_ShouldNNodes { get; set; }
+    }
+    public class SocketPair
+    {
+        public bool Symbol { get; set; }
+        public string Period { get; set; }
+        public string Exchanger { get; set; }
+    }
+    public class NewsSource
+    {
+        public string Name { get; set; }
+        public string Uri { get; set; }
+        public bool LoadSummary { get; set; }
+    }
+    public class ConfigMarketWatcherVar
+    {
+        public int KeysPairsToLoad { get; set; }
+    }
 
-    public enum Mode
+    public class ConfigGlobal
     {
-        Conf_Live = 0,
-        Conf_Backtest = 1,
-        Conf_Collectors = 2,
-        Conf_ExchangerNode = 3,
-    }
-    class Configuration
-    {
-        public Configuration()
-        {
-            //Load and set
-        }
-    }
-    public static class Variables
-    {
-        public const bool Vars_ShouldBuy = false;
-        public const bool Vars_ShouldSell = false;
-        public const bool Vars_ShouldMonitor = false;
-        public const bool Vars_ShouldCollectAndArchive = false;
-        public const bool Vars_ShouldNNodes = false;
+        public List<ConfigMarketWatcherVar> Config_MarketWatcher_vars { get; set; }
+        public List<ConfigGlobalVar> Config_global_vars { get; set; }
+        public List<NewsSource> NewsSource { get; set; }
+        public List<SocketPair> SocketPairs { get; set; }
+
     }
 }

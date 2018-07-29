@@ -15,12 +15,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.ServiceModel.Syndication;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Media;
+using System.Xml;
 
 namespace Moon.Visualizer
 {
@@ -85,12 +87,58 @@ namespace Moon.Visualizer
             }
             catch { }
             #endregion
+
+
+        }
+        private void LoadMarketNews()
+        {
+
+            foreach(var source in Moon.Global.shared.Config.NewsSource)
+            {
+                string url = source.Uri;
+                XmlReader reader = XmlReader.Create(url);
+                SyndicationFeed feed = SyndicationFeed.Load(reader);
+                reader.Close();
+                foreach (SyndicationItem item in feed.Items)
+                {
+
+                    if (source.LoadSummary)
+                    {
+                        string[] row = {
+                            source.Name,
+                            item.PublishDate.ToString(),
+                            item.Title.Text.ToString(),
+                            item.Summary.Text.ToString()
+                        };
+                        var newsitm = new ListViewItem(row);
+                        AddListItem(marketnews, newsitm);
+
+                    }
+                    else
+                    {
+                        string[] row = {
+                            source.Name,
+                            item.PublishDate.ToString(),
+                            item.Title.Text.ToString()
+                        };
+                        var newsitm = new ListViewItem(row);
+                        AddListItem(marketnews, newsitm);
+
+                    }
+
+                }
+
+            }
+
+
+
         }
         private void Chart_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
             Task.Run(() =>
             {
+                LoadMarketNews();
                 LoadMarketData();
 
             });
@@ -243,6 +291,12 @@ namespace Moon.Visualizer
 
         private void BDataTradeSeller_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+
+            switch (e.Action)
+            {
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    break;
+            }
             var IncomingSeller = (BinanceStreamTrade)e.NewItems[0];
             try
             {

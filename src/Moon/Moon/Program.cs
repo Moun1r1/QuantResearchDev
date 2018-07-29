@@ -10,6 +10,9 @@ using Moon.Visualizer;
 using CoinMarketCap;
 using CoinMarketCap.Core;
 using Moon.MarketWatcher;
+using System.IO;
+using Newtonsoft.Json;
+using Moon.Config;
 
 namespace Moon
 {
@@ -18,9 +21,20 @@ namespace Moon
         [STAThread]
         static void Main(string[] args)
         {
-            Core IncomingBinance = new Core();
 
-            //IncomingBinance.SubscribeTo("ETHBTC");
+
+            using (StreamReader r = new StreamReader(@".\Config\Config.json"))
+            {
+                string json = r.ReadToEnd();
+                var items = JsonConvert.DeserializeObject<ConfigGlobal>(json);
+                Moon.Global.shared.Config = items;
+            }
+
+
+            //Core IncomingBinance = new Core();
+
+
+            ////IncomingBinance.SubscribeTo("ETHBTC");
             Application.EnableVisualStyles();
             Application.Run(new Chart()); // or whatever
 

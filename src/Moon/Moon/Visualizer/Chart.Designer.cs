@@ -52,6 +52,12 @@
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.label7 = new System.Windows.Forms.Label();
+            this.marketnews = new System.Windows.Forms.ListView();
+            this.columnHeader15 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader16 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader17 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader18 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.marketupdate = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.MarketSent = new LiveCharts.WinForms.SolidGauge();
@@ -269,6 +275,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.marketnews);
             this.tabPage2.Controls.Add(this.marketupdate);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.MarketSent);
@@ -282,6 +290,49 @@
             this.tabPage2.Text = "Market Watcher";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label7.Location = new System.Drawing.Point(1294, 242);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(139, 26);
+            this.label7.TabIndex = 6;
+            this.label7.Text = "Market News";
+            // 
+            // marketnews
+            // 
+            this.marketnews.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader15,
+            this.columnHeader16,
+            this.columnHeader17,
+            this.columnHeader18});
+            this.marketnews.Location = new System.Drawing.Point(1053, 282);
+            this.marketnews.Name = "marketnews";
+            this.marketnews.Size = new System.Drawing.Size(673, 528);
+            this.marketnews.TabIndex = 5;
+            this.marketnews.UseCompatibleStateImageBehavior = false;
+            this.marketnews.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader15
+            // 
+            this.columnHeader15.Text = "Source";
+            // 
+            // columnHeader16
+            // 
+            this.columnHeader16.Text = "Date";
+            // 
+            // columnHeader17
+            // 
+            this.columnHeader17.Text = "Title";
+            this.columnHeader17.Width = 77;
+            // 
+            // columnHeader18
+            // 
+            this.columnHeader18.Text = "Summary";
+            this.columnHeader18.Width = 81;
             // 
             // marketupdate
             // 
@@ -435,5 +486,11 @@
         private LiveCharts.WinForms.SolidGauge MarketSent;
         private System.Windows.Forms.Timer MarketRefresh;
         private System.Windows.Forms.Label marketupdate;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ListView marketnews;
+        private System.Windows.Forms.ColumnHeader columnHeader15;
+        private System.Windows.Forms.ColumnHeader columnHeader16;
+        private System.Windows.Forms.ColumnHeader columnHeader17;
+        private System.Windows.Forms.ColumnHeader columnHeader18;
     }
 }
