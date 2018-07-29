@@ -435,7 +435,8 @@ namespace Moon.Visualizer
             Task.Run(() =>
                 {
                     LoadMarketData();
-
+                    marketnews.Items.Clear();
+                    LoadMarketNews();
                 });
         }
     }
