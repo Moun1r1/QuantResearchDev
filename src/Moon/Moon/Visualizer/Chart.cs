@@ -92,42 +92,49 @@ namespace Moon.Visualizer
         }
         private void LoadMarketNews()
         {
-
-            foreach(var source in Moon.Global.shared.Config.NewsSource)
+            try
             {
-                string url = source.Uri;
-                XmlReader reader = XmlReader.Create(url);
-                SyndicationFeed feed = SyndicationFeed.Load(reader);
-                reader.Close();
-                foreach (SyndicationItem item in feed.Items)
+                foreach (var source in Moon.Global.shared.Config.NewsSource)
                 {
-
-                    if (source.LoadSummary)
+                    string url = source.Uri;
+                    XmlReader reader = XmlReader.Create(url);
+                    SyndicationFeed feed = SyndicationFeed.Load(reader);
+                    reader.Close();
+                    foreach (SyndicationItem item in feed.Items)
                     {
-                        string[] row = {
+
+                        if (source.LoadSummary)
+                        {
+                            string[] row = {
                             source.Name,
                             item.PublishDate.ToString(),
                             item.Title.Text.ToString(),
                             item.Summary.Text.ToString()
                         };
-                        var newsitm = new ListViewItem(row);
-                        AddListItem(marketnews, newsitm);
+                            var newsitm = new ListViewItem(row);
+                            AddListItem(marketnews, newsitm);
 
-                    }
-                    else
-                    {
-                        string[] row = {
+                        }
+                        else
+                        {
+                            string[] row = {
                             source.Name,
                             item.PublishDate.ToString(),
                             item.Title.Text.ToString()
                         };
-                        var newsitm = new ListViewItem(row);
-                        AddListItem(marketnews, newsitm);
+                            var newsitm = new ListViewItem(row);
+                            AddListItem(marketnews, newsitm);
+
+                        }
 
                     }
 
                 }
 
+            }
+            catch(Exception ex)
+            {
+                //return ex on status box
             }
 
 

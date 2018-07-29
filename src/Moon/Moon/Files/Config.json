@@ -20,12 +20,12 @@
     {
       "Name": "CCN",
       "Uri": "https://cryptocurrencynews.com/feed/",
-      "LoadSummary": true
+      "LoadSummary": false
     },
     {
       "Name": "CoinTelegraph",
       "Uri": "https://cointelegraph.com/rss",
-      "LoadSummary": true
+      "LoadSummary": false
     }
   ]
 }
