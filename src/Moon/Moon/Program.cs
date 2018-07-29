@@ -22,13 +22,21 @@ namespace Moon
         static void Main(string[] args)
         {
 
-
-            using (StreamReader r = new StreamReader(@".\Config\Config.json"))
+            try
             {
-                string json = r.ReadToEnd();
-                var items = JsonConvert.DeserializeObject<ConfigGlobal>(json);
-                Moon.Global.shared.Config = items;
+                using (StreamReader r = new StreamReader(@".\Config\Config.json"))
+                {
+                    string json = r.ReadToEnd();
+                    var items = JsonConvert.DeserializeObject<ConfigGlobal>(json);
+                    Moon.Global.shared.Config = items;
+                }
             }
+            catch
+            {
+               throw new Exception("Config file should placed on a folder named Config with the config.json on the same bin path..");
+
+            }
+
 
 
             //Core IncomingBinance = new Core();

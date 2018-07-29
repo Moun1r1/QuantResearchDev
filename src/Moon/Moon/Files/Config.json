@@ -18,13 +18,13 @@
   ],
   "NewsSource": [
     {
-      "Name": "CryptoPanic",
-      "Uri": "https://cryptopanic.com/news/rss/",
-      "LoadSummary": false
+      "Name": "CCN",
+      "Uri": "https://cryptocurrencynews.com/feed/",
+      "LoadSummary": true
     },
     {
-      "Name": "ReutersTopNews",
-      "Uri": "http://feeds.reuters.com/reuters/topNews",
+      "Name": "CoinTelegraph",
+      "Uri": "https://cointelegraph.com/rss",
       "LoadSummary": true
     }
   ]
