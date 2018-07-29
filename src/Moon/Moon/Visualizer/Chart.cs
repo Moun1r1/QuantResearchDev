@@ -81,11 +81,13 @@ namespace Moon.Visualizer
             }
             try
             {
-                SetJaugeText(MarketSent, double.Parse(overallchange.ToString()));
-                //MarketSent.Value = double.Parse(overallchange.ToString());
+                   SetJaugeText(MarketSent, double.Parse(overallchange.ToString()));
 
             }
-            catch { }
+            catch(Exception ex) {
+                Console.WriteLine(ex.Message);
+                // send to status bar
+            }
             #endregion
 
 
