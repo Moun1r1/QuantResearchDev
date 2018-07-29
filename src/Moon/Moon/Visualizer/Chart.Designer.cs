@@ -52,6 +52,7 @@
             this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.marketupdate = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.MarketSent = new LiveCharts.WinForms.SolidGauge();
             this.KeyPairsListView = new System.Windows.Forms.ListView();
@@ -268,6 +269,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.marketupdate);
             this.tabPage2.Controls.Add(this.label6);
             this.tabPage2.Controls.Add(this.MarketSent);
             this.tabPage2.Controls.Add(this.KeyPairsListView);
@@ -280,6 +282,17 @@
             this.tabPage2.Text = "Market Watcher";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // marketupdate
+            // 
+            this.marketupdate.AutoSize = true;
+            this.marketupdate.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.marketupdate.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.marketupdate.Location = new System.Drawing.Point(8, 242);
+            this.marketupdate.Name = "marketupdate";
+            this.marketupdate.Size = new System.Drawing.Size(129, 26);
+            this.marketupdate.TabIndex = 4;
+            this.marketupdate.Text = "Last Update";
             // 
             // label6
             // 
@@ -362,7 +375,7 @@
             // MarketRefresh
             // 
             this.MarketRefresh.Enabled = true;
-            this.MarketRefresh.Interval = 60000;
+            this.MarketRefresh.Interval = 30000;
             this.MarketRefresh.Tick += new System.EventHandler(this.MarketRefresh_Tick);
             // 
             // Chart
@@ -421,5 +434,6 @@
         private System.Windows.Forms.Label label6;
         private LiveCharts.WinForms.SolidGauge MarketSent;
         private System.Windows.Forms.Timer MarketRefresh;
+        private System.Windows.Forms.Label marketupdate;
     }
 }

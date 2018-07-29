@@ -2,6 +2,7 @@
 using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Defaults;
+using LiveCharts.WinForms;
 using LiveCharts.Wpf;
 using Moon.Data.Model;
 using Moon.Data.Provider;
@@ -37,7 +38,7 @@ namespace Moon.Visualizer
 
     public partial class Chart : Form
     {
-        public Statistics Market = new Statistics();
+        public Statistics Market;
         private ObservableValue value1;
         public ChartValues<ObservableValue> High { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Low { get; set; } = new ChartValues<ObservableValue>();
@@ -53,8 +54,11 @@ namespace Moon.Visualizer
         }
         private void LoadMarketData()
         {
+            Market = new Statistics();
             #region "Load Market Data"
-            BTCMarketCap.Text = string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap);
+            SetLabelText(BTCMarketCap, string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap));
+            SetLabelText(marketupdate, string.Format("Last Update : {0}", DateTime.Now)) ;
+
             decimal overallchange = 0;
             foreach (var pair in Market.KeyPairsCapital)
             {
@@ -69,18 +73,27 @@ namespace Moon.Visualizer
                 };
                 overallchange += decimal.Parse(pair.PercentChange1h.Value.ToString());
                 var marktitm = new ListViewItem(row);
-                KeyPairsListView.Items.Add(marktitm);
+                AddListItem(KeyPairsListView, marktitm);
 
 
             }
+            try
+            {
+                SetJaugeText(MarketSent, double.Parse(overallchange.ToString()));
+                //MarketSent.Value = double.Parse(overallchange.ToString());
 
-            MarketSent.Value = double.Parse(overallchange.ToString());
+            }
+            catch { }
             #endregion
         }
         private void Chart_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
-            LoadMarketData();
+            Task.Run(() =>
+            {
+                LoadMarketData();
+
+            });
             #region "Load Socket Data"
             cartesianChart2.Series = new LiveCharts.SeriesCollection
                     {
@@ -145,31 +158,96 @@ namespace Moon.Visualizer
             var IncomingBuyer = (BinanceStreamTrade)e.NewItems[0];
             try
             {
-                try
-                {
-                    if (textBox1.Text.Split(Environment.NewLine.ToCharArray()).ToList().Count() > 15) { textBox1.Text = string.Empty; }
-                    textBox1.Text += string.Format("Buyer with : {0} for price {1}" + Environment.NewLine, IncomingBuyer.Quantity.ToString(), IncomingBuyer.Price);
-
-                }
-                catch { }
-
+                SetTextBoxContent(textBox1, string.Format("Buyer with : {0} for price {1}" + Environment.NewLine, IncomingBuyer.Quantity.ToString(), IncomingBuyer.Price));
             }
             catch { }
         }
+
+        public void AddListItem(ListView List,ListViewItem item)
+        {
+            if (List.InvokeRequired)
+
+            {
+
+                List.Invoke((MethodInvoker)delegate {List.Items.Add(item); });
+
+            }
+
+            else
+
+            {
+
+                List.Items.Add(item);
+            }
+
+
+        }
+
+        public void SetTextBoxContent(TextBox Target,string Value)
+        {
+            if (Target.InvokeRequired)
+
+            {
+
+                Target.Invoke((MethodInvoker)delegate { Target.Text = Value; });
+
+            }
+
+            else
+
+            {
+
+                Target.Text = Value;
+            }
+
+        }
+
+        public void SetLabelText(Label Target,string content)
+        {
+            if (Target.InvokeRequired)
+
+            {
+
+                Target.Invoke((MethodInvoker)delegate { Target.Text = content; });
+
+            }
+
+            else
+
+            {
+
+                Target.Text = content;
+            }
+
+        }
+
+        public void SetJaugeText(SolidGauge Target, double content)
+        {
+            if (Target.InvokeRequired)
+
+            {
+
+                Target.Invoke((MethodInvoker)delegate { Target.Value = content; });
+
+            }
+
+            else
+
+            {
+
+                Target.Value = content;
+            }
+
+        }
+
 
         private void BDataTradeSeller_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var IncomingSeller = (BinanceStreamTrade)e.NewItems[0];
             try
             {
-                try
-                {
-                    if(textBox1.Text.Split(Environment.NewLine.ToCharArray()).ToList().Count() > 15) { textBox1.Text = string.Empty; }
-                    textBox1.Text += string.Format("Seller with : {0} for price {1}" + Environment.NewLine, IncomingSeller.Quantity.ToString(), IncomingSeller.Price);
-
-                }
-                catch { }
-
+                SetTextBoxContent(textBox1, string.Format("Seller with : {0} for price {1}" + Environment.NewLine, IncomingSeller.Quantity.ToString(), IncomingSeller.Price));
+                
             }
             catch { }
         }
@@ -259,10 +337,10 @@ namespace Moon.Visualizer
             var listViewItem = new ListViewItem(row);
             if (candle.Candle.Open < candle.Candle.Close) { listViewItem.ForeColor = System.Drawing.Color.Green; }
             else { listViewItem.ForeColor = System.Drawing.Color.Green; }
-            listView1.Items.Add(listViewItem);
+            AddListItem(listView1, listViewItem);
 
-            //Values.Add(new DateTimePoint(DateTime.Now, double.Parse(candle.Candle.Close.ToString())));
-            //Values.Add(new ObservableValue(double.Parse(candle.Candle.Open.ToString())));
+
+
         }
 
 
@@ -284,9 +362,13 @@ namespace Moon.Visualizer
 
         private void MarketRefresh_Tick(object sender, EventArgs e)
         {
-            Market.Update();
-            KeyPairsListView.Items.Clear();
-            LoadMarketData();
+                KeyPairsListView.Items.Clear();
+
+            Task.Run(() =>
+                {
+                    LoadMarketData();
+
+                });
         }
     }
 
