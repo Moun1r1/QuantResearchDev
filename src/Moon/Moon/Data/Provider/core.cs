@@ -109,7 +109,8 @@ namespace Moon.Data.Provider
                         Candles.Add(Standardize);
 
                     }
-                    catch { }
+                    catch(Exception ex) {
+                    }
 
                     break;
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Move:

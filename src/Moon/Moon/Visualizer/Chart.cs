@@ -45,6 +45,7 @@ namespace Moon.Visualizer
         public ChartValues<ObservableValue> High { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Low { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Buyer { get; set; } = new ChartValues<ObservableValue>();
+        public string LastUID = string.Empty;
         public ChartValues<ObservableValue> Seller { get; set; } = new ChartValues<ObservableValue>();
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         Core IncomingBinance = new Core();
@@ -329,48 +330,52 @@ namespace Moon.Visualizer
             try
             {
                 var candle = IncomingBinance.Candles.Last();
-                if (candle != null)
+                
+                if (candle != null && LastUID != candle.UID)
                 {
-                    candlesvalues.Add(new OhlcPoint
-                    {
-                        Close = double.Parse(candle.Candle.Close.ToString()),
-                        Open = double.Parse(candle.Candle.Open.ToString()),
-                        High = double.Parse(candle.Candle.High.ToString()),
-                        Low = double.Parse(candle.Candle.Low.ToString())
+  
+                        candlesvalues.Add(new OhlcPoint
+                        {
+                            Close = double.Parse(candle.Candle.Close.ToString()),
+                            Open = double.Parse(candle.Candle.Open.ToString()),
+                            High = double.Parse(candle.Candle.High.ToString()),
+                            Low = double.Parse(candle.Candle.Low.ToString())
 
-                    });
-                    High.Add(new ObservableValue(double.Parse(candle.Candle.High.ToString())));
-                    Low.Add(new ObservableValue(double.Parse(candle.Candle.Low.ToString())));
+                        });
 
-                    cartesianChart1.Series[0].Values = candlesvalues;
-                    cartesianChart1.Series[1].Values = High;
-                    cartesianChart1.Series[2].Values = Low;
-                    //lets only use the last 30 values
-                    if (candlesvalues.Count > 60) candlesvalues.RemoveAt(0);
-                    if (High.Count > 60) High.RemoveAt(0);
-                    if (Low.Count > 60) Low.RemoveAt(0);
-                    if (Buyer.Count > 60) Buyer.RemoveAt(0);
-                    if (Seller.Count > 60) Seller.RemoveAt(0);
+                        High.Add(new ObservableValue(double.Parse(candle.Candle.High.ToString())));
+                        Low.Add(new ObservableValue(double.Parse(candle.Candle.Low.ToString())));
 
-                }
-                solidGauge1.Value = candle.Properties.Where(y => y.Key.ToString().Contains("TradeCount")).First().Value;
-                solidGauge1.To = IncomingBinance.BData.Select(y => y.Data.TradeCount).Max();
+                        cartesianChart1.Series[0].Values = candlesvalues;
+                        cartesianChart1.Series[1].Values = High;
+                        cartesianChart1.Series[2].Values = Low;
+                        //lets only use the last 30 values
+                        if (candlesvalues.Count > 60) candlesvalues.RemoveAt(0);
+                        if (High.Count > 60) High.RemoveAt(0);
+                        if (Low.Count > 60) Low.RemoveAt(0);
+                        if (Buyer.Count > 60) Buyer.RemoveAt(0);
+                        if (Seller.Count > 60) Seller.RemoveAt(0);
+                        solidGauge1.Value = candle.Properties.Where(y => y.Key.ToString().Contains("TradeCount")).First().Value;
+                        solidGauge1.To = IncomingBinance.BData.Select(y => y.Data.TradeCount).Max();
 
-                solidGauge2.Value = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
-                solidGauge2.To = Double.Parse(IncomingBinance.BData.Select(y => y.Data.Volume).Max().ToString());
+                        solidGauge2.Value = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
+                        solidGauge2.To = Double.Parse(IncomingBinance.BData.Select(y => y.Data.Volume).Max().ToString());
 
-                Double TakerVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("TakerBuyBaseAssetVolume")).First().Value.ToString());
-                Double TotalVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
-                solidGauge3.Value = TakerVolume;
-                solidGauge3.To = TotalVolume;
+                        Double TakerVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("TakerBuyBaseAssetVolume")).First().Value.ToString());
+                        Double TotalVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
+                        solidGauge3.Value = TakerVolume;
+                        solidGauge3.To = TotalVolume;
 
-                solidGauge4.Value = TotalVolume - TakerVolume;
-                solidGauge4.To = TotalVolume;
+                        solidGauge4.Value = TotalVolume - TakerVolume;
+                        solidGauge4.To = TotalVolume;
 
-                Buyer.Add(new ObservableValue(double.Parse(TakerVolume.ToString())));
-                Seller.Add(new ObservableValue(double.Parse((TotalVolume - TakerVolume).ToString())));
-                cartesianChart2.Series[0].Values = Buyer;
-                cartesianChart2.Series[1].Values = Seller;
+                        Buyer.Add(new ObservableValue(double.Parse(TakerVolume.ToString())));
+                        Seller.Add(new ObservableValue(double.Parse((TotalVolume - TakerVolume).ToString())));
+                        cartesianChart2.Series[0].Values = Buyer;
+                        cartesianChart2.Series[1].Values = Seller;
+                        LastUID = candle.UID;
+
+                    }
 
 
 

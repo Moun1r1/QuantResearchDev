@@ -21,6 +21,7 @@ namespace Moon.Data.Model
         {
           
         }
+        public string UID { get; set; } = Guid.NewGuid().ToString();
         public Trady.Core.Candle Candle { get; set; }
         public FactorDefintion Factor { get; set; }
         public string Name { get; set; }
