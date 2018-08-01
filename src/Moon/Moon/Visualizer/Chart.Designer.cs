@@ -150,7 +150,7 @@
             // 
             // cartesianChart2
             // 
-            this.cartesianChart2.BackColor = System.Drawing.SystemColors.Menu;
+            this.cartesianChart2.BackColor = System.Drawing.SystemColors.HighlightText;
             this.cartesianChart2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.cartesianChart2.Location = new System.Drawing.Point(0, 609);
             this.cartesianChart2.Name = "cartesianChart2";
@@ -217,7 +217,7 @@
             // 
             // cartesianChart1
             // 
-            this.cartesianChart1.BackColor = System.Drawing.SystemColors.Menu;
+            this.cartesianChart1.BackColor = System.Drawing.SystemColors.HighlightText;
             this.cartesianChart1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.cartesianChart1.Location = new System.Drawing.Point(0, 0);
             this.cartesianChart1.Name = "cartesianChart1";
