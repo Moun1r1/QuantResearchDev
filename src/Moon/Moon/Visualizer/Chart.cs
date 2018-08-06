@@ -8,6 +8,9 @@ using Moon.Data.Model;
 using Moon.Data.Provider;
 using Moon.MarketWatcher;
 using Moon.Visualizer.Winforms.Cartesian.ConstantChanges;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,6 +26,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Media;
 using System.Xml;
+using static Moon.Resources.Management;
 
 namespace Moon.Visualizer
 {
@@ -44,6 +48,8 @@ namespace Moon.Visualizer
         private ObservableValue value1;
         public ChartValues<ObservableValue> High { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Low { get; set; } = new ChartValues<ObservableValue>();
+        public ChartValues<ObservableValue> Close { get; set; } = new ChartValues<ObservableValue>();
+
         public ChartValues<ObservableValue> Buyer { get; set; } = new ChartValues<ObservableValue>();
         public string LastUID = string.Empty;
         public ChartValues<ObservableValue> Seller { get; set; } = new ChartValues<ObservableValue>();
@@ -57,10 +63,11 @@ namespace Moon.Visualizer
         }
         private void LoadMarketData()
         {
+
             Market = new Statistics();
             #region "Load Market Data"
-            SetLabelText(BTCMarketCap, string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap));
-            SetLabelText(marketupdate, string.Format("Last Update : {0}", DateTime.Now)) ;
+            FormUtils.SetLabelText(BTCMarketCap, string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap));
+            FormUtils.SetLabelText(marketupdate, string.Format("Last Update : {0}", DateTime.Now)) ;
 
             decimal overallchange = 0;
             foreach (var pair in Market.KeyPairsCapital)
@@ -76,13 +83,13 @@ namespace Moon.Visualizer
                 };
                 overallchange += decimal.Parse(pair.PercentChange1h.Value.ToString());
                 var marktitm = new ListViewItem(row);
-                AddListItem(KeyPairsListView, marktitm);
+                FormUtils.AddListItem(KeyPairsListView, marktitm);
 
 
             }
             try
             {
-                   SetJaugeText(MarketSent, double.Parse(overallchange.ToString()));
+                FormUtils.SetJaugeText(MarketSent, double.Parse(overallchange.ToString()));
 
             }
             catch(Exception ex) {
@@ -95,51 +102,64 @@ namespace Moon.Visualizer
         }
         private void LoadMarketNews()
         {
-            try
-            {
-                foreach (var source in Moon.Global.shared.Config.NewsSource)
-                {
-                    string url = source.Uri;
-                    XmlReader reader = XmlReader.Create(url);
-                    SyndicationFeed feed = SyndicationFeed.Load(reader);
-                    reader.Close();
-                    foreach (SyndicationItem item in feed.Items)
-                    {
 
-                        if (source.LoadSummary)
+            PlanifiedOperation GetMarketNewsOperation = new PlanifiedOperation();
+            GetMarketNewsOperation.TypeOFApproach = Operation.ForceOperation;
+            GetMarketNewsOperation.Start = DateTime.Now.AddSeconds(2);
+            GetMarketNewsOperation.OperationName = "Market Watcher : Get Market News";
+            GetMarketNewsOperation.Every = new TimeSpan(0, 5, 0);
+            GetMarketNewsOperation.ContiniousOperation = true;
+            GetMarketNewsOperation.OperationCode = new Action(() =>
+            {
+                try
+                {
+                    FormUtils.ClearListItem(marketnews);
+                    foreach (var source in Moon.Global.shared.Config.NewsSource)
+                    {
+                        string url = source.Uri;
+                        XmlReader reader = XmlReader.Create(url);
+                        SyndicationFeed feed = SyndicationFeed.Load(reader);
+                        reader.Close();
+                        foreach (SyndicationItem item in feed.Items)
                         {
-                            string[] row = {
+
+                            if (source.LoadSummary)
+                            {
+                                string[] row = {
                             source.Name,
                             item.PublishDate.ToString(),
                             item.Title.Text.ToString(),
                             item.Summary.Text.ToString()
                         };
-                            var newsitm = new ListViewItem(row);
-                            AddListItem(marketnews, newsitm);
+                                var newsitm = new ListViewItem(row);
+                                FormUtils.AddListItem(marketnews, newsitm);
 
-                        }
-                        else
-                        {
-                            string[] row = {
+                            }
+                            else
+                            {
+                                string[] row = {
                             source.Name,
                             item.PublishDate.ToString(),
                             item.Title.Text.ToString()
                         };
-                            var newsitm = new ListViewItem(row);
-                            AddListItem(marketnews, newsitm);
+                                var newsitm = new ListViewItem(row);
+                                FormUtils.AddListItem(marketnews, newsitm);
+
+                            }
 
                         }
 
                     }
 
                 }
-
-            }
-            catch(Exception ex)
-            {
-                //return ex on status box
-            }
-
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Exception :", ex.Message);
+                    //return ex on status box
+                }
+            });
+            GetMarketNewsOperation.ContiniousAction = GetMarketNewsOperation.OperationCode;
+            Global.shared.Manager.ToManage.Add(GetMarketNewsOperation);
 
 
         }
@@ -155,20 +175,24 @@ namespace Moon.Visualizer
             #region "Load Socket Data"
             cartesianChart2.Series = new LiveCharts.SeriesCollection
                     {
-                        new LineSeries
+                        new LiveCharts.Wpf.LineSeries
                         {
                             Title = "Buyer",
                             Values = High,
+                            StrokeThickness = 1,
                             AreaLimit = 0,
-                            PointGeometry = null,
+
+                            PointGeometry = DefaultGeometries.Square,
                             Fill = System.Windows.Media.Brushes.Transparent
                         },
-                        new LineSeries
+                        new LiveCharts.Wpf.LineSeries
                         {
                             Title = "Seller",
+                            StrokeThickness = 2,
                             Values = High,
                             AreaLimit = 0,
-                            PointGeometry = null,
+
+                            PointGeometry = DefaultGeometries.Square,
                             Fill = System.Windows.Media.Brushes.Transparent
                         }
                     };
@@ -179,7 +203,7 @@ namespace Moon.Visualizer
                             Title = "BTCUSDT",
                             Values = candlesvalues
                         },
-                        new LineSeries
+                        new LiveCharts.Wpf.LineSeries
                         {
                             Title = "High",
                             Values = High,
@@ -187,19 +211,27 @@ namespace Moon.Visualizer
                             PointGeometry = null,
                             Fill = System.Windows.Media.Brushes.Transparent
                         },
-                        new LineSeries
+                        new LiveCharts.Wpf.LineSeries
                         {
                             Title = "Low",
                             Values = Low,
                             AreaLimit = 0,
                             PointGeometry = null,
                             Fill = System.Windows.Media.Brushes.Transparent
+                        },
+                         new LiveCharts.Wpf.LineSeries
+                        {
+                            Title = "Close",
+                            Values = Close,
+                            PointGeometry = DefaultGeometries.Square,
+                            AreaLimit = 0,
+                            Fill = System.Windows.Media.Brushes.Transparent
                         }
 
                     };
                     System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
                     {
-                        Interval = 500
+                        Interval = 300
                     };
                     timer.Tick += TimerOnTick;
                     timer.Start();
@@ -216,87 +248,11 @@ namespace Moon.Visualizer
             var IncomingBuyer = (BinanceStreamTrade)e.NewItems[0];
             try
             {
-                SetTextBoxContent(textBox1, string.Format("Buyer with : {0} for price {1}" + Environment.NewLine, IncomingBuyer.Quantity.ToString(), IncomingBuyer.Price));
+                FormUtils.SetTextBoxContent(textBox1, string.Format("Buyer with : {0} for price {1}" + Environment.NewLine, IncomingBuyer.Quantity.ToString(), IncomingBuyer.Price));
             }
             catch { }
         }
 
-        public void AddListItem(ListView List,ListViewItem item)
-        {
-            if (List.InvokeRequired)
-
-            {
-
-                List.Invoke((MethodInvoker)delegate {List.Items.Add(item); });
-
-            }
-
-            else
-
-            {
-
-                List.Items.Add(item);
-            }
-
-
-        }
-
-        public void SetTextBoxContent(TextBox Target,string Value)
-        {
-            if (Target.InvokeRequired)
-
-            {
-
-                Target.Invoke((MethodInvoker)delegate { Target.Text = Value; });
-
-            }
-
-            else
-
-            {
-
-                Target.Text = Value;
-            }
-
-        }
-
-        public void SetLabelText(Label Target,string content)
-        {
-            if (Target.InvokeRequired)
-
-            {
-
-                Target.Invoke((MethodInvoker)delegate { Target.Text = content; });
-
-            }
-
-            else
-
-            {
-
-                Target.Text = content;
-            }
-
-        }
-
-        public void SetJaugeText(SolidGauge Target, double content)
-        {
-            if (Target.InvokeRequired)
-
-            {
-
-                Target.Invoke((MethodInvoker)delegate { Target.Value = content; });
-
-            }
-
-            else
-
-            {
-
-                Target.Value = content;
-            }
-
-        }
 
 
         private void BDataTradeSeller_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -310,7 +266,7 @@ namespace Moon.Visualizer
             var IncomingSeller = (BinanceStreamTrade)e.NewItems[0];
             try
             {
-                SetTextBoxContent(textBox1, string.Format("Seller with : {0} for price {1}" + Environment.NewLine, IncomingSeller.Quantity.ToString(), IncomingSeller.Price));
+                FormUtils.SetTextBoxContent(textBox1, string.Format("Seller with : {0} for price {1}" + Environment.NewLine, IncomingSeller.Quantity.ToString(), IncomingSeller.Price));
                 
             }
             catch { }
@@ -349,13 +305,18 @@ namespace Moon.Visualizer
                         cartesianChart1.Series[0].Values = candlesvalues;
                         cartesianChart1.Series[1].Values = High;
                         cartesianChart1.Series[2].Values = Low;
-                        //lets only use the last 30 values
+                        
+                    
+
+                        //lets only use the last 60 values - To remove by Util function !
                         if (candlesvalues.Count > 60) candlesvalues.RemoveAt(0);
                         if (High.Count > 60) High.RemoveAt(0);
                         if (Low.Count > 60) Low.RemoveAt(0);
                         if (Buyer.Count > 60) Buyer.RemoveAt(0);
                         if (Seller.Count > 60) Seller.RemoveAt(0);
-                        solidGauge1.Value = candle.Properties.Where(y => y.Key.ToString().Contains("TradeCount")).First().Value;
+                        if (Close.Count > 60) Close.RemoveAt(0);
+
+                    solidGauge1.Value = candle.Properties.Where(y => y.Key.ToString().Contains("TradeCount")).First().Value;
                         solidGauge1.To = IncomingBinance.BData.Select(y => y.Data.TradeCount).Max();
 
                         solidGauge2.Value = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
@@ -371,9 +332,12 @@ namespace Moon.Visualizer
 
                         Buyer.Add(new ObservableValue(double.Parse(TakerVolume.ToString())));
                         Seller.Add(new ObservableValue(double.Parse((TotalVolume - TakerVolume).ToString())));
+                        Close.Add(new ObservableValue(double.Parse(candle.Candle.Close.ToString())));
                         cartesianChart2.Series[0].Values = Buyer;
                         cartesianChart2.Series[1].Values = Seller;
-                        LastUID = candle.UID;
+                        cartesianChart2.Series[2].Values = Close;
+
+                    LastUID = candle.UID;
 
                     }
 
@@ -383,6 +347,11 @@ namespace Moon.Visualizer
                 {
                     listView1.Items.Clear();
                     IncomingBinance.BData.Clear();
+                    cartesianChart1.Series.Clear();
+                    cartesianChart2.Series[0].Values.Clear(); Buyer.Clear();
+                    cartesianChart2.Series[1].Values.Clear(); Seller.Clear();
+                    cartesianChart2.Series[2].Values.Clear(); Close.Clear();
+
                 }
 
             }
@@ -405,7 +374,7 @@ namespace Moon.Visualizer
             var listViewItem = new ListViewItem(row);
             if (candle.Candle.Open < candle.Candle.Close) { listViewItem.ForeColor = System.Drawing.Color.Green; }
             else { listViewItem.ForeColor = System.Drawing.Color.Green; }
-            AddListItem(listView1, listViewItem);
+            FormUtils.AddListItem(listView1, listViewItem);
 
 
 
@@ -435,9 +404,100 @@ namespace Moon.Visualizer
             Task.Run(() =>
                 {
                     LoadMarketData();
-                    marketnews.Items.Clear();
-                    LoadMarketNews();
                 });
+        }
+
+        private void DataLoader_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            TabPage current = (sender as TabControl).SelectedTab;
+            switch(current.Name)
+            { 
+                case "tabPage3":
+                    break;
+                case "tabPage2":
+                    break;
+               
+
+            }
+        }
+        public PlotModel PlotModel { get; set; }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(Data_Datestart.Value.ToString() != Data_DateEnd.Value.ToString())
+            {
+                PlotModel = new PlotModel();
+                OxyPlot.Series.LineSeries CSS = new OxyPlot.Series.LineSeries();
+                OxyPlot.Series.LineSeries High = new OxyPlot.Series.LineSeries();
+                OxyPlot.Series.LineSeries low = new OxyPlot.Series.LineSeries();
+
+                CSS.Title = string.Format("Pair : " + textBox2.Text);
+                var data =  IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
+
+                for(int i =0 ;i < data.Data.Length;i++)
+                {
+                    CSS.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].Close.ToString())));
+                    High.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].High.ToString())));
+                    low.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].Low.ToString())));
+
+                    //CSS.Items.Add(new OxyPlot.Series.LineSeries()
+                    //{
+                    //    X = i,
+                    //    Close = double.Parse(data.Data[i].Close.ToString()),
+                    //    High = double.Parse(data.Data[i].High.ToString()),
+                    //    Low = double.Parse(data.Data[i].Close.ToString()),
+                    //    Open = double.Parse(data.Data[i].Close.ToString())
+                    //});
+                }
+                Parallel.ForEach(data.Data, candle =>
+                {
+
+
+                    //Data_Output.Text += candle.Close;
+                });
+                PlotModel.Series.Add(CSS);
+                PlotModel.Series.Add(High);
+                PlotModel.Series.Add(low);
+                plotView1.Model = PlotModel;
+
+            }
+            else
+            {
+                MessageBox.Show("Starting Date Should not be the same of ending date");
+            }
+        }
+
+        private void plotView1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+           
+            PlanifiedOperation GetAllpairsContent = new PlanifiedOperation();
+            GetAllpairsContent.TypeOFApproach = Operation.ForceOperation;
+            GetAllpairsContent.Start = DateTime.Now.AddSeconds(5);
+            GetAllpairsContent.OperationName = "Core : Get All Binance market candles data";
+            GetAllpairsContent.Every = new TimeSpan(00, 05, 00);
+            GetAllpairsContent.OperationCode = new Action(() =>
+            {
+                RunAllPairSuscriber().GetAwaiter().GetResult();
+
+            });
+            Global.shared.Manager.ToManage.Add(GetAllpairsContent);
+
+        }
+
+        public async Task RunAllPairSuscriber()
+        {
+            var data = await IncomingBinance.bclient.Client.GetAllPricesAsync();
+            data.Data.ToList().ForEach(y =>
+            {
+                //y.Price
+                //y.Symbol
+                FormUtils.SetTextBoxContentMuliLine(textBox4, y.Symbol + Environment.NewLine);
+            });
         }
     }
 

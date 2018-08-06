@@ -17,9 +17,17 @@ namespace Moon.MarketWatcher
         public List<string> TopSymbol { get; set; } = new List<string>();
         public Statistics()
         {
-            this.Market = client.GetGlobalDataAsync(CoinMarketCap.Enums.ConvertEnum.USD).Result;
-            this.KeyPairsCapital = client.GetTickerListAsync(Global.shared.Config.Config_MarketWatcher_vars.First().KeysPairsToLoad , CoinMarketCap.Enums.ConvertEnum.USD).Result;
-            this.TopSymbol = this.KeyPairsCapital.Select(y => y.Symbol).ToList();
+            try
+            {
+                this.Market = client.GetGlobalDataAsync(CoinMarketCap.Enums.ConvertEnum.USD).Result;
+                this.KeyPairsCapital = client.GetTickerListAsync(Global.shared.Config.Config_MarketWatcher_vars.First().KeysPairsToLoad, CoinMarketCap.Enums.ConvertEnum.USD).Result;
+                this.TopSymbol = this.KeyPairsCapital.Select(y => y.Symbol).ToList();
+
+            }
+            catch
+            {
+
+            }
         }
 
         public void Update()

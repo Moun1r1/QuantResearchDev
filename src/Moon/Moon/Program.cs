@@ -13,6 +13,8 @@ using Moon.MarketWatcher;
 using System.IO;
 using Newtonsoft.Json;
 using Moon.Config;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Moon
 {
@@ -36,6 +38,24 @@ namespace Moon
                throw new Exception("Config file should placed on a folder named Config with the config.json on the same bin path..");
 
             }
+
+
+            try
+            {
+                //Get-Azure DataTable 
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://127.0.0.1;");
+                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+
+                Moon.Global.shared.table = tableClient.GetTableReference("kline");
+
+                // Create the table if it doesn't exist.
+                //Moon.Global.shared.table.CreateIfNotExists();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Not Using Azure Data Table due to error : {0}", ex.Message);
+            }
+
 
 
 

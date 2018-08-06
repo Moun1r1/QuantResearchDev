@@ -48,10 +48,10 @@ namespace Moon.Resources
             public bool HighlyConsumeCPU { get; set; } = false;
             public bool ShouldgetPressure { get; set; } = false;
             public Operation TypeOFApproach { get; set; } = Operation.ForceOperation;
-            public string ContiniousAction { get; set; }
+            public Action ContiniousAction { get; set; }
             public DateTime End { get; set; }
             public bool RecurentOperation { get; set; }
-            public string OperationCode { get; set; }
+            public Action OperationCode { get; set; }
             public List<Task> OperationThreads { get; set; }
             public bool OperationIsSTA { get; set; }
             public List<Exception> Errors { get; set; }
@@ -98,7 +98,7 @@ namespace Moon.Resources
                 MonitoringRunningThread();
                 Task.Factory.StartNew(() =>
                 {
-                    while (Transversal.IsShutingDown != true)
+                while (Global.shared.Running)
                     {
                         Process Me = Process.GetCurrentProcess();
                         MemoryUsage = Me.PrivateMemorySize64;
@@ -166,7 +166,7 @@ namespace Moon.Resources
                             {
                                 DateTime StartOperationDate = DateTime.Parse(Operation.Start.ToString("HH:mm:ss"));
                                 DateTime Current = DateTime.Parse(DateTime.Now.ToString("HH:mm:ss"));
-                                if (StartOperationDate == Current & StartOperationDate.Minute == Current.Minute & Operation.State == OperationStatus.Pending)
+                                if (StartOperationDate <= Current & StartOperationDate.Minute == Current.Minute & Operation.State == OperationStatus.Pending)
                                 {
                                     try
                                     {
@@ -174,11 +174,11 @@ namespace Moon.Resources
                                         Exception ex = new Exception();
                                         Stopwatch RealOperationTime = new Stopwatch();
                                         RealOperationTime.Start();
-                                        //Operation.OperationCode.Invoke();
+                                        Operation.OperationCode.Invoke();
                                         RealOperationTime.Stop();
                                         Operation.End = DateTime.Now;
                                         Operation.RealDuration = RealOperationTime.Elapsed;
-                                        //Operation.ResultedObject = Operation.OperationCode.Target;
+                                        Operation.ResultedObject = Operation.OperationCode.Target;
                                         Operation.State = OperationStatus.Finished;
                                         OperationExecuted = true;
                                         Finished.Add(Operation);

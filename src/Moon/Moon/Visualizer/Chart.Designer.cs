@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.DataLoader = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -70,22 +70,40 @@
             this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader14 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.BTCMarketCap = new System.Windows.Forms.Label();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.plotView1 = new OxyPlot.WindowsForms.PlotView();
+            this.Data_Output = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.Data_DateEnd = new System.Windows.Forms.DateTimePicker();
+            this.Data_Datestart = new System.Windows.Forms.DateTimePicker();
+            this.button1 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.MarketRefresh = new System.Windows.Forms.Timer(this.components);
-            this.tabControl1.SuspendLayout();
+            this.DataLoader.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // DataLoader
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1743, 1057);
-            this.tabControl1.TabIndex = 13;
+            this.DataLoader.Controls.Add(this.tabPage1);
+            this.DataLoader.Controls.Add(this.tabPage2);
+            this.DataLoader.Controls.Add(this.tabPage3);
+            this.DataLoader.Controls.Add(this.tabPage4);
+            this.DataLoader.Dock = System.Windows.Forms.DockStyle.Left;
+            this.DataLoader.Location = new System.Drawing.Point(0, 0);
+            this.DataLoader.Name = "DataLoader";
+            this.DataLoader.SelectedIndex = 0;
+            this.DataLoader.Size = new System.Drawing.Size(1743, 1057);
+            this.DataLoader.TabIndex = 13;
+            this.DataLoader.SelectedIndexChanged += new System.EventHandler(this.DataLoader_SelectedIndexChanged);
             // 
             // tabPage1
             // 
@@ -327,7 +345,7 @@
             // columnHeader17
             // 
             this.columnHeader17.Text = "Title";
-            this.columnHeader17.Width = 77;
+            this.columnHeader17.Width = 464;
             // 
             // columnHeader18
             // 
@@ -423,6 +441,125 @@
             this.BTCMarketCap.TabIndex = 0;
             this.BTCMarketCap.Text = "BTC Market Cap : %";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.plotView1);
+            this.tabPage3.Controls.Add(this.Data_Output);
+            this.tabPage3.Controls.Add(this.textBox3);
+            this.tabPage3.Controls.Add(this.Data_DateEnd);
+            this.tabPage3.Controls.Add(this.Data_Datestart);
+            this.tabPage3.Controls.Add(this.button1);
+            this.tabPage3.Controls.Add(this.textBox2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1735, 1031);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "DataLoader";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // plotView1
+            // 
+            this.plotView1.Location = new System.Drawing.Point(401, 33);
+            this.plotView1.Name = "plotView1";
+            this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
+            this.plotView1.Size = new System.Drawing.Size(965, 618);
+            this.plotView1.TabIndex = 9;
+            this.plotView1.Text = "plotView1";
+            this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
+            this.plotView1.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
+            this.plotView1.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
+            this.plotView1.Click += new System.EventHandler(this.plotView1_Click);
+            // 
+            // Data_Output
+            // 
+            this.Data_Output.Location = new System.Drawing.Point(9, 158);
+            this.Data_Output.Multiline = true;
+            this.Data_Output.Name = "Data_Output";
+            this.Data_Output.Size = new System.Drawing.Size(200, 246);
+            this.Data_Output.TabIndex = 8;
+            this.Data_Output.Text = "BTCUSDT";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(9, 86);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 7;
+            this.textBox3.Text = "BTCUSDT";
+            // 
+            // Data_DateEnd
+            // 
+            this.Data_DateEnd.Location = new System.Drawing.Point(9, 60);
+            this.Data_DateEnd.Name = "Data_DateEnd";
+            this.Data_DateEnd.Size = new System.Drawing.Size(200, 20);
+            this.Data_DateEnd.TabIndex = 6;
+            // 
+            // Data_Datestart
+            // 
+            this.Data_Datestart.Location = new System.Drawing.Point(9, 33);
+            this.Data_Datestart.Name = "Data_Datestart";
+            this.Data_Datestart.Size = new System.Drawing.Size(200, 20);
+            this.Data_Datestart.TabIndex = 5;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(9, 112);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(8, 6);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 0;
+            this.textBox2.Text = "BTCUSDT";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.groupBox1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(1735, 1031);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Services Management";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.textBox4);
+            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(662, 334);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Data Collector";
+            // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(0, 105);
+            this.textBox4.Multiline = true;
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(656, 194);
+            this.textBox4.TabIndex = 1;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(581, 305);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "Start";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // MarketRefresh
             // 
             this.MarketRefresh.Enabled = true;
@@ -434,23 +571,28 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1742, 1057);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.DataLoader);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Chart";
             this.Text = "Moon - Visualizer";
             this.Load += new System.EventHandler(this.Chart_Load);
-            this.tabControl1.ResumeLayout(false);
+            this.DataLoader.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl DataLoader;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
@@ -492,5 +634,17 @@
         private System.Windows.Forms.ColumnHeader columnHeader16;
         private System.Windows.Forms.ColumnHeader columnHeader17;
         private System.Windows.Forms.ColumnHeader columnHeader18;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker Data_DateEnd;
+        private System.Windows.Forms.DateTimePicker Data_Datestart;
+        private System.Windows.Forms.TextBox Data_Output;
+        private System.Windows.Forms.TextBox textBox3;
+        private OxyPlot.WindowsForms.PlotView plotView1;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Button button2;
     }
 }

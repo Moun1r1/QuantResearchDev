@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,13 +15,17 @@ namespace Moon.Data.Model
         Dictionary<string, dynamic> Properties { get; set; }
         Trady.Core.Candle Candle { get;set; }
     }
-    public class BinanceCandle : Pair
+    public class BinanceCandle : TableEntity,Pair
     {
         
         public BinanceCandle()
         {
-          
+            this.PartitionKey = Guid.NewGuid().ToString().Replace("-", "");
+            this.RowKey = Guid.NewGuid().ToString().Replace("-", "");
+            this.Timestamp = DateTime.Now;
+
         }
+        public string ConcatainedData { get; set; } = string.Empty;
         public string UID { get; set; } = Guid.NewGuid().ToString();
         public Trady.Core.Candle Candle { get; set; }
         public FactorDefintion Factor { get; set; }

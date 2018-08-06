@@ -1,4 +1,5 @@
 ﻿using Binance.Net.Objects;
+using Microsoft.WindowsAzure.Storage.Table;
 using Moon.Data.Exchanger;
 using Moon.Data.Model;
 using System;
@@ -26,6 +27,7 @@ namespace Moon.Data.Provider
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
         public ObservableCollection<BinanceStreamTrade> BDataTradeSeller { get; set; } = new ObservableCollection<BinanceStreamTrade>();
         public ObservableCollection<BinanceStreamTrade> BDataTradeBuyer { get; set; } = new ObservableCollection<BinanceStreamTrade>();
+        public ObservableCollection<BinanceCandle> CandlesTable { get; set; } = new ObservableCollection<BinanceCandle>();
 
         public ObservableCollection<BinanceCandle> Candles { get; set; } = new ObservableCollection<BinanceCandle>();
         public binance bclient { get; set; } = new binance();
@@ -33,13 +35,17 @@ namespace Moon.Data.Provider
         public ProviderMode Mode { get; set; } = ProviderMode.All;
         public Core()
         {
+            if (Global.shared.table != null)
+            {
+                LoadAlldata();
+            }
             BData.CollectionChanged += BData_CollectionChanged;
             Candles.CollectionChanged += Candles_CollectionChanged;
             BDataTradeSeller.CollectionChanged += BDataTrade_CollectionChanged;
 
-        }
 
-        private void BDataTrade_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        }
+            private void BDataTrade_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
         }
 
@@ -71,6 +77,45 @@ namespace Moon.Data.Provider
 
         }
 
+        private void LoadAlldata()
+        {
+            try
+            {
+                if(Global.shared.table != null)
+                {
+                    Task.Run(() =>
+                    {
+                        try
+                        {
+                            TableQuery<BinanceCandle> query = new TableQuery<BinanceCandle>();
+
+                            var content = Global.shared.table.ExecuteQuery(query);
+                            if (content.Count() > 0)
+                            {
+                                foreach (var oldcandles in content)
+                                {
+                                    var olddata = Newtonsoft.Json.JsonConvert.DeserializeObject<BinanceCandle>(oldcandles.ConcatainedData);
+                                    CandlesTable.Add(olddata);
+                                    Console.WriteLine("Loaded : {0} on History Table", CandlesTable.Count());
+                                }
+
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+
+                        }
+
+                    });
+
+                }
+            }
+            catch
+            {
+
+            }
+        }
 
 
 
@@ -90,6 +135,7 @@ namespace Moon.Data.Provider
                     //Remove Extra
                     var sourcedata = new Trady.Core.Candle(Candle.Data.CloseTime, Candle.Data.Open, Candle.Data.High, Candle.Data.Low, Candle.Data.Close, Candle.Data.Volume);
                     BinanceCandle Standardize = new BinanceCandle();
+                   
                     Standardize.Name = Candle.Symbol;
                     Standardize.Candle = sourcedata;
                     Type myType = Candle.Data.GetType();
@@ -100,16 +146,24 @@ namespace Moon.Data.Provider
                     {
                         object propValue = prop.GetValue(Candle.Data, null);
                         Standardize.Properties.Add(prop.Name, propValue);
-
                     }
-
+                    Standardize.ConcatainedData = Newtonsoft.Json.JsonConvert.SerializeObject(Standardize);
                     //Until fix
                     try
                     {
                         Candles.Add(Standardize);
+                        if (Moon.Global.shared.table != null)
+                        {
+                            TableOperation insertOperation = TableOperation.Insert(Standardize);
+
+                            // Execute the insert operation.
+                            Moon.Global.shared.table.Execute(insertOperation);
+
+                        }
+
 
                     }
-                    catch(Exception ex) {
+                    catch (Exception ex) {
                     }
 
                     break;
