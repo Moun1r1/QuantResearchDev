@@ -64,15 +64,23 @@ namespace Moon.Visualizer
         private void LoadMarketData()
         {
 
-            Market = new Statistics();
-            #region "Load Market Data"
-            FormUtils.SetLabelText(BTCMarketCap, string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap));
-            FormUtils.SetLabelText(marketupdate, string.Format("Last Update : {0}", DateTime.Now)) ;
-
-            decimal overallchange = 0;
-            foreach (var pair in Market.KeyPairsCapital)
+            PlanifiedOperation GetMarketDataOperation = new PlanifiedOperation();
+            GetMarketDataOperation.TypeOFApproach = Operation.ForceOperation;
+            GetMarketDataOperation.Start = DateTime.Now.AddSeconds(2);
+            GetMarketDataOperation.OperationName = "Market Watcher : Get Market Data";
+            GetMarketDataOperation.Every = new TimeSpan(0, 5, 0);
+            GetMarketDataOperation.ContiniousOperation = true;
+            GetMarketDataOperation.OperationCode = new Action(() =>
             {
-                string[] row = {
+                Market = new Statistics();
+                #region "Load Market Data"
+                FormUtils.SetLabelText(BTCMarketCap, string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap));
+                FormUtils.SetLabelText(marketupdate, string.Format("Last Update : {0}", DateTime.Now));
+
+                decimal overallchange = 0;
+                foreach (var pair in Market.KeyPairsCapital)
+                {
+                    string[] row = {
                     pair.Symbol,
                     pair.PriceUsd.ToString(),
                     pair.PercentChange1h.ToString(),
@@ -81,22 +89,28 @@ namespace Moon.Visualizer
                     pair.Rank.ToString(),
                     pair.MarketCapUsd.Value.ToString("N"),
                 };
-                overallchange += decimal.Parse(pair.PercentChange1h.Value.ToString());
-                var marktitm = new ListViewItem(row);
-                FormUtils.AddListItem(KeyPairsListView, marktitm);
+                    overallchange += decimal.Parse(pair.PercentChange1h.Value.ToString());
+                    var marktitm = new ListViewItem(row);
+                    FormUtils.AddListItem(KeyPairsListView, marktitm);
 
 
-            }
-            try
-            {
-                FormUtils.SetJaugeText(MarketSent, double.Parse(overallchange.ToString()));
+                }
+                try
+                {
+                    FormUtils.SetJaugeText(MarketSent, double.Parse(overallchange.ToString()));
 
-            }
-            catch(Exception ex) {
-                Console.WriteLine(ex.Message);
-                // send to status bar
-            }
-            #endregion
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    // send to status bar
+                }
+                #endregion
+
+
+            });
+            GetMarketDataOperation.ContiniousAction = GetMarketDataOperation.OperationCode;
+            Global.shared.Manager.ToManage.Add(GetMarketDataOperation);
 
 
         }
@@ -234,7 +248,7 @@ namespace Moon.Visualizer
                         Interval = 300
                     };
                     timer.Tick += TimerOnTick;
-                    timer.Start();
+                    //timer.Start();
                     IncomingBinance.SubscribeTo("BTCUSDT");
                     IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
                     IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
@@ -286,7 +300,18 @@ namespace Moon.Visualizer
             try
             {
                 var candle = IncomingBinance.Candles.Last();
-                
+                var IsLast = candle.Properties.Where(y => y.Key.ToString().Contains("Final")).First().Value;
+                if (IsLast)
+                {
+                    listView1.Items.Clear();
+                    IncomingBinance.BData.Clear();
+                    cartesianChart1.Series.Clear();
+
+                    cartesianChart2.Series[0].Values.Clear(); Buyer.Clear();
+                    cartesianChart2.Series[1].Values.Clear(); Seller.Clear();
+                    cartesianChart2.Series[2].Values.Clear(); Close.Clear();
+
+                }
                 if (candle != null && LastUID != candle.UID)
                 {
   
@@ -343,16 +368,7 @@ namespace Moon.Visualizer
 
 
 
-                if (candle.Properties.Where(y => y.Key.ToString().Contains("Final")).First().Value == true)
-                {
-                    listView1.Items.Clear();
-                    IncomingBinance.BData.Clear();
-                    cartesianChart1.Series.Clear();
-                    cartesianChart2.Series[0].Values.Clear(); Buyer.Clear();
-                    cartesianChart2.Series[1].Values.Clear(); Seller.Clear();
-                    cartesianChart2.Series[2].Values.Clear(); Close.Clear();
 
-                }
 
             }
             catch
@@ -376,6 +392,82 @@ namespace Moon.Visualizer
             else { listViewItem.ForeColor = System.Drawing.Color.Green; }
             FormUtils.AddListItem(listView1, listViewItem);
 
+            if (candle != null )
+            {
+
+                candlesvalues.Add(new OhlcPoint
+                {
+                    Close = double.Parse(candle.Candle.Close.ToString()),
+                    Open = double.Parse(candle.Candle.Open.ToString()),
+                    High = double.Parse(candle.Candle.High.ToString()),
+                    Low = double.Parse(candle.Candle.Low.ToString())
+
+                });
+
+                High.Add(new ObservableValue(double.Parse(candle.Candle.High.ToString())));
+                Low.Add(new ObservableValue(double.Parse(candle.Candle.Low.ToString())));
+
+                //Thread Safe Caller for Carte 1
+                cartesianChart1.Invoke((MethodInvoker)delegate {
+                    cartesianChart1.Series[0].Values = candlesvalues;
+                    cartesianChart1.Series[1].Values = High;
+                    cartesianChart1.Series[2].Values = Low;
+                });
+
+
+
+                //lets only use the last 60 values - To remove by Util function !
+                if (candlesvalues.Count > 60) candlesvalues.RemoveAt(0);
+                if (High.Count > 60) High.RemoveAt(0);
+                if (Low.Count > 60) Low.RemoveAt(0);
+                if (Buyer.Count > 60) Buyer.RemoveAt(0);
+                if (Seller.Count > 60) Seller.RemoveAt(0);
+                if (Close.Count > 60) Close.RemoveAt(0);
+                solidGauge1.Invoke((MethodInvoker)delegate
+                {
+                    solidGauge1.Value = candle.Properties.Where(y => y.Key.ToString().Contains("TradeCount")).First().Value;
+                    solidGauge1.To = IncomingBinance.BData.Select(y => y.Data.TradeCount).Max();
+                });
+
+                solidGauge2.Invoke((MethodInvoker)delegate
+                {
+                    solidGauge2.Value = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
+                    solidGauge2.To = Double.Parse(IncomingBinance.BData.Select(y => y.Data.Volume).Max().ToString());
+
+                });
+                Double TakerVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("TakerBuyBaseAssetVolume")).First().Value.ToString());
+                Double TotalVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
+
+                solidGauge3.Invoke((MethodInvoker)delegate
+                {
+                    solidGauge3.Value = TakerVolume;
+                    solidGauge3.To = TotalVolume;
+
+                });
+
+                solidGauge4.Invoke((MethodInvoker)delegate
+                {
+                    solidGauge4.Value = TotalVolume - TakerVolume;
+                    solidGauge4.To = TotalVolume;
+
+                });
+
+
+                Buyer.Add(new ObservableValue(double.Parse(TakerVolume.ToString())));
+                Seller.Add(new ObservableValue(double.Parse((TotalVolume - TakerVolume).ToString())));
+                Close.Add(new ObservableValue(double.Parse(candle.Candle.Close.ToString())));
+
+                cartesianChart2.Invoke((MethodInvoker)delegate
+                {
+                    cartesianChart2.Series[0].Values = Buyer;
+                    cartesianChart2.Series[1].Values = Seller;
+                    //cartesianChart2.Series[2].Values = Close;
+
+                });
+
+                LastUID = candle.UID;
+
+            }
 
 
         }
@@ -399,12 +491,12 @@ namespace Moon.Visualizer
 
         private void MarketRefresh_Tick(object sender, EventArgs e)
         {
-                KeyPairsListView.Items.Clear();
+            //    KeyPairsListView.Items.Clear();
 
-            Task.Run(() =>
-                {
-                    LoadMarketData();
-                });
+            //Task.Run(() =>
+            //    {
+            //        LoadMarketData();
+            //    });
         }
 
         private void DataLoader_SelectedIndexChanged(object sender, EventArgs e)
