@@ -152,14 +152,14 @@ namespace Moon.Data.Provider
                     try
                     {
                         Candles.Add(Standardize);
-                        if (Moon.Global.shared.table != null)
-                        {
-                            TableOperation insertOperation = TableOperation.Insert(Standardize);
+                        //if (Moon.Global.shared.table != null)
+                        //{
+                        //    TableOperation insertOperation = TableOperation.Insert(Standardize);
 
-                            // Execute the insert operation.
-                            Moon.Global.shared.table.Execute(insertOperation);
+                        //    // Execute the insert operation.
+                        //    Moon.Global.shared.table.Execute(insertOperation);
 
-                        }
+                        //}
 
 
                     }
