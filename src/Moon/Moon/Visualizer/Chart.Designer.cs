@@ -31,10 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.DataLoader = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.label5 = new System.Windows.Forms.Label();
+            this.cartesianChart3 = new LiveCharts.WinForms.CartesianChart();
+            this.label8 = new System.Windows.Forms.Label();
+            this.PriceLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.solidGauge4 = new LiveCharts.WinForms.SolidGauge();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.cartesianChart2 = new LiveCharts.WinForms.CartesianChart();
             this.label3 = new System.Windows.Forms.Label();
             this.solidGauge3 = new LiveCharts.WinForms.SolidGauge();
@@ -42,7 +43,6 @@
             this.solidGauge2 = new LiveCharts.WinForms.SolidGauge();
             this.label1 = new System.Windows.Forms.Label();
             this.solidGauge1 = new LiveCharts.WinForms.SolidGauge();
-            this.cartesianChart1 = new LiveCharts.WinForms.CartesianChart();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -107,10 +107,11 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.cartesianChart3);
+            this.tabPage1.Controls.Add(this.label8);
+            this.tabPage1.Controls.Add(this.PriceLabel);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.solidGauge4);
-            this.tabPage1.Controls.Add(this.textBox1);
             this.tabPage1.Controls.Add(this.cartesianChart2);
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.solidGauge3);
@@ -118,7 +119,6 @@
             this.tabPage1.Controls.Add(this.solidGauge2);
             this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.solidGauge1);
-            this.tabPage1.Controls.Add(this.cartesianChart1);
             this.tabPage1.Controls.Add(this.listView1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -128,23 +128,44 @@
             this.tabPage1.Text = "Live WebSocket";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // cartesianChart3
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label5.Location = new System.Drawing.Point(1313, 534);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(124, 26);
-            this.label5.TabIndex = 25;
-            this.label5.Text = "Live Orders";
+            this.cartesianChart3.BackColor = System.Drawing.SystemColors.HighlightText;
+            this.cartesianChart3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.cartesianChart3.Location = new System.Drawing.Point(8, 6);
+            this.cartesianChart3.Name = "cartesianChart3";
+            this.cartesianChart3.Size = new System.Drawing.Size(1142, 597);
+            this.cartesianChart3.TabIndex = 28;
+            this.cartesianChart3.Text = "cartesianChart3";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.label8.Location = new System.Drawing.Point(1272, 6);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(185, 26);
+            this.label8.TabIndex = 27;
+            this.label8.Text = "Real Time Price : ";
+            // 
+            // PriceLabel
+            // 
+            this.PriceLabel.AutoSize = true;
+            this.PriceLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PriceLabel.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.PriceLabel.Location = new System.Drawing.Point(1463, 6);
+            this.PriceLabel.Name = "PriceLabel";
+            this.PriceLabel.Size = new System.Drawing.Size(24, 26);
+            this.PriceLabel.TabIndex = 26;
+            this.PriceLabel.Text = "0";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label4.Location = new System.Drawing.Point(1282, 185);
+            this.label4.Location = new System.Drawing.Point(1178, 235);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(155, 26);
             this.label4.TabIndex = 24;
@@ -152,19 +173,11 @@
             // 
             // solidGauge4
             // 
-            this.solidGauge4.Location = new System.Drawing.Point(1260, 225);
+            this.solidGauge4.Location = new System.Drawing.Point(1156, 276);
             this.solidGauge4.Name = "solidGauge4";
             this.solidGauge4.Size = new System.Drawing.Size(200, 100);
             this.solidGauge4.TabIndex = 23;
             this.solidGauge4.Text = "solidGauge4";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(1090, 574);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(628, 204);
-            this.textBox1.TabIndex = 22;
             // 
             // cartesianChart2
             // 
@@ -172,7 +185,7 @@
             this.cartesianChart2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.cartesianChart2.Location = new System.Drawing.Point(0, 609);
             this.cartesianChart2.Name = "cartesianChart2";
-            this.cartesianChart2.Size = new System.Drawing.Size(1067, 165);
+            this.cartesianChart2.Size = new System.Drawing.Size(1150, 165);
             this.cartesianChart2.TabIndex = 21;
             this.cartesianChart2.Text = "cartesianChart2";
             // 
@@ -181,7 +194,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label3.Location = new System.Drawing.Point(1540, 185);
+            this.label3.Location = new System.Drawing.Point(1436, 235);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(156, 26);
             this.label3.TabIndex = 20;
@@ -189,7 +202,7 @@
             // 
             // solidGauge3
             // 
-            this.solidGauge3.Location = new System.Drawing.Point(1518, 225);
+            this.solidGauge3.Location = new System.Drawing.Point(1414, 276);
             this.solidGauge3.Name = "solidGauge3";
             this.solidGauge3.Size = new System.Drawing.Size(200, 100);
             this.solidGauge3.TabIndex = 19;
@@ -200,7 +213,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label2.Location = new System.Drawing.Point(1282, 9);
+            this.label2.Location = new System.Drawing.Point(1178, 60);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(174, 26);
             this.label2.TabIndex = 18;
@@ -208,7 +221,7 @@
             // 
             // solidGauge2
             // 
-            this.solidGauge2.Location = new System.Drawing.Point(1260, 49);
+            this.solidGauge2.Location = new System.Drawing.Point(1156, 100);
             this.solidGauge2.Name = "solidGauge2";
             this.solidGauge2.Size = new System.Drawing.Size(200, 100);
             this.solidGauge2.TabIndex = 17;
@@ -219,7 +232,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.label1.Location = new System.Drawing.Point(1540, 9);
+            this.label1.Location = new System.Drawing.Point(1436, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(154, 26);
             this.label1.TabIndex = 16;
@@ -227,21 +240,11 @@
             // 
             // solidGauge1
             // 
-            this.solidGauge1.Location = new System.Drawing.Point(1518, 49);
+            this.solidGauge1.Location = new System.Drawing.Point(1414, 100);
             this.solidGauge1.Name = "solidGauge1";
             this.solidGauge1.Size = new System.Drawing.Size(200, 100);
             this.solidGauge1.TabIndex = 15;
             this.solidGauge1.Text = "solidGauge1";
-            // 
-            // cartesianChart1
-            // 
-            this.cartesianChart1.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.cartesianChart1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.cartesianChart1.Location = new System.Drawing.Point(0, 0);
-            this.cartesianChart1.Name = "cartesianChart1";
-            this.cartesianChart1.Size = new System.Drawing.Size(1067, 603);
-            this.cartesianChart1.TabIndex = 14;
-            this.cartesianChart1.Text = "cartesianChart1";
             // 
             // listView1
             // 
@@ -570,7 +573,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1742, 1057);
+            this.ClientSize = new System.Drawing.Size(1717, 1057);
             this.Controls.Add(this.DataLoader);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Chart";
@@ -593,27 +596,6 @@
         #endregion
 
         private System.Windows.Forms.TabControl DataLoader;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private LiveCharts.WinForms.SolidGauge solidGauge4;
-        private System.Windows.Forms.TextBox textBox1;
-        private LiveCharts.WinForms.CartesianChart cartesianChart2;
-        private System.Windows.Forms.Label label3;
-        private LiveCharts.WinForms.SolidGauge solidGauge3;
-        private System.Windows.Forms.Label label2;
-        private LiveCharts.WinForms.SolidGauge solidGauge2;
-        private System.Windows.Forms.Label label1;
-        private LiveCharts.WinForms.SolidGauge solidGauge1;
-        private LiveCharts.WinForms.CartesianChart cartesianChart1;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.ListView KeyPairsListView;
         private System.Windows.Forms.Label BTCMarketCap;
@@ -646,5 +628,26 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TabPage tabPage1;
+        private LiveCharts.WinForms.CartesianChart cartesianChart3;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label PriceLabel;
+        private System.Windows.Forms.Label label4;
+        private LiveCharts.WinForms.SolidGauge solidGauge4;
+        private LiveCharts.WinForms.CartesianChart cartesianChart2;
+        private System.Windows.Forms.Label label3;
+        private LiveCharts.WinForms.SolidGauge solidGauge3;
+        private System.Windows.Forms.Label label2;
+        private LiveCharts.WinForms.SolidGauge solidGauge2;
+        private System.Windows.Forms.Label label1;
+        private LiveCharts.WinForms.SolidGauge solidGauge1;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.ColumnHeader columnHeader7;
+        private System.Windows.Forms.ColumnHeader columnHeader8;
     }
 }

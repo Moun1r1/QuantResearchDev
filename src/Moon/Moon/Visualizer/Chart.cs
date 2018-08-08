@@ -49,6 +49,8 @@ namespace Moon.Visualizer
         public ChartValues<ObservableValue> High { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Low { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Close { get; set; } = new ChartValues<ObservableValue>();
+        public ChartValues<HeatPoint> Ask { get; set; } = new ChartValues<HeatPoint>();
+        public ChartValues<HeatPoint> Bids { get; set; } = new ChartValues<HeatPoint>();
 
         public ChartValues<ObservableValue> Buyer { get; set; } = new ChartValues<ObservableValue>();
         public string LastUID = string.Empty;
@@ -187,6 +189,7 @@ namespace Moon.Visualizer
 
             });
             #region "Load Socket Data"
+            //Live Tick
             cartesianChart2.Series = new LiveCharts.SeriesCollection
                     {
                         new LiveCharts.Wpf.LineSeries
@@ -210,50 +213,143 @@ namespace Moon.Visualizer
                             Fill = System.Windows.Media.Brushes.Transparent
                         }
                     };
-                    cartesianChart1.Series = new LiveCharts.SeriesCollection
+            //Live Buyer Seller filled
+            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
+            {
+                Interval = 300
+            };
+            IncomingBinance.SubscribeTo("BTCUSDT");
+            IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
+            IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
+            IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
+            IncomingBinance.BBookData.CollectionChanged += BBookData_CollectionChanged;
+            #endregion
+
+            cartesianChart3.Series.Add(new HeatSeries
+            {
+                Values = new ChartValues<HeatPoint>
+                {
+
+
+                },
+                DataLabels = true,
+                Title = "Ask"
+                
+
+                //,
+                //GradientStopCollection = new GradientStopCollection
+                //{
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 0), 0),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 255, 0), .25),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 255), .5),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 0, 0), .75),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 255, 255), 1)
+                //}
+
+            });
+            cartesianChart3.Series.Add(new HeatSeries
+            {
+                Values = new ChartValues<HeatPoint>
+                {
+
+
+                },
+                DataLabels = true,
+                Title = "Bids"
+                
+                //,
+                //GradientStopCollection = new GradientStopCollection
+                //{
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 0), 0),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 255, 0), .25),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 255), .5),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 0, 0), .75),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 255, 255), 1)
+                //}
+
+            });
+            cartesianChart3.Series.Add(new LiveCharts.Wpf.LineSeries
+                {
+                    Title = "Price",
+                    Values = Buyer,
+                    AreaLimit = 0,
+                    PointGeometry = null,
+                    Fill = System.Windows.Media.Brushes.Transparent
+                
+            });
+
+        }
+
+        private void BBookData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                var bookdata = (BinanceStreamOrderBook)e.NewItems[0];
+
+                if(Ask.Count() > 0 || Bids.Count() > 0)
+                {
+                    for (int i = 0; i < bookdata.Asks.Count(); i++)
                     {
-                        new OhlcSeries
+                        var correspondingBookAskLine = bookdata.Asks[i];
+                        var correspondingBookBidLine = bookdata.Bids[i];
+                        var AskLine = Ask[i];
+                        var BidLine = Bids[i];
+                        if(AskLine.Weight != double.Parse(correspondingBookAskLine.Quantity.ToString()) || AskLine.Y != double.Parse(correspondingBookAskLine.Price.ToString()))
                         {
-                            Title = "BTCUSDT",
-                            Values = candlesvalues
-                        },
-                        new LiveCharts.Wpf.LineSeries
+                            AskLine.Weight = double.Parse(bookdata.Asks[i].Quantity.ToString());
+                            AskLine.Y = double.Parse(bookdata.Asks[i].Price.ToString());
+                        }
+                        if (BidLine.Weight != double.Parse(correspondingBookBidLine.Quantity.ToString()) || BidLine.Y != double.Parse(correspondingBookBidLine.Price.ToString()))
                         {
-                            Title = "High",
-                            Values = High,
-                            AreaLimit = 0,
-                            PointGeometry = null,
-                            Fill = System.Windows.Media.Brushes.Transparent
-                        },
-                        new LiveCharts.Wpf.LineSeries
-                        {
-                            Title = "Low",
-                            Values = Low,
-                            AreaLimit = 0,
-                            PointGeometry = null,
-                            Fill = System.Windows.Media.Brushes.Transparent
-                        },
-                         new LiveCharts.Wpf.LineSeries
-                        {
-                            Title = "Close",
-                            Values = Close,
-                            PointGeometry = DefaultGeometries.Square,
-                            AreaLimit = 0,
-                            Fill = System.Windows.Media.Brushes.Transparent
+                            BidLine.Weight = double.Parse(bookdata.Bids[i].Quantity.ToString());
+                            BidLine.Y = double.Parse(bookdata.Bids[i].Price.ToString());
                         }
 
-                    };
-                    System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
+
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < bookdata.Asks.Count(); i++)
                     {
-                        Interval = 300
-                    };
-                    timer.Tick += TimerOnTick;
-                    //timer.Start();
-                    IncomingBinance.SubscribeTo("BTCUSDT");
-                    IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
-                    IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
-                    IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
-        #endregion
+                        Ask.Add(new HeatPoint(i, double.Parse(bookdata.Asks[i].Price.ToString()), double.Parse(bookdata.Asks[i].Quantity.ToString())));
+
+                    }
+                    for (int i = 0; i < bookdata.Asks.Count(); i++)
+                    {
+                        Bids.Add(new HeatPoint(i, double.Parse(bookdata.Bids[i].Price.ToString()), double.Parse(bookdata.Bids[i].Quantity.ToString())));
+
+                    }
+
+                }
+                //Ask.Add(new HeatPoint(0, double.Parse(bookdata.Asks[0].Price.ToString()), double.Parse(bookdata.Asks[0].Quantity.ToString())));
+                //Ask.Add(new HeatPoint(1, double.Parse(bookdata.Asks[1].Price.ToString()), double.Parse(bookdata.Asks[1].Quantity.ToString())));
+                //Ask.Add(new HeatPoint(2, double.Parse(bookdata.Asks[2].Price.ToString()), double.Parse(bookdata.Asks[2].Quantity.ToString())));
+                //Ask.Add(new HeatPoint(3, double.Parse(bookdata.Asks[3].Price.ToString()), double.Parse(bookdata.Asks[3].Quantity.ToString())));
+                try
+                {
+                    cartesianChart3.Invoke((MethodInvoker)delegate
+                    {
+                        try
+                        {
+                            cartesianChart3.Series[0].Values = Ask;
+                            cartesianChart3.Series[1].Values = Bids;
+                            cartesianChart3.LegendLocation = LegendLocation.Bottom;
+
+                        }
+                        catch { }
+                        //var dt = cartesianChart3.Series[0].DataLabels;
+                    });
+
+                }
+                catch { }
+
+                //bookdata.Asks.ForEach(y =>
+                //{
+                //    Ask.Add(new HeatPoint())
+                //    //Invoke((MethodInvoker)delegate
+                //});
+            }
 
         }
 
@@ -262,7 +358,34 @@ namespace Moon.Visualizer
             var IncomingBuyer = (BinanceStreamTrade)e.NewItems[0];
             try
             {
-                FormUtils.SetTextBoxContent(textBox1, string.Format("Buyer with : {0} for price {1}" + Environment.NewLine, IncomingBuyer.Quantity.ToString(), IncomingBuyer.Price));
+                //FormUtils.SetTextBoxContent(textBox1, string.Format("Buyer with : {0} for price {1}" + Environment.NewLine, IncomingBuyer.Quantity.ToString(), IncomingBuyer.Price));
+                PriceLabel.Invoke((MethodInvoker)delegate
+                {
+                    if (Decimal.Parse(PriceLabel.Text) < IncomingBuyer.Price)
+                    {
+                        PriceLabel.Text = IncomingBuyer.Price.ToString();
+                        PriceLabel.ForeColor = System.Drawing.Color.Green;
+                    }
+                    else
+                    {
+                        PriceLabel.Text = IncomingBuyer.Price.ToString();
+                        PriceLabel.ForeColor = System.Drawing.Color.Red;
+
+                    }
+
+                });
+                if (Close.Count > 10) Close.RemoveAt(0);
+                Close.Add(new ObservableValue(double.Parse(IncomingBuyer.Price.ToString())));
+                cartesianChart3.Invoke((MethodInvoker)delegate
+                {
+                    try
+                    {
+                        cartesianChart3.Series[2].Values = Close;
+
+                    }
+                    catch { }
+
+                });
             }
             catch { }
         }
@@ -280,102 +403,46 @@ namespace Moon.Visualizer
             var IncomingSeller = (BinanceStreamTrade)e.NewItems[0];
             try
             {
-                FormUtils.SetTextBoxContent(textBox1, string.Format("Seller with : {0} for price {1}" + Environment.NewLine, IncomingSeller.Quantity.ToString(), IncomingSeller.Price));
-                
+
+                //FormUtils.SetTextBoxContent(textBox1, string.Format("Seller with : {0} for price {1}" + Environment.NewLine, IncomingSeller.Quantity.ToString(), IncomingSeller.Price));
+                PriceLabel.Invoke((MethodInvoker)delegate
+                {
+                    if(Decimal.Parse(PriceLabel.Text) < IncomingSeller.Price)
+                    {
+                        PriceLabel.Text = IncomingSeller.Price.ToString();
+                        PriceLabel.ForeColor = System.Drawing.Color.Green;
+                    }
+                    else
+                    {
+                        PriceLabel.Text = IncomingSeller.Price.ToString();
+                        PriceLabel.ForeColor = System.Drawing.Color.Red;
+
+                    }
+
+                });
+                if (Close.Count > 10) Close.RemoveAt(0);
+
+                Close.Add(new ObservableValue(double.Parse(IncomingSeller.Price.ToString())));
+                cartesianChart3.Invoke((MethodInvoker)delegate
+                {
+                    try
+                    {
+                        cartesianChart3.Series[2].Values = Close;
+
+                    }
+                    catch { }
+
+                });
+
+
             }
             catch { }
         }
 
-        private void SetAxisLimits(System.DateTime now)
-        {
-            cartesianChart1.AxisX[0].MaxValue = now.Ticks + TimeSpan.FromSeconds(1).Ticks; // lets force the axis to be 100ms ahead
-            cartesianChart1.AxisX[0].MinValue = now.Ticks - TimeSpan.FromSeconds(8).Ticks; //we only care about the last 8 seconds
-        }
+
 
         delegate void DelegateInCandle(DateTime date,decimal open,decimal close);
 
-        private void TimerOnTick(object sender, EventArgs eventArgs)
-        {
-            var now = System.DateTime.Now;
-            try
-            {
-                var candle = IncomingBinance.Candles.Last();
-                var IsLast = candle.Properties.Where(y => y.Key.ToString().Contains("Final")).First().Value;
-                if (IsLast)
-                {
-                    listView1.Items.Clear();
-                    IncomingBinance.BData.Clear();
-                    cartesianChart1.Series.Clear();
-
-                    cartesianChart2.Series[0].Values.Clear(); Buyer.Clear();
-                    cartesianChart2.Series[1].Values.Clear(); Seller.Clear();
-                    cartesianChart2.Series[2].Values.Clear(); Close.Clear();
-
-                }
-                if (candle != null && LastUID != candle.UID)
-                {
-  
-                        candlesvalues.Add(new OhlcPoint
-                        {
-                            Close = double.Parse(candle.Candle.Close.ToString()),
-                            Open = double.Parse(candle.Candle.Open.ToString()),
-                            High = double.Parse(candle.Candle.High.ToString()),
-                            Low = double.Parse(candle.Candle.Low.ToString())
-
-                        });
-
-                        High.Add(new ObservableValue(double.Parse(candle.Candle.High.ToString())));
-                        Low.Add(new ObservableValue(double.Parse(candle.Candle.Low.ToString())));
-
-                        cartesianChart1.Series[0].Values = candlesvalues;
-                        cartesianChart1.Series[1].Values = High;
-                        cartesianChart1.Series[2].Values = Low;
-                        
-                    
-
-                        //lets only use the last 60 values - To remove by Util function !
-                        if (candlesvalues.Count > 60) candlesvalues.RemoveAt(0);
-                        if (High.Count > 60) High.RemoveAt(0);
-                        if (Low.Count > 60) Low.RemoveAt(0);
-                        if (Buyer.Count > 60) Buyer.RemoveAt(0);
-                        if (Seller.Count > 60) Seller.RemoveAt(0);
-                        if (Close.Count > 60) Close.RemoveAt(0);
-
-                    solidGauge1.Value = candle.Properties.Where(y => y.Key.ToString().Contains("TradeCount")).First().Value;
-                        solidGauge1.To = IncomingBinance.BData.Select(y => y.Data.TradeCount).Max();
-
-                        solidGauge2.Value = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
-                        solidGauge2.To = Double.Parse(IncomingBinance.BData.Select(y => y.Data.Volume).Max().ToString());
-
-                        Double TakerVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("TakerBuyBaseAssetVolume")).First().Value.ToString());
-                        Double TotalVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
-                        solidGauge3.Value = TakerVolume;
-                        solidGauge3.To = TotalVolume;
-
-                        solidGauge4.Value = TotalVolume - TakerVolume;
-                        solidGauge4.To = TotalVolume;
-
-                        Buyer.Add(new ObservableValue(double.Parse(TakerVolume.ToString())));
-                        Seller.Add(new ObservableValue(double.Parse((TotalVolume - TakerVolume).ToString())));
-                        Close.Add(new ObservableValue(double.Parse(candle.Candle.Close.ToString())));
-                        cartesianChart2.Series[0].Values = Buyer;
-                        cartesianChart2.Series[1].Values = Seller;
-                        cartesianChart2.Series[2].Values = Close;
-
-                    LastUID = candle.UID;
-
-                    }
-
-
-
-
-
-            }
-            catch
-            {
-
-            }
-        }
 
 
 
@@ -392,7 +459,7 @@ namespace Moon.Visualizer
             else { listViewItem.ForeColor = System.Drawing.Color.Green; }
             FormUtils.AddListItem(listView1, listViewItem);
 
-            if (candle != null )
+            if (candle != null)
             {
 
                 candlesvalues.Add(new OhlcPoint
@@ -408,11 +475,6 @@ namespace Moon.Visualizer
                 Low.Add(new ObservableValue(double.Parse(candle.Candle.Low.ToString())));
 
                 //Thread Safe Caller for Carte 1
-                cartesianChart1.Invoke((MethodInvoker)delegate {
-                    cartesianChart1.Series[0].Values = candlesvalues;
-                    cartesianChart1.Series[1].Values = High;
-                    cartesianChart1.Series[2].Values = Low;
-                });
 
 
 
@@ -455,7 +517,6 @@ namespace Moon.Visualizer
 
                 Buyer.Add(new ObservableValue(double.Parse(TakerVolume.ToString())));
                 Seller.Add(new ObservableValue(double.Parse((TotalVolume - TakerVolume).ToString())));
-                Close.Add(new ObservableValue(double.Parse(candle.Candle.Close.ToString())));
 
                 cartesianChart2.Invoke((MethodInvoker)delegate
                 {

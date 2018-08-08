@@ -25,6 +25,8 @@ namespace Moon.Data.Provider
     {
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
+        public ObservableCollection<BinanceStreamOrderBook> BBookData { get; set; } = new ObservableCollection<BinanceStreamOrderBook>();
+
         public ObservableCollection<BinanceStreamTrade> BDataTradeSeller { get; set; } = new ObservableCollection<BinanceStreamTrade>();
         public ObservableCollection<BinanceStreamTrade> BDataTradeBuyer { get; set; } = new ObservableCollection<BinanceStreamTrade>();
         public ObservableCollection<BinanceCandle> CandlesTable { get; set; } = new ObservableCollection<BinanceCandle>();
@@ -199,6 +201,23 @@ namespace Moon.Data.Provider
                     System.Threading.Thread.Sleep(100);
                 }
             });
+
+            Task.Run(() =>
+            {
+                var book = this.bclient.Socket.SubscribeToPartialBookDepthStreamAsync(Pair, 10, (data) =>
+                 {
+                     BBookData.Add(data);
+                     if (BBookData.Count > 3) BBookData.RemoveAt(0);
+
+                 });
+                while (Global.shared.Running)
+                {
+                    System.Threading.Thread.Sleep(1000);
+                }
+
+
+            });
+
             Task.Run(() =>
             {
                 var trades = this.bclient.Socket.SubscribeToTradesStreamAsync(Pair, (data) =>
