@@ -334,8 +334,8 @@ namespace Moon.Visualizer
                         {
                             cartesianChart3.Series[0].Values = Ask;
                             cartesianChart3.Series[1].Values = Bids;
-                            cartesianChart3.LegendLocation = LegendLocation.Bottom;
-
+                            cartesianChart3.Update(false, true);
+                            
                         }
                         catch { }
                         //var dt = cartesianChart3.Series[0].DataLabels;
@@ -381,9 +381,12 @@ namespace Moon.Visualizer
                     try
                     {
                         cartesianChart3.Series[2].Values = Close;
+                        cartesianChart3.Update(false, true);
 
                     }
-                    catch { }
+                    catch(Exception ex) {
+
+                    }
 
                 });
             }
@@ -428,6 +431,7 @@ namespace Moon.Visualizer
                     try
                     {
                         cartesianChart3.Series[2].Values = Close;
+                        cartesianChart3.Update(false, true);
 
                     }
                     catch { }
