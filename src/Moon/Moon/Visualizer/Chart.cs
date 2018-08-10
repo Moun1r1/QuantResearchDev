@@ -31,7 +31,7 @@ namespace Moon.Visualizer
 
     public partial class Chart : Form
     {
-        public Statistics Market;
+        public Statistics Market = new Statistics();
         private ObservableValue value1;
         public ChartValues<ObservableValue> High { get; set; } = new ChartValues<ObservableValue>();
         public ChartValues<ObservableValue> Low { get; set; } = new ChartValues<ObservableValue>();
@@ -50,6 +50,39 @@ namespace Moon.Visualizer
         {
             InitializeComponent();
         }
+        private void LoadMarketTA()
+        {
+            PlanifiedOperation GetMarketDataOperation = new PlanifiedOperation();
+            GetMarketDataOperation.TypeOFApproach = Operation.ForceOperation;
+            GetMarketDataOperation.Start = DateTime.Now.AddSeconds(2);
+            GetMarketDataOperation.OperationName = "Market Watcher : Update Average TA";
+            GetMarketDataOperation.Every = new TimeSpan(0, 0, 10);
+            GetMarketDataOperation.ContiniousOperation = true;
+            GetMarketDataOperation.OperationCode = new Action(() =>
+            {
+                FormUtils.SetLabelText(binancebnbpairmove, string.Format("BNB Average Pairs Move: {0:P2}", Market.binancebnbpairmove.ToString()));
+                FormUtils.SetLabelText(binancebtcpairmove, string.Format("BTC Average Pairs Move: {0:P2}", Market.binancebtcpairmove.ToString()));
+                FormUtils.SetLabelText(binanceethpairmove, string.Format("ETH Average Pairs Move: {0:P2}", Market.binanceethpairmove.ToString()));
+                FormUtils.SetLabelText(binanceusdtpairmove, string.Format("USDT Average Pairs Move: {0:P2}", Market.binanceusdtpairmove.ToString()));
+
+                if(Market.binance_mostliquid_btc.Count() > 0)
+                {
+                    FormUtils.SetLabelText(mostliquidbtc, string.Format("BTC Most Active : {0}", Market.binance_mostliquid_btc.First()));
+                    FormUtils.SetLabelText(mostliquideth, string.Format("ETH Most Active: {0}", Market.binance_mostliquid_eth.First()));
+                    FormUtils.SetLabelText(mostliquidusdt, string.Format("USDT Most Active: {0}", Market.binance_mostliquid_usdt.First()));
+                    FormUtils.SetLabelText(mostliquidbnb, string.Format("BNB Most Active: {0}", Market.binance_mostliquid_bnb.First()));
+
+                }
+
+
+
+
+            });
+            GetMarketDataOperation.ContiniousAction = GetMarketDataOperation.OperationCode;
+            Global.shared.Manager.ToManage.Add(GetMarketDataOperation);
+
+
+        }
         private void LoadMarketData()
         {
 
@@ -61,7 +94,8 @@ namespace Moon.Visualizer
             GetMarketDataOperation.ContiniousOperation = true;
             GetMarketDataOperation.OperationCode = new Action(() =>
             {
-                Market = new Statistics();
+                Market.Update();
+
                 #region "Load Market Data"
                 FormUtils.SetLabelText(BTCMarketCap, string.Format("BTC Market Cap: {0} %", Market.Market.BTCPercentageOfMarketCap));
                 FormUtils.SetLabelText(marketupdate, string.Format("Last Update : {0}", DateTime.Now));
@@ -542,6 +576,9 @@ namespace Moon.Visualizer
 
             });
             Global.shared.Manager.ToManage.Add(GetAllpairsContent);
+            IncomingBinance.RegisterAllMarket();
+            Market.SetAllBinancePairWatcher(IncomingBinance);
+            LoadMarketTA();
 
         }
 

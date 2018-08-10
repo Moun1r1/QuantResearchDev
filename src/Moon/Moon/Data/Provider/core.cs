@@ -23,10 +23,11 @@ namespace Moon.Data.Provider
         TicksAndTrades,
         All
     }
-    class Core
+    public class Core
     {
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
+        public ObservableCollection<BinanceStreamTick[]> BAllPairsData { get; set; } = new ObservableCollection<BinanceStreamTick[]>();
         public ObservableCollection<BinanceStreamOrderBook> BBookData { get; set; } = new ObservableCollection<BinanceStreamOrderBook>();
         public Grouper DataOrganizer { get; set; } = new Grouper();
         public ObservableCollection<BinanceStreamTrade> BDataTradeSeller { get; set; } = new ObservableCollection<BinanceStreamTrade>();
@@ -129,22 +130,23 @@ namespace Moon.Data.Provider
             {
                 var tick = this.bclient.Socket.SubscribeToAllSymbolTickerAsync((data) =>
                 {
-                    decimal testpercent = 0;
-                    Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}", data);
-                    foreach(var symbol in data)
-                    {
-                        testpercent += symbol.PriceChangePercentage;
-                        if(this.Sender.IsAlive)
-                        {
-                            this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
+                    BAllPairsData.Add(data);
+                    //decimal testpercent = 0;
+                    //Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}", data);
+                    //foreach(var symbol in data)
+                    //{
+                    //    testpercent += symbol.PriceChangePercentage;
+                    //    if(this.Sender.IsAlive)
+                    //    {
+                    //        this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
 
-                        }
-                        else
-                        {
-                            this.Sender.Connect();
-                            this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
-                        }
-                    }
+                    //    }
+                    //    else
+                    //    {
+                    //        this.Sender.Connect();
+                    //        this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
+                    //    }
+                    //}
                 });
 
                 while (Global.shared.Running)
@@ -254,7 +256,7 @@ namespace Moon.Data.Provider
                 var book = this.bclient.Socket.SubscribeToPartialBookDepthStreamAsync(Pair, 10, (data) =>
                  {
                      BBookData.Add(data);
-                     if (BBookData.Count > 3) BBookData.RemoveAt(0);
+                     if (BBookData.Count > 2) BBookData.RemoveAt(0);
 
                  });
                 while (Global.shared.Running)

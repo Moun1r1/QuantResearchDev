@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.Exchanger
 {
-    class binance
+    public class binance
     {
         public BinanceClient Client { get; set; } = new Binance.Net.BinanceClient();
         public BinanceSocketClient Socket { get; set; } = new BinanceSocketClient();
