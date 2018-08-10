@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Moon.Azure
 {
-    class STA
+    public class STA
     {
+        public string BaseModel { get; set; } = "c4c7ab2a-c85a-4cfb-944a-d4c265d4447c";
+        public string Name { get; set; } = "Root";
+        public string TargetTable { get; set; }
+        public STA()
+        {
+
+        }
     }
 }

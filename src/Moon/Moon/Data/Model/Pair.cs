@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
+using Moon.Data.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,13 @@ namespace Moon.Data.Model
     public class BinanceCandle : TableEntity,Pair
     {
         
+        public BinanceCandle(Trady.Core.Candle source)
+        {
+            this.PartitionKey = Guid.NewGuid().ToString().Replace("-", "");
+            this.RowKey = Guid.NewGuid().ToString().Replace("-", "");
+            this.Timestamp = DateTime.Now;
+            this.Pivot = source.Dpivot();
+        }
         public BinanceCandle()
         {
             this.PartitionKey = Guid.NewGuid().ToString().Replace("-", "");
@@ -25,6 +33,7 @@ namespace Moon.Data.Model
             this.Timestamp = DateTime.Now;
 
         }
+        public double Pivot { get; set; }
         public string ConcatainedData { get; set; } = string.Empty;
         public string UID { get; set; } = Guid.NewGuid().ToString();
         public Trady.Core.Candle Candle { get; set; }

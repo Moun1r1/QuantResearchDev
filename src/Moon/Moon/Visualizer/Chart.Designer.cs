@@ -31,6 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.DataLoader = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.checkBox3 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.PairStr = new System.Windows.Forms.TextBox();
+            this.PairName = new System.Windows.Forms.Button();
             this.cartesianChart3 = new LiveCharts.WinForms.CartesianChart();
             this.label8 = new System.Windows.Forms.Label();
             this.PriceLabel = new System.Windows.Forms.Label();
@@ -83,6 +88,7 @@
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.MarketRefresh = new System.Windows.Forms.Timer(this.components);
+            this.button3 = new System.Windows.Forms.Button();
             this.DataLoader.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -107,6 +113,12 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button3);
+            this.tabPage1.Controls.Add(this.checkBox3);
+            this.tabPage1.Controls.Add(this.checkBox2);
+            this.tabPage1.Controls.Add(this.checkBox1);
+            this.tabPage1.Controls.Add(this.PairStr);
+            this.tabPage1.Controls.Add(this.PairName);
             this.tabPage1.Controls.Add(this.cartesianChart3);
             this.tabPage1.Controls.Add(this.label8);
             this.tabPage1.Controls.Add(this.PriceLabel);
@@ -127,6 +139,54 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Live WebSocket";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox3
+            // 
+            this.checkBox3.AutoSize = true;
+            this.checkBox3.Location = new System.Drawing.Point(1156, 540);
+            this.checkBox3.Name = "checkBox3";
+            this.checkBox3.Size = new System.Drawing.Size(80, 17);
+            this.checkBox3.TabIndex = 33;
+            this.checkBox3.Text = "checkBox3";
+            this.checkBox3.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(1156, 517);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(80, 17);
+            this.checkBox2.TabIndex = 32;
+            this.checkBox2.Text = "checkBox2";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(1157, 494);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(80, 17);
+            this.checkBox1.TabIndex = 31;
+            this.checkBox1.Text = "checkBox1";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // PairStr
+            // 
+            this.PairStr.Location = new System.Drawing.Point(1156, 467);
+            this.PairStr.Name = "PairStr";
+            this.PairStr.Size = new System.Drawing.Size(100, 20);
+            this.PairStr.TabIndex = 30;
+            this.PairStr.Text = "BTCUSDT";
+            // 
+            // PairName
+            // 
+            this.PairName.Location = new System.Drawing.Point(1281, 465);
+            this.PairName.Name = "PairName";
+            this.PairName.Size = new System.Drawing.Size(75, 23);
+            this.PairName.TabIndex = 29;
+            this.PairName.Text = "Start";
+            this.PairName.UseVisualStyleBackColor = true;
+            this.PairName.Click += new System.EventHandler(this.button3_Click);
             // 
             // cartesianChart3
             // 
@@ -569,6 +629,16 @@
             this.MarketRefresh.Interval = 30000;
             this.MarketRefresh.Tick += new System.EventHandler(this.MarketRefresh_Tick);
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(1281, 511);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 34;
+            this.button3.Text = "Stop";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
             // Chart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -649,5 +719,11 @@
         private System.Windows.Forms.ColumnHeader columnHeader6;
         private System.Windows.Forms.ColumnHeader columnHeader7;
         private System.Windows.Forms.ColumnHeader columnHeader8;
+        private System.Windows.Forms.CheckBox checkBox3;
+        private System.Windows.Forms.CheckBox checkBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TextBox PairStr;
+        private System.Windows.Forms.Button PairName;
+        private System.Windows.Forms.Button button3;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Binance.Net.Objects;
 using Microsoft.WindowsAzure.Storage.Table;
+using Moon.Data.Bacher;
 using Moon.Data.Exchanger;
 using Moon.Data.Model;
 using System;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Trady.Analysis;
 using Trady.Analysis.Extension;
+using WebSocketSharp;
 
 namespace Moon.Data.Provider
 {
@@ -26,17 +28,19 @@ namespace Moon.Data.Provider
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
         public ObservableCollection<BinanceStreamOrderBook> BBookData { get; set; } = new ObservableCollection<BinanceStreamOrderBook>();
-
+        public Grouper DataOrganizer { get; set; } = new Grouper();
         public ObservableCollection<BinanceStreamTrade> BDataTradeSeller { get; set; } = new ObservableCollection<BinanceStreamTrade>();
         public ObservableCollection<BinanceStreamTrade> BDataTradeBuyer { get; set; } = new ObservableCollection<BinanceStreamTrade>();
         public ObservableCollection<BinanceCandle> CandlesTable { get; set; } = new ObservableCollection<BinanceCandle>();
-
+        public WebSocket Sender { get; set; }
         public ObservableCollection<BinanceCandle> Candles { get; set; } = new ObservableCollection<BinanceCandle>();
         public binance bclient { get; set; } = new binance();
         public List<BinanceCandle> GenericCandle = new List<BinanceCandle>();
         public ProviderMode Mode { get; set; } = ProviderMode.All;
         public Core()
         {
+            this.Sender = new WebSocket("ws://localhost:1345/Laputa");
+            this.Sender.Connect();
             if (Global.shared.table != null)
             {
                 LoadAlldata();
@@ -119,7 +123,28 @@ namespace Moon.Data.Provider
             }
         }
 
+        public void RegisterAllMarket()
+        {
+            Task.Run(() =>
+            {
+                var tick = this.bclient.Socket.SubscribeToAllSymbolTickerAsync((data) =>
+                {
+                    Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}", data);
+                    foreach(var symbol in data)
+                    {
+                        this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
+                    }
+                });
 
+                while (Global.shared.Running)
+                {
+                    System.Threading.Thread.Sleep(100);
+                }
+            });
+
+
+
+        }
 
 
         /// <summary>
@@ -136,7 +161,7 @@ namespace Moon.Data.Provider
                     var Candle = (BinanceStreamKlineData)e.NewItems[0];
                     //Remove Extra
                     var sourcedata = new Trady.Core.Candle(Candle.Data.CloseTime, Candle.Data.Open, Candle.Data.High, Candle.Data.Low, Candle.Data.Close, Candle.Data.Volume);
-                    BinanceCandle Standardize = new BinanceCandle();
+                    BinanceCandle Standardize = new BinanceCandle(sourcedata);
                    
                     Standardize.Name = Candle.Symbol;
                     Standardize.Candle = sourcedata;
@@ -154,6 +179,17 @@ namespace Moon.Data.Provider
                     try
                     {
                         Candles.Add(Standardize);
+                        try
+                        {
+                            this.Sender.Send(Standardize.ConcatainedData);
+
+                        }
+                        catch(WebSocketSharp.WebSocketException te)
+                        {
+                            this.Sender.Connect();
+                            this.Sender.Send(Standardize.ConcatainedData);
+                        }
+                        DataOrganizer.SourceData.Add(Standardize);
                         //if (Moon.Global.shared.table != null)
                         //{
                         //    TableOperation insertOperation = TableOperation.Insert(Standardize);
@@ -241,6 +277,12 @@ namespace Moon.Data.Provider
 
 
         }
+
+        public void UnsubscribeAllStreams()
+        {
+            this.bclient.Socket.UnsubscribeAllStreams();
+        }
+
 
     }
 }

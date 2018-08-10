@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moon.Azure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Moon.Data.History
     /// </summary>
     class DataProvider
     {
+        public STA model { get; set; }
     }
 }

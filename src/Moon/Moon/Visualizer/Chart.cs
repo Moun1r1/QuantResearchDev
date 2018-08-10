@@ -1,30 +1,17 @@
 ﻿using Binance.Net.Objects;
 using LiveCharts;
-using LiveCharts.Configurations;
 using LiveCharts.Defaults;
-using LiveCharts.WinForms;
 using LiveCharts.Wpf;
 using Moon.Data.Model;
 using Moon.Data.Provider;
 using Moon.MarketWatcher;
-using Moon.Visualizer.Winforms.Cartesian.ConstantChanges;
 using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.ServiceModel.Syndication;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Media;
 using System.Xml;
 using static Moon.Resources.Management;
 
@@ -188,95 +175,7 @@ namespace Moon.Visualizer
                 LoadMarketData();
 
             });
-            #region "Load Socket Data"
-            //Live Tick
-            cartesianChart2.Series = new LiveCharts.SeriesCollection
-                    {
-                        new LiveCharts.Wpf.LineSeries
-                        {
-                            Title = "Buyer",
-                            Values = High,
-                            StrokeThickness = 1,
-                            AreaLimit = 0,
 
-                            PointGeometry = DefaultGeometries.Square,
-                            Fill = System.Windows.Media.Brushes.Transparent
-                        },
-                        new LiveCharts.Wpf.LineSeries
-                        {
-                            Title = "Seller",
-                            StrokeThickness = 2,
-                            Values = High,
-                            AreaLimit = 0,
-
-                            PointGeometry = DefaultGeometries.Square,
-                            Fill = System.Windows.Media.Brushes.Transparent
-                        }
-                    };
-            //Live Buyer Seller filled
-            System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer
-            {
-                Interval = 300
-            };
-            IncomingBinance.SubscribeTo("BTCUSDT");
-            IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
-            IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
-            IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
-            IncomingBinance.BBookData.CollectionChanged += BBookData_CollectionChanged;
-            #endregion
-
-            cartesianChart3.Series.Add(new HeatSeries
-            {
-                Values = new ChartValues<HeatPoint>
-                {
-
-
-                },
-                DataLabels = true,
-                Title = "Ask"
-                
-
-                //,
-                //GradientStopCollection = new GradientStopCollection
-                //{
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 0), 0),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 255, 0), .25),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 255), .5),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 0, 0), .75),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 255, 255), 1)
-                //}
-
-            });
-            cartesianChart3.Series.Add(new HeatSeries
-            {
-                Values = new ChartValues<HeatPoint>
-                {
-
-
-                },
-                DataLabels = true,
-                Title = "Bids"
-                
-                //,
-                //GradientStopCollection = new GradientStopCollection
-                //{
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 0), 0),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 255, 0), .25),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 255), .5),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 0, 0), .75),
-                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 255, 255), 1)
-                //}
-
-            });
-            cartesianChart3.Series.Add(new LiveCharts.Wpf.LineSeries
-                {
-                    Title = "Price",
-                    Values = Buyer,
-                    AreaLimit = 0,
-                    PointGeometry = null,
-                    Fill = System.Windows.Media.Brushes.Transparent
-                
-            });
 
         }
 
@@ -655,6 +554,101 @@ namespace Moon.Visualizer
                 //y.Symbol
                 FormUtils.SetTextBoxContentMuliLine(textBox4, y.Symbol + Environment.NewLine);
             });
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            #region "Load Socket Data"
+            cartesianChart2.Series = new LiveCharts.SeriesCollection
+                    {
+                        new LiveCharts.Wpf.LineSeries
+                        {
+                            Title = "Buyer",
+                            Values = High,
+                            StrokeThickness = 1,
+                            AreaLimit = 0,
+
+                            PointGeometry = DefaultGeometries.Square,
+                            Fill = System.Windows.Media.Brushes.Transparent
+                        },
+                        new LiveCharts.Wpf.LineSeries
+                        {
+                            Title = "Seller",
+                            StrokeThickness = 2,
+                            Values = High,
+                            AreaLimit = 0,
+
+                            PointGeometry = DefaultGeometries.Square,
+                            Fill = System.Windows.Media.Brushes.Transparent
+                        }
+                    };
+
+            //IncomingBinance.SubscribeTo(PairStr.Text);
+            IncomingBinance.RegisterAllMarket();
+            IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
+            IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
+            IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
+            IncomingBinance.BBookData.CollectionChanged += BBookData_CollectionChanged;
+            #endregion
+
+            cartesianChart3.Series.Add(new HeatSeries
+            {
+                Values = new ChartValues<HeatPoint>
+                {
+
+
+                },
+                DataLabels = true,
+                Title = "Ask"
+
+
+                //,
+                //GradientStopCollection = new GradientStopCollection
+                //{
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 0), 0),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 255, 0), .25),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 255), .5),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 0, 0), .75),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 255, 255), 1)
+                //}
+
+            });
+            cartesianChart3.Series.Add(new HeatSeries
+            {
+                Values = new ChartValues<HeatPoint>
+                {
+
+
+                },
+                DataLabels = true,
+                Title = "Bids"
+
+                //,
+                //GradientStopCollection = new GradientStopCollection
+                //{
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 0), 0),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 255, 0), .25),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(0, 0, 255), .5),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 0, 0), .75),
+                //    new GradientStop(System.Windows.Media.Color.FromRgb(255, 255, 255), 1)
+                //}
+
+            });
+            cartesianChart3.Series.Add(new LiveCharts.Wpf.LineSeries
+            {
+                Title = "Price",
+                Values = Buyer,
+                AreaLimit = 0,
+                PointGeometry = null,
+                Fill = System.Windows.Media.Brushes.Transparent
+
+            });
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            IncomingBinance.UnsubscribeAllStreams();
+
         }
     }
 

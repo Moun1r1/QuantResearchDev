@@ -231,6 +231,9 @@
     <Reference Include="Trady.Core, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Trady.Core.3.1.0\lib\netstandard2.0\Trady.Core.dll</HintPath>
     </Reference>
+    <Reference Include="websocket-sharp, Version=1.0.2.59611, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebSocketSharp.1.0.3-rc11\lib\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WebSocket4Net, Version=0.15.2.11, Culture=neutral, PublicKeyToken=eb4e154b696bf72a, processorArchitecture=MSIL">
       <HintPath>..\packages\WebSocket4Net.0.15.2\lib\net45\WebSocket4Net.dll</HintPath>
     </Reference>
@@ -242,6 +245,7 @@
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Data\Bacher\Grouper.cs" />
     <Compile Include="Data\Exchanger\binance.cs" />
+    <Compile Include="Data\Exchanger\bitmex.cs" />
     <Compile Include="Data\History\DataProvider.cs" />
     <Compile Include="Data\Model\Factors.cs" />
     <Compile Include="Data\Model\Pair.cs" />
