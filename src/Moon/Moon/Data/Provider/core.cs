@@ -39,7 +39,7 @@ namespace Moon.Data.Provider
         public ProviderMode Mode { get; set; } = ProviderMode.All;
         public Core()
         {
-            this.Sender = new WebSocket("ws://localhost:1345/Laputa");
+            this.Sender = new WebSocket(string.Format("ws://localhost:1345/{0}",Moon.Global.shared.ConfigUri.CandleMarketPath));
             this.Sender.Connect();
             if (Global.shared.table != null)
             {

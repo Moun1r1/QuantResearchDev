@@ -6,13 +6,19 @@ using System.Threading.Tasks;
 
 namespace Moon.Config
 {
-        public class ConfigGlobalVar
+    public class ConfigGlobalVar
     {
         public bool Vars_ShouldBuy { get; set; }
         public bool? Vars_ShouldSell { get; set; }
         public bool? Vars_ShouldMonitor { get; set; }
         public bool? Vars_ShouldCollectAndArchive { get; set; }
         public bool? Vars_ShouldNNodes { get; set; }
+    }
+    public class NodeUri
+    {
+        public bool IsDefault { get; set; } = true;
+        public string CandleMarketPath { get; set; } = "CandleMarket";
+
     }
     public class SocketPair
     {

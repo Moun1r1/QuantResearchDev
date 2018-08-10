@@ -41,7 +41,7 @@ namespace Moon.Nodes
         static void Main(string[] args)
         {
             var wssv = new WebSocketServer(1345);
-            wssv.AddWebSocketService<Laputa>("/Laputa");
+            wssv.AddWebSocketService<Laputa>("/CandleMarket");
             wssv.Start();
             Console.ReadKey(true);
             wssv.Stop();

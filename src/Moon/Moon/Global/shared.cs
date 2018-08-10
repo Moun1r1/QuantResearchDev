@@ -13,7 +13,7 @@ namespace Moon.Global
     {
         public static ConfigGlobal Config = new ConfigGlobal();
         public static Perf Manager = new Perf();
-
+        public static NodeUri ConfigUri = new NodeUri();
         public static bool StoreInLocalAzureDB = true;
         public static bool Running = true;
         public static CloudTable table = null;
