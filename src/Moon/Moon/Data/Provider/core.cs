@@ -129,10 +129,21 @@ namespace Moon.Data.Provider
             {
                 var tick = this.bclient.Socket.SubscribeToAllSymbolTickerAsync((data) =>
                 {
+                    decimal testpercent = 0;
                     Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}", data);
                     foreach(var symbol in data)
                     {
-                        this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
+                        testpercent += symbol.PriceChangePercentage;
+                        if(this.Sender.IsAlive)
+                        {
+                            this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
+
+                        }
+                        else
+                        {
+                            this.Sender.Connect();
+                            this.Sender.Send(string.Format("Pair Name : {0} - Price : {1} - Change : {2} ", symbol.Symbol, symbol.WeightedAverage, symbol.PriceChangePercentage));
+                        }
                     }
                 });
 

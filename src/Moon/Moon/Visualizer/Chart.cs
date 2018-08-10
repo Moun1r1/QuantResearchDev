@@ -583,8 +583,7 @@ namespace Moon.Visualizer
                         }
                     };
 
-            //IncomingBinance.SubscribeTo(PairStr.Text);
-            IncomingBinance.RegisterAllMarket();
+            IncomingBinance.SubscribeTo(PairStr.Text);
             IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
             IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
             IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
