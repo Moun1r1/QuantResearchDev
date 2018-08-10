@@ -20,6 +20,9 @@ namespace Moon.Nodes
                 try
                 {
                     var result = JsonConvert.DeserializeObject<dynamic>(e.Data);
+                    switch(result is Moon.Data.Model.BinanceCandle)
+                    { 
+}
                     Console.WriteLine("Exchanger : {0}", result.Exchanger);
                     Console.WriteLine("Exchanger : {0}", result.Name);
                     Console.WriteLine("CollectedDate : {0}", result.CollectedDate);
