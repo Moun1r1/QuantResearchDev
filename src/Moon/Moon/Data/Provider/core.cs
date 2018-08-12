@@ -108,7 +108,7 @@ namespace Moon.Data.Provider
                             {
                                 foreach (var oldcandles in content)
                                 {
-                                    var olddata = Newtonsoft.Json.JsonConvert.DeserializeObject<BinanceCandle>(oldcandles.ConcatainedData);
+                                    var olddata = Newtonsoft.Json.JsonConvert.DeserializeObject<BinanceCandle>(oldcandles.Jscontainer);
                                     CandlesTable.Add(olddata);
                                     Console.WriteLine("Loaded : {0} on History Table", CandlesTable.Count());
                                 }
@@ -194,13 +194,13 @@ namespace Moon.Data.Provider
                         object propValue = prop.GetValue(Candle.Data, null);
                         Standardize.Properties.Add(prop.Name, propValue);
                     }
-                    Standardize.ConcatainedData = Newtonsoft.Json.JsonConvert.SerializeObject(Standardize);
+                    Standardize.Update();
                     Candles.Add(Standardize);
                     Console.WriteLine("Candle is added to dictionary");
                     //Until fix
                     try
                     {
-                        if (UseSender) { this.Sender.Send(Standardize.ConcatainedData); }
+                        if (UseSender) { this.Sender.Send(Standardize.Jscontainer); }
                         DataOrganizer.SourceData.Add(Standardize);
                         //if (Moon.Global.shared.table != null)
                         //{

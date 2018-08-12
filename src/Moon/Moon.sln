@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoonTester", "MoonTester\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moon.Nodes", "Moon.Nodes\Moon.Nodes.csproj", "{90BF739B-F24C-469D-9437-EA8790904F78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moon.Nodes.Client", "Moon.Nodes.Client\Moon.Nodes.Client.csproj", "{5813E9E5-40D1-45A9-A037-08ED198F832F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{90BF739B-F24C-469D-9437-EA8790904F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90BF739B-F24C-469D-9437-EA8790904F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90BF739B-F24C-469D-9437-EA8790904F78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5813E9E5-40D1-45A9-A037-08ED198F832F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5813E9E5-40D1-45A9-A037-08ED198F832F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5813E9E5-40D1-45A9-A037-08ED198F832F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5813E9E5-40D1-45A9-A037-08ED198F832F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
