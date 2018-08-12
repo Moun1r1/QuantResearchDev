@@ -8,10 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using Trady.Analysis;
-using Trady.Analysis.Extension;
 using WebSocketSharp;
 
 namespace Moon.Data.Provider
@@ -34,14 +31,19 @@ namespace Moon.Data.Provider
         public ObservableCollection<BinanceStreamTrade> BDataTradeBuyer { get; set; } = new ObservableCollection<BinanceStreamTrade>();
         public ObservableCollection<BinanceCandle> CandlesTable { get; set; } = new ObservableCollection<BinanceCandle>();
         public WebSocket Sender { get; set; }
+        public bool UseSender { get; set; } = false;
         public ObservableCollection<BinanceCandle> Candles { get; set; } = new ObservableCollection<BinanceCandle>();
         public binance bclient { get; set; } = new binance();
         public List<BinanceCandle> GenericCandle = new List<BinanceCandle>();
         public ProviderMode Mode { get; set; } = ProviderMode.All;
         public Core()
         {
-            this.Sender = new WebSocket(string.Format("ws://localhost:1345/{0}",Moon.Global.shared.ConfigUri.CandleMarketPath));
-            this.Sender.Connect();
+            if(UseSender)
+            {
+                this.Sender = new WebSocket(string.Format("ws://localhost:1345/{0}", Moon.Global.shared.ConfigUri.CandleMarketPath));
+                this.Sender.Connect();
+
+            }
             if (Global.shared.table != null)
             {
                 LoadAlldata();
@@ -65,20 +67,23 @@ namespace Moon.Data.Provider
         {
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add && Candles.Count() > 2)
             {
-                var RawData = Candles.Select(y => y.Candle).ToList();
-                var indexdcandles = new IndexedCandle(RawData, RawData.Count() - 1);
-                var LastBinanceCandle = (BinanceCandle)e.NewItems[0];
-                LastBinanceCandle.Properties.Add("Bearish",indexdcandles.IsBearish());
-                LastBinanceCandle.Properties.Add("IsBullish", indexdcandles.IsBullish());
-                LastBinanceCandle.Properties.Add("IsAccumDistBearish", indexdcandles.IsAccumDistBearish());
-                LastBinanceCandle.Properties.Add("IsAccumDistBullish", indexdcandles.IsAccumDistBullish());
-                LastBinanceCandle.Properties.Add("ClosePricePercentageChange", indexdcandles.ClosePricePercentageChange());
-                LastBinanceCandle.Properties.Add("ClosePriceChange", indexdcandles.ClosePriceChange());
-                LastBinanceCandle.Properties.Add("IsBreakingHistoricalHighestClose", indexdcandles.IsBreakingHistoricalHighestClose());
-                LastBinanceCandle.Properties.Add("IsBreakingHistoricalHighestHigh", indexdcandles.IsBreakingHistoricalHighestHigh());
-                LastBinanceCandle.Properties.Add("IsBreakingHistoricalLowestLow", indexdcandles.IsBreakingHistoricalLowestLow());
-                LastBinanceCandle.Properties.Add("IsObvBearish", indexdcandles.IsObvBearish());
-                LastBinanceCandle.Properties.Add("IsObvBullish", indexdcandles.IsObvBullish());
+
+               // will be migrated to TA Node
+
+                //var RawData = Candles.Select(y => y.Candle).ToList();
+                //var indexdcandles = new IndexedCandle(RawData, RawData.Count() - 1);
+                //var LastBinanceCandle = (BinanceCandle)e.NewItems[0];
+                //LastBinanceCandle.Properties.Add("Bearish",indexdcandles.IsBearish());
+                //LastBinanceCandle.Properties.Add("IsBullish", indexdcandles.IsBullish());
+                //LastBinanceCandle.Properties.Add("IsAccumDistBearish", indexdcandles.IsAccumDistBearish());
+                //LastBinanceCandle.Properties.Add("IsAccumDistBullish", indexdcandles.IsAccumDistBullish());
+                //LastBinanceCandle.Properties.Add("ClosePricePercentageChange", indexdcandles.ClosePricePercentageChange());
+                //LastBinanceCandle.Properties.Add("ClosePriceChange", indexdcandles.ClosePriceChange());
+                //LastBinanceCandle.Properties.Add("IsBreakingHistoricalHighestClose", indexdcandles.IsBreakingHistoricalHighestClose());
+                //LastBinanceCandle.Properties.Add("IsBreakingHistoricalHighestHigh", indexdcandles.IsBreakingHistoricalHighestHigh());
+                //LastBinanceCandle.Properties.Add("IsBreakingHistoricalLowestLow", indexdcandles.IsBreakingHistoricalLowestLow());
+                //LastBinanceCandle.Properties.Add("IsObvBearish", indexdcandles.IsObvBearish());
+                //LastBinanceCandle.Properties.Add("IsObvBullish", indexdcandles.IsObvBullish());
             }
 
 
@@ -188,20 +193,12 @@ namespace Moon.Data.Provider
                         Standardize.Properties.Add(prop.Name, propValue);
                     }
                     Standardize.ConcatainedData = Newtonsoft.Json.JsonConvert.SerializeObject(Standardize);
+                    Candles.Add(Standardize);
+                    Console.WriteLine("Candle is added to dictionary");
                     //Until fix
                     try
                     {
-                        Candles.Add(Standardize);
-                        try
-                        {
-                            this.Sender.Send(Standardize.ConcatainedData);
-
-                        }
-                        catch(WebSocketSharp.WebSocketException te)
-                        {
-                            this.Sender.Connect();
-                            this.Sender.Send(Standardize.ConcatainedData);
-                        }
+                        if (UseSender) { this.Sender.Send(Standardize.ConcatainedData); }
                         DataOrganizer.SourceData.Add(Standardize);
                         //if (Moon.Global.shared.table != null)
                         //{
@@ -241,7 +238,7 @@ namespace Moon.Data.Provider
             {
                 var tick = this.bclient.Socket.SubscribeToKlineStreamAsync(Pair, KlineInterval.OneMinute, (data) =>
                 {
-                    Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}",data.Symbol);
+                    //Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}",data.Symbol);
                     BData.Add(data);
                 });
 
@@ -271,7 +268,7 @@ namespace Moon.Data.Provider
             {
                 var trades = this.bclient.Socket.SubscribeToTradesStreamAsync(Pair, (data) =>
                 {
-                    Console.WriteLine("Debug - Provider Core - Receiving data from trade socket : {0}", data.Symbol);
+                    //Console.WriteLine("Debug - Provider Core - Receiving data from trade socket : {0}", data.Symbol);
                     if (!data.BuyerIsMaker)
                     {
                         BDataTradeSeller.Add(data);

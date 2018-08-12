@@ -14,6 +14,7 @@ namespace Moon.Nodes.config
         public bool Core_CandleBroadcast { get; set; } = false;
         public bool Core_MarkeWatcherCollector { get; set; } = true;
         public string NodeName { get; set; } = Environment.MachineName;
+        public List<string> PairsNames { get; set; } = new List<string>();
         public Configuration()
         {
 

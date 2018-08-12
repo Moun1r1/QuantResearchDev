@@ -33,6 +33,11 @@ namespace Moon.Data.Model
             this.Timestamp = DateTime.Now;
 
         }
+        public void UpdateContainer()
+        {
+            this.ConcatainedData = Newtonsoft.Json.JsonConvert.SerializeObject(this);
+
+        }
         public double Pivot { get; set; }
         public string ConcatainedData { get; set; } = string.Empty;
         public string UID { get; set; } = Guid.NewGuid().ToString();

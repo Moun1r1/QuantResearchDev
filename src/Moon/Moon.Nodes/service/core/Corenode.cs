@@ -8,5 +8,11 @@ namespace Moon.Nodes.service.core
 {
    public class Corenode
     {
+        public Moon.Data.Provider.Core core = new Moon.Data.Provider.Core();
+        public Corenode()
+        {
+            core.SubscribeTo("BTCUSDT");
+
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Nodes.service.marketwatcher
 {
-    class Watchernode
+    public class Watchernode
     {
     }
 }

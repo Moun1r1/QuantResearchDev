@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moon.NeuralNetwork
+namespace Moon.Nodes.CommunicationModel
 {
-
-    public class Core
+    public class MarketWatcher
     {
     }
 }
