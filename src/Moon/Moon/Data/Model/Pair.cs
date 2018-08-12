@@ -44,7 +44,7 @@ namespace Moon.Data.Model
 
         }
 
-        public string TypeOfData = "BinanceCandle";
+        public string TypeOfData { get; set; } = "BinanceCandle";
         public double Pivot { get; set; }
         public string UID { get; set; } = Guid.NewGuid().ToString();
         public Trady.Core.Candle Candle { get; set; }

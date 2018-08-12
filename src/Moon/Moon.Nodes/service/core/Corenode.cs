@@ -155,7 +155,12 @@ namespace Moon.Nodes.service.core
                 var LastBinanceCandle = (BinanceCandle)e.NewItems[0];
 
                 Console.WriteLine("Sending candle to suscribers");
-                Send(candle.Jscontainer);
+                Messages Content = new Messages();
+                Content.Content = candle.Jscontainer;
+                Content.MessageType = TypeOfContent.Candles;
+                Content.RootType = candle.TypeOfData;
+                Content.TargetObject = "BinanceCandle";
+                Send(Content.ToString());
             }
         }
 

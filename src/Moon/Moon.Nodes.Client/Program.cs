@@ -18,17 +18,18 @@ namespace Moon.Nodes.Client
 
             ws.OnMessage += (sender, e) =>
             {
+
                 try
                 {
-                    BinanceCandle receiver = JsonConvert.DeserializeObject<BinanceCandle>(e.Data);
-                    if(receiver is BinanceCandle)
-                    {
-                        receiver.Properties.ToList().ForEach(y =>
-                        {
-                            Console.WriteLine("Propertie Name : {0} - Value {1}", y.Key, y.Value);
-                        });
+                    Messages receiver = JsonConvert.DeserializeObject<Messages>(e.Data);
+                    //if(receiver is BinanceCandle)
+                    //{
+                    //    receiver.Properties.ToList().ForEach(y =>
+                    //    {
+                    //        Console.WriteLine("Propertie Name : {0} - Value {1}", y.Key, y.Value);
+                    //    });
 
-                    }
+                    //}
 
                 }
                 catch
