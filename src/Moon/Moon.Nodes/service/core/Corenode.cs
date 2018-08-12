@@ -32,9 +32,42 @@ namespace Moon.Nodes.service.core
         public ServiceCandleMarket()
         {
             Starter.core.Candles.CollectionChanged += BData_CollectionChanged;
+            Starter.core.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
+            Starter.core.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
             this.Manager = this.Sessions;
 
         }
+
+        private void BDataTradeSeller_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                var TraderSeller = (Binance.Net.Objects.BinanceStreamTrade)e.NewItems[0];
+                Messages Content = new Messages();
+                Content.Content = Newtonsoft.Json.JsonConvert.SerializeObject(TraderSeller);
+                Content.MessageType = TypeOfContent.Binance_TradesSeller;
+                Content.RootType = "BinanceTrade";
+                Content.TargetObject = "BinanceStreamTrade";
+                Send(Content.ToString());
+
+            }
+        }
+
+        private void BDataTradeBuyer_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                var TraderBuyer = (Binance.Net.Objects.BinanceStreamTrade)e.NewItems[0];
+                Messages Content = new Messages();
+                Content.Content = Newtonsoft.Json.JsonConvert.SerializeObject(TraderBuyer);
+                Content.MessageType = TypeOfContent.Binance_TradesBuyer;
+                Content.RootType = "BinanceTrade";
+                Content.TargetObject = "BinanceStreamTrade";
+                Send(Content.ToString());
+
+            }
+        }
+
         protected override void OnOpen()
         {
             base.OnOpen();
@@ -157,12 +190,14 @@ namespace Moon.Nodes.service.core
                 Console.WriteLine("Sending candle to suscribers");
                 Messages Content = new Messages();
                 Content.Content = candle.Jscontainer;
-                Content.MessageType = TypeOfContent.Candles;
+                Content.MessageType = TypeOfContent.Binance_Candles;
                 Content.RootType = candle.TypeOfData;
                 Content.TargetObject = "BinanceCandle";
                 Send(Content.ToString());
             }
         }
+
+
 
         protected override void OnMessage(MessageEventArgs e)
         {
