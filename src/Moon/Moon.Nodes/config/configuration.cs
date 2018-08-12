@@ -17,7 +17,7 @@ namespace Moon.Nodes.config
         public string NodeName { get; set; } = Environment.MachineName;
         public List<string> PairsNames { get; set; } = new List<string>();
         public string Jscontainer { get; set; }
-
+        public string TypeOfData { get; set; } = "Configuration";
         public Configuration()
         {
 

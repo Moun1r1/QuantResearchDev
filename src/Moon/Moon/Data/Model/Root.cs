@@ -10,5 +10,6 @@ namespace Moon.Data.Model
     {
         string Jscontainer { get; set; }
         void Update();
+        string TypeOfData { get; set; }
     }
 }

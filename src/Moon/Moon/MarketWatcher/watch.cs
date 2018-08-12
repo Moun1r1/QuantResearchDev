@@ -20,6 +20,7 @@ namespace Moon.MarketWatcher
     /// </summary>
    public class Statistics : Root
     {
+        public string TypeOfData { get; set; } = "MarketWatcher";
         private ICoinMarketCapClient client = new CoinMarketCapClient();
         public GlobalDataEntity Market { get; set; } = new GlobalDataEntity();
         public ObservableCollection<BinanceStreamKlineData> BWatcherKeysPairs { get; set; } = new ObservableCollection<BinanceStreamKlineData>();

@@ -37,6 +37,7 @@ namespace Moon.Data.Provider
         public List<BinanceCandle> GenericCandle = new List<BinanceCandle>();
         public ProviderMode Mode { get; set; } = ProviderMode.All;
         public string Jscontainer { get; set; }
+        public string TypeOfData { get; set; } = "Core";
 
         public Core()
         {

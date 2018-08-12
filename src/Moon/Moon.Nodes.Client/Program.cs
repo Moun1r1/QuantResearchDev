@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Moon.Data.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,23 @@ namespace Moon.Nodes.Client
 
             ws.OnMessage += (sender, e) =>
             {
-                dynamic receiver = JsonConvert.DeserializeObject<dynamic>(e.Data);
-                Console.WriteLine("Received: " + receiver.Properties);
+                try
+                {
+                    BinanceCandle receiver = JsonConvert.DeserializeObject<BinanceCandle>(e.Data);
+                    if(receiver is BinanceCandle)
+                    {
+                        receiver.Properties.ToList().ForEach(y =>
+                        {
+                            Console.WriteLine("Propertie Name : {0} - Value {1}", y.Key, y.Value);
+                        });
+
+                    }
+
+                }
+                catch
+                {
+
+                }
 
             };
 

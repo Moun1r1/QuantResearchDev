@@ -12,6 +12,7 @@ namespace Moon.Data.Exchanger
     {
         public BinanceClient Client { get; set; } = new Binance.Net.BinanceClient();
         public BinanceSocketClient Socket { get; set; } = new BinanceSocketClient();
+        public string TypeOfData { get; set; } = "BinanceConfig";
         public string Jscontainer { get; set; }
 
         public binance()
