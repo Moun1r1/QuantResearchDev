@@ -31,18 +31,18 @@ namespace Moon.Nodes.Client
                         case TypeOfContent.Binance_Candles:
                             var Candle = JsonConvert.DeserializeObject<BinanceCandle>(receiver.Content);
                             Candlesreceived.Add(Candle);
-                            Console.WriteLine("Received candle from node {0} - collection date : {1}", receiver.ContentNodeName, Candle.CollectedDate);
+                            Console.WriteLine("Pair - {0} : Received candle from node {1} - collection date : {2}",Candle.Name,receiver.ContentNodeName, Candle.CollectedDate);
                             break;
                         case TypeOfContent.Binance_TradesBuyer:
                             var TradeBuyer = JsonConvert.DeserializeObject<Binance.Net.Objects.BinanceStreamTrade> (receiver.Content);
                             Buyer.Add(TradeBuyer);
-                            Console.WriteLine("Received Buyer Trade from node {0} - execution date : {1}", receiver.ContentNodeName, TradeBuyer.EventTime);
+                            Console.WriteLine("Pair - {0} : Received Buyer Trade from node {1} - execution date : {2}",TradeBuyer.Symbol,receiver.ContentNodeName, TradeBuyer.EventTime);
 
                             break;
                         case TypeOfContent.Binance_TradesSeller:
                             var TradeSeller = JsonConvert.DeserializeObject<Binance.Net.Objects.BinanceStreamTrade>(receiver.Content);
                             Seller.Add(TradeSeller);
-                            Console.WriteLine("Received Seller Trade from node {0} - execution date : {1}", receiver.ContentNodeName, TradeSeller.EventTime);
+                            Console.WriteLine("Pair - {0} : Received Seller Trade from node {1} - execution date : {2}",TradeSeller.Symbol,receiver.ContentNodeName, TradeSeller.EventTime);
 
                             break;
                     }
@@ -66,6 +66,7 @@ namespace Moon.Nodes.Client
             while (ws.IsAlive != true)
             {
                 ws.Connect();
+                Console.WriteLine("Is Alive : {0}", ws.IsAlive);
             }
             ws.OnClose += Ws_OnClose;
             Console.ReadKey(true);

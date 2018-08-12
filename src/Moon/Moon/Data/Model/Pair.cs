@@ -40,6 +40,7 @@ namespace Moon.Data.Model
 
         public void Update()
         {
+            Console.WriteLine("Core - Candle container updating for : {0}", this.UID);
             this.Jscontainer = Newtonsoft.Json.JsonConvert.SerializeObject(this);
 
         }

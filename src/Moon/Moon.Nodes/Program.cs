@@ -25,14 +25,17 @@ namespace Moon.Nodes
         {
             //Config Loader
 
-
             //Market Watcher Start
-            Corenode Starter = new Corenode();
-            var wssv = new WebSocketServer(1346);
-            wssv.AddWebSocketService<ServiceCandleMarket>("/CandleMarket");
-            wssv.Start();
+
+
+                var wssv = new WebSocketServer(1346);
+                wssv.AddWebSocketService<ServiceCandleMarket>("/CandleMarket");
+                wssv.Start();
+                Console.ReadKey(true);
+                wssv.Stop();
+
+
             Console.ReadKey(true);
-            wssv.Stop();
 
         }
 

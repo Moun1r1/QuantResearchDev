@@ -21,13 +21,13 @@ namespace Moon.Nodes.service.core
         public Moon.Data.Provider.Core core = new Moon.Data.Provider.Core();
         public Corenode()
         {
-            core.SubscribeTo("BTCUSDT");
+            core.SubscribeTo("ETHUSDT");
 
         }
     }
     public class ServiceCandleMarket : WebSocketBehavior
     {
-        Corenode Starter = new Corenode();
+        public Corenode Starter { get; set; } = new Corenode();
         WebSocketSharp.Server.WebSocketSessionManager Manager;
         public ServiceCandleMarket()
         {
@@ -37,7 +37,14 @@ namespace Moon.Nodes.service.core
             this.Manager = this.Sessions;
 
         }
+        public void SetLinkTo(Corenode node)
+        {
+            Starter = node;
+            Starter.core.Candles.CollectionChanged += BData_CollectionChanged;
+            Starter.core.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
+            Starter.core.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
 
+        }
         private void BDataTradeSeller_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
@@ -72,6 +79,7 @@ namespace Moon.Nodes.service.core
         {
             base.OnOpen();
             this.Manager = this.Sessions;
+            Console.WriteLine("New Client : {0}", this.Sessions.Sessions.Last().ID);
         }
         private void BData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -160,22 +168,6 @@ namespace Moon.Nodes.service.core
                         candle.Properties.Add("isbreakinghistoricallowestlow", indexdcandles.IsBreakingHistoricalLowestLow());
                         candle.Properties.Add("isobvbearish", indexdcandles.IsObvBearish());
                         candle.Properties.Add("isobvbullish", indexdcandles.IsObvBullish());
-
-                        Console.WriteLine("RSI : {0}", rsi.Last().Tick);
-                        Console.WriteLine("BB : {0}", bb.Last().Tick);
-                        Console.WriteLine("MACD : {0}", macd.Last().Tick);
-
-                        Console.WriteLine("bearish : {0}", indexdcandles.IsBearish());
-                        Console.WriteLine("isbullish : {0}", indexdcandles.IsBullish());
-                        Console.WriteLine("isaccumdistbearish : {0}", indexdcandles.IsAccumDistBearish());
-                        Console.WriteLine("isaccumdistbullish : {0}", indexdcandles.IsAccumDistBullish());
-                        Console.WriteLine("closepricepercentagechange : {0}", indexdcandles.ClosePricePercentageChange());
-                        Console.WriteLine("closepricechange : {0}", indexdcandles.ClosePriceChange());
-                        Console.WriteLine("isbreakinghistoricalhighestclose : {0}", indexdcandles.IsBreakingHistoricalHighestClose());
-                        Console.WriteLine("isbreakinghistoricalhighesthigh : {0}", indexdcandles.IsBreakingHistoricalHighestHigh());
-                        Console.WriteLine("isbreakinghistoricallowestlow: {0} ", indexdcandles.IsBreakingHistoricalLowestLow());
-                        Console.WriteLine("isobvbearish: {0}", indexdcandles.IsObvBearish());
-                        Console.WriteLine("isobvbullish: {0}", indexdcandles.IsObvBullish());
                         candle.UpdateContainer();
                     }
 
@@ -183,7 +175,7 @@ namespace Moon.Nodes.service.core
                 catch { }
                 var LastBinanceCandle = (BinanceCandle)e.NewItems[0];
 
-                Console.WriteLine("Sending candle to suscribers");
+                Console.WriteLine("Market Node - Sending candle : {0} to suscribers",LastBinanceCandle.UID);
                 Messages Content = new Messages();
                 Content.Content = candle.Jscontainer;
                 Content.MessageType = TypeOfContent.Binance_Candles;

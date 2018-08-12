@@ -196,8 +196,16 @@ namespace Moon.Data.Provider
                         Standardize.Properties.Add(prop.Name, propValue);
                     }
                     Standardize.Update();
-                    Candles.Add(Standardize);
-                    Console.WriteLine("Candle is added to dictionary");
+                    try
+                    {
+                        Candles.Add(Standardize);
+                        Console.WriteLine("Core - Candle coming from  compute : {0}",Standardize.UID);
+
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("Exception during core candle add (computed) : {0} ", ex.Message); 
+                    }
                     //Until fix
                     try
                     {
@@ -237,12 +245,13 @@ namespace Moon.Data.Provider
         /// <param name="Pair"></param>
         public void SubscribeTo(string Pair)
         {
+            Console.WriteLine("Core - Starting thread for Kline Stream for : {0}", Pair);
             Task.Run(() =>
             {
                 var tick = this.bclient.Socket.SubscribeToKlineStreamAsync(Pair, KlineInterval.OneMinute, (data) =>
                 {
-                    //Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}",data.Symbol);
                     BData.Add(data);
+
                 });
 
                 while (Global.shared.Running)
@@ -250,6 +259,7 @@ namespace Moon.Data.Provider
                     System.Threading.Thread.Sleep(100);
                 }
             });
+            Console.WriteLine("Core - Starting thread for OrderBook Stream for : {0}", Pair);
 
             Task.Run(() =>
             {
@@ -266,12 +276,13 @@ namespace Moon.Data.Provider
 
 
             });
+            Console.WriteLine("Core - Starting thread for Trade Stream for : {0}", Pair);
 
             Task.Run(() =>
             {
                 var trades = this.bclient.Socket.SubscribeToTradesStreamAsync(Pair, (data) =>
                 {
-                    //Console.WriteLine("Debug - Provider Core - Receiving data from trade socket : {0}", data.Symbol);
+
                     if (!data.BuyerIsMaker)
                     {
                         BDataTradeSeller.Add(data);
