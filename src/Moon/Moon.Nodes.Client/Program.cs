@@ -13,6 +13,7 @@ namespace Moon.Nodes.Client
     class Program
     {
         public static WebSocketSharp.WebSocket ws = new WebSocketSharp.WebSocket("ws://localhost:1346/CandleMarket");
+        public static List<BinanceCandle> Candlesreceived = new List<BinanceCandle>();
         static void Main(string[] args)
         {
 
@@ -22,6 +23,14 @@ namespace Moon.Nodes.Client
                 try
                 {
                     Messages receiver = JsonConvert.DeserializeObject<Messages>(e.Data);
+                    switch(receiver.TargetObject)
+                    {
+                        case "BinanceCandle":
+                            var Candle = JsonConvert.DeserializeObject<BinanceCandle>(e.Data);
+                            Candlesreceived.Add(Candle);
+                            Console.WriteLine("Received candle from node {0} - collection date : {1}", receiver.ContentNodeName, Candle.CollectedDate);
+                            break;
+                    }
                     //if(receiver is BinanceCandle)
                     //{
                     //    receiver.Properties.ToList().ForEach(y =>
