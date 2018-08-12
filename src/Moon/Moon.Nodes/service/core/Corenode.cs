@@ -84,12 +84,8 @@ namespace Moon.Nodes.service.core
                 int countIndex = RawData.Count - 1;
                 var indexdcandles = new IndexedCandle(RawData, RawData.Count() - 1);
                 //public static class OhlcvExtension
-                var subclasses =
-                from assembly in AppDomain.CurrentDomain.GetAssemblies()
-                from type in assembly.GetTypes()
-                where type.IsSubclassOf(typeof(OhlcvExtension))
-                select type;
 
+                //zone to update with TA - Node (temporary here)
                 try
                 {
                     var rsi = RawData.Rsi(12, 0, countIndex);
