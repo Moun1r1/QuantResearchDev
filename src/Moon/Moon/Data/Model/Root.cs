@@ -8,6 +8,7 @@ namespace Moon.Data.Model
 {
    public interface Root
     {
-        string Jscontainer { get; set; } 
+        string Jscontainer { get; set; }
+        void Update();
     }
 }

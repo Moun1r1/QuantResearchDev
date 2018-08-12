@@ -20,7 +20,7 @@ namespace Moon.Data.Provider
         TicksAndTrades,
         All
     }
-    public class Core
+    public class Core: Root
     {
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
@@ -36,6 +36,8 @@ namespace Moon.Data.Provider
         public binance bclient { get; set; } = new binance();
         public List<BinanceCandle> GenericCandle = new List<BinanceCandle>();
         public ProviderMode Mode { get; set; } = ProviderMode.All;
+        public string Jscontainer { get; set; }
+
         public Core()
         {
             if(UseSender)
@@ -293,6 +295,9 @@ namespace Moon.Data.Provider
             this.bclient.Socket.UnsubscribeAllStreams();
         }
 
-
+        public void Update()
+        {
+            this.Jscontainer = Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
     }
 }

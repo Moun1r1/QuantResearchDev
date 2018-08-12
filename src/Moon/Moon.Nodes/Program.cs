@@ -148,7 +148,7 @@ namespace Moon.Nodes
                 var LastBinanceCandle = (BinanceCandle)e.NewItems[0];
 
                 Console.WriteLine("Sending candle to suscribers");
-               Send(candle.ConcatainedData);
+               Send(candle.Jscontainer);
             }
         }
 

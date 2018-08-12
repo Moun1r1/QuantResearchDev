@@ -16,7 +16,7 @@ namespace Moon.Data.Model
         Dictionary<string, dynamic> Properties { get; set; }
         Trady.Core.Candle Candle { get;set; }
     }
-    public class BinanceCandle : TableEntity,Pair
+    public class BinanceCandle : TableEntity,Pair,Root
     {
         
         public BinanceCandle(Trady.Core.Candle source)
@@ -35,11 +35,16 @@ namespace Moon.Data.Model
         }
         public void UpdateContainer()
         {
-            this.ConcatainedData = Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            Update();
+        }
+
+        public void Update()
+        {
+            this.Jscontainer = Newtonsoft.Json.JsonConvert.SerializeObject(this);
 
         }
+
         public double Pivot { get; set; }
-        public string ConcatainedData { get; set; } = string.Empty;
         public string UID { get; set; } = Guid.NewGuid().ToString();
         public Trady.Core.Candle Candle { get; set; }
         public FactorDefintion Factor { get; set; }
@@ -47,5 +52,6 @@ namespace Moon.Data.Model
         public string Exchanger { get; set; } = "Binance";
         public DateTime CollectedDate { get; set; } = DateTime.Now;
         public Dictionary<string, dynamic> Properties { get; set; } = new Dictionary<string, dynamic>();
+        public string Jscontainer { get; set; }
     }
 }

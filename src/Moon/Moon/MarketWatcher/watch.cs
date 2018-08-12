@@ -36,7 +36,8 @@ namespace Moon.MarketWatcher
 
         public List<TickerEntity> KeyPairsCapital { get; set; } = new List<TickerEntity>();
         public List<string> TopSymbol { get; set; } = new List<string>();
-        public string Jscontainer { get; set; } 
+        public string Jscontainer { get; set; }
+        public string ConcatainedData { get; set; }
 
         public Statistics()
         {
