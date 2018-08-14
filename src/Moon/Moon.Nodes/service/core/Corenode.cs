@@ -57,6 +57,9 @@ namespace Moon.Nodes.service.core
                 Content.TargetObject = "BinanceStreamTrade";
                 Send(Content.ToString());
 
+                try
+                { this.Starter.core.BDataTradeSeller.Clear();} catch{ }
+
             }
         }
 
@@ -71,6 +74,7 @@ namespace Moon.Nodes.service.core
                 Content.RootType = "BinanceTrade";
                 Content.TargetObject = "BinanceStreamTrade";
                 Send(Content.ToString());
+                this.Starter.core.BDataTradeBuyer.Clear();
 
             }
         }
@@ -181,11 +185,25 @@ namespace Moon.Nodes.service.core
                 Content.MessageType = TypeOfContent.Binance_Candles;
                 Content.RootType = candle.TypeOfData;
                 Content.TargetObject = "BinanceCandle";
-                Send(Content.ToString());
+                try
+                {
+                    Send(Content.ToString());
+                    this.Starter.core.Candles.Clear();
+                }
+                catch
+                {
+
+                }
+
             }
         }
 
-
+        protected override void OnError(ErrorEventArgs e)
+        {
+            this.Starter.core.UnsubscribeAllStreams();
+            Moon.Nodes.shared.Static.Manager.HandleIssue(NodeType.CoreNode);
+            Console.WriteLine("Candle Market Node - Exception thrown : {0}", e.Message);
+        }
 
         protected override void OnMessage(MessageEventArgs e)
         {

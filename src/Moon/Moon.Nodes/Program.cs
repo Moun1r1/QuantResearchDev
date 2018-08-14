@@ -28,12 +28,10 @@ namespace Moon.Nodes
             //Market Watcher Start
 
 
-                var wssv = new WebSocketServer(1346);
-                wssv.AddWebSocketService<ServiceCandleMarket>("/CandleMarket");
-                wssv.Start();
-                Console.ReadKey(true);
-                wssv.Stop();
-
+            Moon.Nodes.shared.Static.wssv = new WebSocketServer(1346);
+            Moon.Nodes.shared.Static.wssv.AddWebSocketService<ServiceCandleMarket>("/CandleMarket");
+            Moon.Nodes.shared.Static.wssv.Start();
+            Console.ReadKey();
 
             Console.ReadKey(true);
 
