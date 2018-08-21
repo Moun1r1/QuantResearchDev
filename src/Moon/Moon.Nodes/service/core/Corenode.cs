@@ -74,7 +74,10 @@ namespace Moon.Nodes.service.core
                 Content.RootType = "BinanceTrade";
                 Content.TargetObject = "BinanceStreamTrade";
                 Send(Content.ToString());
-                this.Starter.core.BDataTradeBuyer.Clear();
+                
+                try
+                { this.Starter.core.BDataTradeBuyer.Clear(); }
+                catch { }
 
             }
         }
