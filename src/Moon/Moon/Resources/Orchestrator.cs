@@ -54,7 +54,7 @@ namespace Moon.Resources
             public Action OperationCode { get; set; }
             public List<Task> OperationThreads { get; set; }
             public bool OperationIsSTA { get; set; }
-            public List<Exception> Errors { get; set; }
+            public List<Exception> Errors { get; set; } = new List<Exception>();
             public bool AllowMultipleException { get; set; }
             public bool ContiniousOperation { get; set; }
             public object ResultedObject { get; set; } = new object();

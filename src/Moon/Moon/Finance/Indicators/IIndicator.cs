@@ -21,6 +21,8 @@ namespace Moon.Finance.Indicators
     public interface IIndicatorStats
     {
         bool ShowErrors { get; set; }
+        bool OutputData { get; set; }
+
     }
     public interface IIndicator
     {
@@ -41,6 +43,7 @@ namespace Moon.Finance.Indicators
         public bool MultiInput { get; set; }
         public bool NeedExtraData { get; set; }
         public bool ShowErrors { get; set; }
+        public bool OutputData { get; set; }
 
         public virtual void FillData()
         {

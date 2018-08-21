@@ -61,6 +61,29 @@ namespace Moon.Data.Provider
         {
         }
 
+
+        /// <summary>
+        /// Get Data From Date X to Date Y on Symbol V
+        /// </summary>
+        /// <param name="From"></param>
+        /// <param name="To"></param>
+        /// <param name="Symbol"></param>
+        public void GetDataFromTo(DateTime From, DateTime To, string Symbol)
+        {
+            if(From > To) { throw new Exception(string.Format("From : {0} is superior to To : {1}", From, To));  }
+
+            var DayBetween = (To - From).TotalDays;
+            var CandleMin = this.bclient.Client.GetKlines(Symbol, KlineInterval.OneMinute, From, To, int.MaxValue);
+            var GroupPerHour = CandleMin.Data.GroupBy(y => y.CloseTime.Day);
+
+
+            //var data = IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
+
+
+        }
+
+
+
         /// <summary>
         /// Reinject all patterns
         /// </summary>

@@ -514,47 +514,50 @@ namespace Moon.Visualizer
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(Data_Datestart.Value.ToString() != Data_DateEnd.Value.ToString())
-            {
-                PlotModel = new PlotModel();
-                OxyPlot.Series.LineSeries CSS = new OxyPlot.Series.LineSeries();
-                OxyPlot.Series.LineSeries High = new OxyPlot.Series.LineSeries();
-                OxyPlot.Series.LineSeries low = new OxyPlot.Series.LineSeries();
 
-                CSS.Title = string.Format("Pair : " + textBox2.Text);
-                var data =  IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
+            IncomingBinance.GetDataFromTo(DateTime.Now.AddDays(-2), DateTime.Now, "BTCUSDT");
 
-                for(int i =0 ;i < data.Data.Length;i++)
-                {
-                    CSS.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].Close.ToString())));
-                    High.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].High.ToString())));
-                    low.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].Low.ToString())));
+            //if(Data_Datestart.Value.ToString() != Data_DateEnd.Value.ToString())
+            //{
+            //    PlotModel = new PlotModel();
+            //    OxyPlot.Series.LineSeries CSS = new OxyPlot.Series.LineSeries();
+            //    OxyPlot.Series.LineSeries High = new OxyPlot.Series.LineSeries();
+            //    OxyPlot.Series.LineSeries low = new OxyPlot.Series.LineSeries();
 
-                    //CSS.Items.Add(new OxyPlot.Series.LineSeries()
-                    //{
-                    //    X = i,
-                    //    Close = double.Parse(data.Data[i].Close.ToString()),
-                    //    High = double.Parse(data.Data[i].High.ToString()),
-                    //    Low = double.Parse(data.Data[i].Close.ToString()),
-                    //    Open = double.Parse(data.Data[i].Close.ToString())
-                    //});
-                }
-                Parallel.ForEach(data.Data, candle =>
-                {
+            //    CSS.Title = string.Format("Pair : " + textBox2.Text);
+            //    var data =  IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
+
+            //    for(int i =0 ;i < data.Data.Length;i++)
+            //    {
+            //        CSS.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].Close.ToString())));
+            //        High.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].High.ToString())));
+            //        low.Points.Add(new OxyPlot.DataPoint(i, double.Parse(data.Data[i].Low.ToString())));
+
+            //        //CSS.Items.Add(new OxyPlot.Series.LineSeries()
+            //        //{
+            //        //    X = i,
+            //        //    Close = double.Parse(data.Data[i].Close.ToString()),
+            //        //    High = double.Parse(data.Data[i].High.ToString()),
+            //        //    Low = double.Parse(data.Data[i].Close.ToString()),
+            //        //    Open = double.Parse(data.Data[i].Close.ToString())
+            //        //});
+            //    }
+            //    Parallel.ForEach(data.Data, candle =>
+            //    {
 
 
-                    //Data_Output.Text += candle.Close;
-                });
-                PlotModel.Series.Add(CSS);
-                PlotModel.Series.Add(High);
-                PlotModel.Series.Add(low);
-                plotView1.Model = PlotModel;
+            //        //Data_Output.Text += candle.Close;
+            //    });
+            //    PlotModel.Series.Add(CSS);
+            //    PlotModel.Series.Add(High);
+            //    PlotModel.Series.Add(low);
+            //    plotView1.Model = PlotModel;
 
-            }
-            else
-            {
-                MessageBox.Show("Starting Date Should not be the same of ending date");
-            }
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Starting Date Should not be the same of ending date");
+            //}
         }
 
         private void plotView1_Click(object sender, EventArgs e)

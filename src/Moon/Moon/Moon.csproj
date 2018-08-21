@@ -266,6 +266,7 @@
     <Compile Include="Data\Provider\core.cs" />
     <Compile Include="DNE\SourceMgmt.cs" />
     <Compile Include="Finance\Extender\Patterns.cs" />
+    <Compile Include="Finance\Indicators\IIndicator.cs" />
     <Compile Include="Finance\Indicators\RSI.cs" />
     <Compile Include="Finance\Model\Risk.cs" />
     <Compile Include="Finance\Risk\Core.cs" />

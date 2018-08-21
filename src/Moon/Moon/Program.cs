@@ -35,7 +35,7 @@ namespace Moon
             }
             catch
             {
-               throw new Exception("Config file should placed on a folder named Config with the config.json on the same bin path..");
+               //throw new Exception("Config file should placed on a folder named Config with the config.json on the same bin path..");
 
             }
 
@@ -43,10 +43,10 @@ namespace Moon
             try
             {
                 //Get-Azure DataTable 
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://127.0.0.1;");
-                CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
+                //CloudStorageAccount storageAccount = CloudStorageAccount.Parse("UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://127.0.0.1;");
+                //CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
 
-                Moon.Global.shared.table = tableClient.GetTableReference("kline");
+                //Moon.Global.shared.table = tableClient.GetTableReference("kline");
 
                 // Create the table if it doesn't exist.
                 //Moon.Global.shared.table.CreateIfNotExists();
