@@ -386,6 +386,21 @@ namespace Moon.Visualizer
         private void Candles_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var candle = (BinanceCandle)e.NewItems[0];
+
+            var wideness = 0.27m;
+            var s1 = candle.Candle.Low * (100 + wideness) / 100;
+            var l1 = candle.Candle.Low * (100 - wideness) / 100;
+            var l2 = candle.Candle.Low * (100 - wideness * 2) / 100;
+            var l3 = candle.Candle.Low * (100 - wideness * 3)  / 100;
+            var l4 = candle.Candle.Low * (100 - wideness * 4) / 100;
+
+            Console.WriteLine("Low : {0}", candle.Candle.Low);
+            Console.WriteLine("L1 : {0}", l1);
+            Console.WriteLine("L2 : {0}", l2);
+            Console.WriteLine("L3 : {0}", l3);
+            Console.WriteLine("L4 : {0}", l4);
+            Console.WriteLine("S1 : {0}", s1);
+
             string[] row = {candle.Name, candle.CollectedDate.ToLongTimeString(), candle.Candle.Open.ToString(), candle.Candle.Close.ToString(),
                 candle.Candle.Low.ToString(),
                 candle.Candle.High.ToString(),

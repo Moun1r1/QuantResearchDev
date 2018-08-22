@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moon.Finance.Extender
+namespace Moon.Finance.Indicators
 {
-    public class Patterns
+   public class Core
     {
+
     }
 }

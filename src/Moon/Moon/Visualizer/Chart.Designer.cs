@@ -88,22 +88,26 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.MarketRefresh = new System.Windows.Forms.Timer(this.components);
-            this.binancebtcpairmove = new System.Windows.Forms.Label();
-            this.binanceethpairmove = new System.Windows.Forms.Label();
-            this.binanceusdtpairmove = new System.Windows.Forms.Label();
-            this.binancebnbpairmove = new System.Windows.Forms.Label();
-            this.mostliquidbtc = new System.Windows.Forms.Label();
-            this.mostliquideth = new System.Windows.Forms.Label();
-            this.mostliquidusdt = new System.Windows.Forms.Label();
-            this.mostliquidbnb = new System.Windows.Forms.Label();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.mostliquidbnb = new System.Windows.Forms.Label();
+            this.mostliquidusdt = new System.Windows.Forms.Label();
+            this.mostliquideth = new System.Windows.Forms.Label();
+            this.mostliquidbtc = new System.Windows.Forms.Label();
+            this.binancebnbpairmove = new System.Windows.Forms.Label();
+            this.binanceusdtpairmove = new System.Windows.Forms.Label();
+            this.binanceethpairmove = new System.Windows.Forms.Label();
+            this.binancebtcpairmove = new System.Windows.Forms.Label();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.MarketRefresh = new System.Windows.Forms.Timer(this.components);
             this.DataLoader.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabPage5.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,6 +117,9 @@
             this.DataLoader.Controls.Add(this.tabPage2);
             this.DataLoader.Controls.Add(this.tabPage3);
             this.DataLoader.Controls.Add(this.tabPage4);
+            this.DataLoader.Controls.Add(this.tabPage5);
+            this.DataLoader.Controls.Add(this.tabPage6);
+            this.DataLoader.Controls.Add(this.tabPage7);
             this.DataLoader.Dock = System.Windows.Forms.DockStyle.Left;
             this.DataLoader.Location = new System.Drawing.Point(0, 0);
             this.DataLoader.Name = "DataLoader";
@@ -376,7 +383,6 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.marketnews);
             this.tabPage2.Controls.Add(this.marketupdate);
@@ -644,99 +650,15 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // MarketRefresh
+            // tabPage5
             // 
-            this.MarketRefresh.Enabled = true;
-            this.MarketRefresh.Interval = 30000;
-            this.MarketRefresh.Tick += new System.EventHandler(this.MarketRefresh_Tick);
-            // 
-            // binancebtcpairmove
-            // 
-            this.binancebtcpairmove.AutoSize = true;
-            this.binancebtcpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.binancebtcpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.binancebtcpairmove.Location = new System.Drawing.Point(22, 36);
-            this.binancebtcpairmove.Name = "binancebtcpairmove";
-            this.binancebtcpairmove.Size = new System.Drawing.Size(204, 26);
-            this.binancebtcpairmove.TabIndex = 8;
-            this.binancebtcpairmove.Text = "Load Data Collector";
-            // 
-            // binanceethpairmove
-            // 
-            this.binanceethpairmove.AutoSize = true;
-            this.binanceethpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.binanceethpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.binanceethpairmove.Location = new System.Drawing.Point(22, 86);
-            this.binanceethpairmove.Name = "binanceethpairmove";
-            this.binanceethpairmove.Size = new System.Drawing.Size(204, 26);
-            this.binanceethpairmove.TabIndex = 9;
-            this.binanceethpairmove.Text = "Load Data Collector";
-            // 
-            // binanceusdtpairmove
-            // 
-            this.binanceusdtpairmove.AutoSize = true;
-            this.binanceusdtpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.binanceusdtpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.binanceusdtpairmove.Location = new System.Drawing.Point(22, 139);
-            this.binanceusdtpairmove.Name = "binanceusdtpairmove";
-            this.binanceusdtpairmove.Size = new System.Drawing.Size(204, 26);
-            this.binanceusdtpairmove.TabIndex = 10;
-            this.binanceusdtpairmove.Text = "Load Data Collector";
-            // 
-            // binancebnbpairmove
-            // 
-            this.binancebnbpairmove.AutoSize = true;
-            this.binancebnbpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.binancebnbpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.binancebnbpairmove.Location = new System.Drawing.Point(22, 190);
-            this.binancebnbpairmove.Name = "binancebnbpairmove";
-            this.binancebnbpairmove.Size = new System.Drawing.Size(204, 26);
-            this.binancebnbpairmove.TabIndex = 11;
-            this.binancebnbpairmove.Text = "Load Data Collector";
-            // 
-            // mostliquidbtc
-            // 
-            this.mostliquidbtc.AutoSize = true;
-            this.mostliquidbtc.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mostliquidbtc.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.mostliquidbtc.Location = new System.Drawing.Point(650, 36);
-            this.mostliquidbtc.Name = "mostliquidbtc";
-            this.mostliquidbtc.Size = new System.Drawing.Size(204, 26);
-            this.mostliquidbtc.TabIndex = 12;
-            this.mostliquidbtc.Text = "Load Data Collector";
-            // 
-            // mostliquideth
-            // 
-            this.mostliquideth.AutoSize = true;
-            this.mostliquideth.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mostliquideth.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.mostliquideth.Location = new System.Drawing.Point(650, 86);
-            this.mostliquideth.Name = "mostliquideth";
-            this.mostliquideth.Size = new System.Drawing.Size(204, 26);
-            this.mostliquideth.TabIndex = 13;
-            this.mostliquideth.Text = "Load Data Collector";
-            // 
-            // mostliquidusdt
-            // 
-            this.mostliquidusdt.AutoSize = true;
-            this.mostliquidusdt.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mostliquidusdt.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.mostliquidusdt.Location = new System.Drawing.Point(650, 139);
-            this.mostliquidusdt.Name = "mostliquidusdt";
-            this.mostliquidusdt.Size = new System.Drawing.Size(204, 26);
-            this.mostliquidusdt.TabIndex = 14;
-            this.mostliquidusdt.Text = "Load Data Collector";
-            // 
-            // mostliquidbnb
-            // 
-            this.mostliquidbnb.AutoSize = true;
-            this.mostliquidbnb.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mostliquidbnb.ForeColor = System.Drawing.Color.CornflowerBlue;
-            this.mostliquidbnb.Location = new System.Drawing.Point(650, 190);
-            this.mostliquidbnb.Name = "mostliquidbnb";
-            this.mostliquidbnb.Size = new System.Drawing.Size(204, 26);
-            this.mostliquidbnb.TabIndex = 15;
-            this.mostliquidbnb.Text = "Load Data Collector";
+            this.tabPage5.Controls.Add(this.groupBox2);
+            this.tabPage5.Location = new System.Drawing.Point(4, 22);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Size = new System.Drawing.Size(1735, 1031);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "Binance Market Stats";
+            this.tabPage5.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -751,12 +673,124 @@
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.groupBox2.Location = new System.Drawing.Point(398, 8);
+            this.groupBox2.Location = new System.Drawing.Point(8, 17);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1123, 260);
-            this.groupBox2.TabIndex = 7;
+            this.groupBox2.Size = new System.Drawing.Size(1377, 424);
+            this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Binance market";
+            // 
+            // mostliquidbnb
+            // 
+            this.mostliquidbnb.AutoSize = true;
+            this.mostliquidbnb.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mostliquidbnb.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.mostliquidbnb.Location = new System.Drawing.Point(22, 383);
+            this.mostliquidbnb.Name = "mostliquidbnb";
+            this.mostliquidbnb.Size = new System.Drawing.Size(204, 26);
+            this.mostliquidbnb.TabIndex = 15;
+            this.mostliquidbnb.Text = "Load Data Collector";
+            // 
+            // mostliquidusdt
+            // 
+            this.mostliquidusdt.AutoSize = true;
+            this.mostliquidusdt.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mostliquidusdt.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.mostliquidusdt.Location = new System.Drawing.Point(22, 332);
+            this.mostliquidusdt.Name = "mostliquidusdt";
+            this.mostliquidusdt.Size = new System.Drawing.Size(204, 26);
+            this.mostliquidusdt.TabIndex = 14;
+            this.mostliquidusdt.Text = "Load Data Collector";
+            // 
+            // mostliquideth
+            // 
+            this.mostliquideth.AutoSize = true;
+            this.mostliquideth.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mostliquideth.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.mostliquideth.Location = new System.Drawing.Point(22, 279);
+            this.mostliquideth.Name = "mostliquideth";
+            this.mostliquideth.Size = new System.Drawing.Size(204, 26);
+            this.mostliquideth.TabIndex = 13;
+            this.mostliquideth.Text = "Load Data Collector";
+            // 
+            // mostliquidbtc
+            // 
+            this.mostliquidbtc.AutoSize = true;
+            this.mostliquidbtc.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mostliquidbtc.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.mostliquidbtc.Location = new System.Drawing.Point(22, 229);
+            this.mostliquidbtc.Name = "mostliquidbtc";
+            this.mostliquidbtc.Size = new System.Drawing.Size(204, 26);
+            this.mostliquidbtc.TabIndex = 12;
+            this.mostliquidbtc.Text = "Load Data Collector";
+            // 
+            // binancebnbpairmove
+            // 
+            this.binancebnbpairmove.AutoSize = true;
+            this.binancebnbpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.binancebnbpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.binancebnbpairmove.Location = new System.Drawing.Point(22, 190);
+            this.binancebnbpairmove.Name = "binancebnbpairmove";
+            this.binancebnbpairmove.Size = new System.Drawing.Size(204, 26);
+            this.binancebnbpairmove.TabIndex = 11;
+            this.binancebnbpairmove.Text = "Load Data Collector";
+            // 
+            // binanceusdtpairmove
+            // 
+            this.binanceusdtpairmove.AutoSize = true;
+            this.binanceusdtpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.binanceusdtpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.binanceusdtpairmove.Location = new System.Drawing.Point(22, 139);
+            this.binanceusdtpairmove.Name = "binanceusdtpairmove";
+            this.binanceusdtpairmove.Size = new System.Drawing.Size(204, 26);
+            this.binanceusdtpairmove.TabIndex = 10;
+            this.binanceusdtpairmove.Text = "Load Data Collector";
+            // 
+            // binanceethpairmove
+            // 
+            this.binanceethpairmove.AutoSize = true;
+            this.binanceethpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.binanceethpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.binanceethpairmove.Location = new System.Drawing.Point(22, 86);
+            this.binanceethpairmove.Name = "binanceethpairmove";
+            this.binanceethpairmove.Size = new System.Drawing.Size(204, 26);
+            this.binanceethpairmove.TabIndex = 9;
+            this.binanceethpairmove.Text = "Load Data Collector";
+            // 
+            // binancebtcpairmove
+            // 
+            this.binancebtcpairmove.AutoSize = true;
+            this.binancebtcpairmove.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.binancebtcpairmove.ForeColor = System.Drawing.Color.CornflowerBlue;
+            this.binancebtcpairmove.Location = new System.Drawing.Point(22, 36);
+            this.binancebtcpairmove.Name = "binancebtcpairmove";
+            this.binancebtcpairmove.Size = new System.Drawing.Size(204, 26);
+            this.binancebtcpairmove.TabIndex = 8;
+            this.binancebtcpairmove.Text = "Load Data Collector";
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(1735, 1031);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "tabPage6";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(1735, 1031);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "tabPage7";
+            this.tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // MarketRefresh
+            // 
+            this.MarketRefresh.Enabled = true;
+            this.MarketRefresh.Interval = 30000;
+            this.MarketRefresh.Tick += new System.EventHandler(this.MarketRefresh_Tick);
             // 
             // Chart
             // 
@@ -778,6 +812,7 @@
             this.tabPage4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabPage5.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -846,6 +881,7 @@
         private System.Windows.Forms.TextBox PairStr;
         private System.Windows.Forms.Button PairName;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label mostliquidbnb;
         private System.Windows.Forms.Label mostliquidusdt;
@@ -855,5 +891,7 @@
         private System.Windows.Forms.Label binanceusdtpairmove;
         private System.Windows.Forms.Label binanceethpairmove;
         private System.Windows.Forms.Label binancebtcpairmove;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.TabPage tabPage7;
     }
 }
