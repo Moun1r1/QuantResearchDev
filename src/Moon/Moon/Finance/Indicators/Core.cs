@@ -19,7 +19,13 @@ namespace Moon.Finance.Indicators
         }
         public void LinkMeToo(Moon.Data.Provider.Core core)
         {
+            this.provider = core;
+            this.provider.BData.CollectionChanged += HandleData;
+        }
 
+        private void HandleData(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            //compute all ta 
         }
     }
 }
