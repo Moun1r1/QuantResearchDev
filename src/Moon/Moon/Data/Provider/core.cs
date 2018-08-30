@@ -2,6 +2,7 @@
 using Microsoft.WindowsAzure.Storage.Table;
 using Moon.Data.Bacher;
 using Moon.Data.Exchanger;
+using Moon.Data.Extender;
 using Moon.Data.Model;
 using System;
 using System.Collections.Generic;
@@ -75,6 +76,12 @@ namespace Moon.Data.Provider
             var DayBetween = (To - From).TotalDays;
             var CandleMin = this.bclient.Client.GetKlines(Symbol, KlineInterval.OneMinute, From, To, int.MaxValue);
             var GroupPerHour = CandleMin.Data.GroupBy(y => y.CloseTime.Day);
+            if(CandleMin.Data.Last().CloseTime < To)
+            {
+                Console.WriteLine("Getting more candles from request..");
+                CandleMin = this.bclient.Client.GetKlines(Symbol, KlineInterval.OneMinute, CandleMin.Data.Last().CloseTime, To, int.MaxValue);
+
+            }
 
 
             //var data = IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
@@ -198,6 +205,7 @@ namespace Moon.Data.Provider
         /// <param name="e"></param>
         private void BData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            BData.Purge();
             //Data caching and moving to Azure Data Table logic goes here 
             switch(e.Action)
             {

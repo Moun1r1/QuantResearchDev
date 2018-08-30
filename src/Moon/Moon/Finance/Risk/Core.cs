@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moon.Data.Accounting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,25 @@ using System.Threading.Tasks;
 
 namespace Moon.Finance.Risk
 {
-    class Core
+    public enum ParkingLevel
     {
+        Low,
+        Middle,
+        High
+    }
+    public class Parking
+    {
+        public Account account { get; set; }
+        public ParkingLevel exposure { get; set; }
+        public Parking()
+        {
+
+        }
+        internal void Analyze ()
+        {
+
+
+        }
     }
 
    

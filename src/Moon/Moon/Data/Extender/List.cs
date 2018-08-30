@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,26 @@ namespace Moon.Data.Extender
             return s / (end - start);
         }
 
+
+        public static ObservableCollection<T> Purge<T>(this ObservableCollection<T> list)
+        {
+            if (list.Count() > Moon.Global.shared.MaxLiveListTick)
+            {
+                list.ToList().RemoveRange(Global.shared.MaxLiveListTick -1, list.Count());
+            }
+
+            return list;
+        }
+
+        public static List<T> Purge<T>(this List<T> list)
+        {
+            if(list.Count() > Moon.Global.shared.MaxLiveListTick)
+            {
+                list.RemoveRange(Global.shared.MaxLiveListTick, list.Count() - 1);
+            }
+
+            return list;
+        }
 
         public static decimal Mean(this List<decimal> values)
         {
