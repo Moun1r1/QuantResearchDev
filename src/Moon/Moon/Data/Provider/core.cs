@@ -68,14 +68,38 @@ namespace Moon.Data.Provider
         /// <param name="From"></param>
         /// <param name="To"></param>
         /// <param name="Symbol"></param>
-        public void GetDataFromTo(DateTime From, DateTime To, string Symbol)
+        public List<BinanceStreamKlineData> GetDataFromTo(DateTime From, DateTime To, string Symbol)
         {
-            if(From > To) { throw new Exception(string.Format("From : {0} is superior to To : {1}", From, To));  }
+            Console.WriteLine("Core - Loading data for : {0}", Symbol);
+
+            if (From > To) { throw new Exception(string.Format("From : {0} is superior to To : {1}", From, To));  }
 
             var DayBetween = (To - From).TotalDays;
             var CandleMin = this.bclient.Client.GetKlines(Symbol, KlineInterval.OneMinute, From, To, int.MaxValue);
             var GroupPerHour = CandleMin.Data.GroupBy(y => y.CloseTime.Day);
+            List<BinanceStreamKlineData> returned = new List<BinanceStreamKlineData>();
+            foreach(var data in CandleMin.Data)
+            {
+                BinanceStreamKlineData formated = new BinanceStreamKlineData();
+                formated.Data = new BinanceStreamKline();
+                formated.EventTime = data.CloseTime;
+                formated.Symbol = Symbol;
+                formated.Data.Close = data.Close;
+                formated.Data.CloseTime = data.CloseTime;
+                formated.Data.Final = true;
+                formated.Data.High = data.High;
+                formated.Data.Low = data.Low;
+                formated.Data.OpenTime = data.OpenTime;
+                formated.Data.Symbol = Symbol;
+                formated.Data.Open = data.Open;
+                formated.Data.Volume = data.Volume;
+                formated.Data.TakerBuyBaseAssetVolume = data.TakerBuyBaseAssetVolume;
+                formated.Data.TakerBuyQuoteAssetVolume = data.TakerBuyQuoteAssetVolume;
+                formated.Data.TradeCount = data.TradeCount;
+                returned.Add(formated);
 
+            }
+            return returned;
 
             //var data = IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
 
@@ -269,6 +293,7 @@ namespace Moon.Data.Provider
         public void SubscribeTo(string Pair)
         {
             Console.WriteLine("Core - Starting thread for Kline Stream for : {0}", Pair);
+
             Task.Run(() =>
             {
                 var tick = this.bclient.Socket.SubscribeToKlineStreamAsync(Pair, KlineInterval.OneMinute, (data) =>

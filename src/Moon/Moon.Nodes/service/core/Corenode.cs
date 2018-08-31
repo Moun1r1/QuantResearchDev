@@ -35,6 +35,7 @@ namespace Moon.Nodes.service.core
             Starter.core.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
             Starter.core.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
             this.Manager = this.Sessions;
+            //Starter.core.GetDataFromTo(From: DateTime.Now.AddDays(-1), To: DateTime.Now, Symbol: "ETHUSDT");
 
         }
         public void SetLinkTo(Corenode node)
@@ -151,6 +152,7 @@ namespace Moon.Nodes.service.core
                         candle.Properties.Add("BearishPeriodic_L1", Bearish.Compute(12).Last().Tick);
                         candle.Properties.Add("UptrendPeriodic_L1", trendup.Compute(12).Last().Tick);
                         candle.Properties.Add("DowntrendPeriodic_L1", trenddown.Compute(12).Last().Tick);
+                        Console.WriteLine(candle.ToString());
 
                         //candle.Properties.Add("BullishPeriodic_L2", Bullish.Compute(24).Last().Tick);
                         //candle.Properties.Add("BearishPeriodic_L2", Bearish.Compute(24).Last().Tick);
