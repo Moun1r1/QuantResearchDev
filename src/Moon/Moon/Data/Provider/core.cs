@@ -21,7 +21,7 @@ namespace Moon.Data.Provider
         TicksAndTrades,
         All
     }
-    public class Core: Root
+    public class Core: IRoot
     {
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
@@ -44,11 +44,11 @@ namespace Moon.Data.Provider
         {
             if(UseSender)
             {
-                this.Sender = new WebSocket(string.Format("ws://localhost:1345/{0}", Moon.Global.shared.ConfigUri.CandleMarketPath));
+                this.Sender = new WebSocket(string.Format("ws://localhost:1345/{0}", Moon.Global.Shared.ConfigUri.CandleMarketPath));
                 this.Sender.Connect();
 
             }
-            if (Global.shared.table != null)
+            if (Global.Shared.table != null)
             {
                 LoadAlldata();
             }
@@ -138,6 +138,11 @@ namespace Moon.Data.Provider
                 //LastBinanceCandle.Properties.Add("IsObvBullish", indexdcandles.IsObvBullish());
             }
 
+            Task.Run(() =>
+            {
+                System.Threading.Thread.Sleep(1000);
+                Candles.Purge();
+            });
 
         }
 
@@ -145,7 +150,7 @@ namespace Moon.Data.Provider
         {
             try
             {
-                if(Global.shared.table != null)
+                if(Global.Shared.table != null)
                 {
                     Task.Run(() =>
                     {
@@ -153,7 +158,7 @@ namespace Moon.Data.Provider
                         {
                             TableQuery<BinanceCandle> query = new TableQuery<BinanceCandle>();
 
-                            var content = Global.shared.table.ExecuteQuery(query);
+                            var content = Global.Shared.table.ExecuteQuery(query);
                             if (content.Count() > 0)
                             {
                                 foreach (var oldcandles in content)
@@ -206,7 +211,7 @@ namespace Moon.Data.Provider
                     //}
                 });
 
-                while (Global.shared.Running)
+                while (Global.Shared.Running)
                 {
                     System.Threading.Thread.Sleep(100);
                 }
@@ -224,7 +229,6 @@ namespace Moon.Data.Provider
         /// <param name="e"></param>
         private void BData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            BData.Purge();
             //Data caching and moving to Azure Data Table logic goes here 
             switch(e.Action)
             {
@@ -285,6 +289,8 @@ namespace Moon.Data.Provider
                 case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
                     break;
             }
+
+
         }
 
 
@@ -305,7 +311,7 @@ namespace Moon.Data.Provider
 
                 });
 
-                while (Global.shared.Running)
+                while (Global.Shared.Running)
                 {
                     System.Threading.Thread.Sleep(100);
                 }
@@ -320,7 +326,7 @@ namespace Moon.Data.Provider
                      if (BBookData.Count > 2) BBookData.RemoveAt(0);
 
                  });
-                while (Global.shared.Running)
+                while (Global.Shared.Running)
                 {
                     System.Threading.Thread.Sleep(1000);
                 }
@@ -343,7 +349,7 @@ namespace Moon.Data.Provider
                         BDataTradeBuyer.Add(data);
                     }
                 });
-                while (Global.shared.Running)
+                while (Global.Shared.Running)
                 {
                     System.Threading.Thread.Sleep(100);
                 }

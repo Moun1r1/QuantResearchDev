@@ -29,20 +29,35 @@ namespace Moon.Data.Extender
 
         public static ObservableCollection<T> Purge<T>(this ObservableCollection<T> list)
         {
-            if (list.Count() > Moon.Global.shared.MaxLiveListTick)
+            var temp = list;
+            try
             {
-                list.ToList().RemoveRange(Global.shared.MaxLiveListTick -1, list.Count());
-            }
+                if (temp.Count() > Moon.Global.Shared.MaxLiveListTick)
+                {
+                    for (int i = Global.Shared.MaxLiveListTick; i < temp.Count(); i++)
+                    {
+                        temp.RemoveAt(0);
+                    }
+                }
 
-            return list;
+            }
+            catch (Exception ex) { }
+
+
+            return temp;
         }
 
         public static List<T> Purge<T>(this List<T> list)
         {
-            if(list.Count() > Moon.Global.shared.MaxLiveListTick)
+            if (list.Count() > Moon.Global.Shared.MaxLiveListTick)
             {
-                list.RemoveRange(Global.shared.MaxLiveListTick, list.Count() - 1);
+                for (int i = Global.Shared.MaxLiveListTick; i < list.Count(); i++)
+                {
+                    list.RemoveAt(0);
+                }
             }
+
+            return list;
 
             return list;
         }

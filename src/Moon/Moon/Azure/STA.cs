@@ -16,4 +16,19 @@ namespace Moon.Azure
 
         }
     }
+
+    public class TableRoute
+    {
+        public string Name { get; set; }
+        public string SourceClass { get; set; }
+        public string TargetTable { get; set; }
+        public bool UsePropertiesList { get; set; } = false;
+
+
+        public TableRoute()
+        {
+
+        }
+
+    }
 }

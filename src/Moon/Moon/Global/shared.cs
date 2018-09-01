@@ -10,7 +10,7 @@ using static Moon.Resources.Management;
 
 namespace Moon.Global
 {
-    public static class shared
+    public static class Shared
     {
         public static ConfigGlobal Config = new ConfigGlobal();
         public static Perf Manager = new Perf();

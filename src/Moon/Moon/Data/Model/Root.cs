@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.Model
 {
-   public interface Root
+   public interface IRoot
     {
         string Jscontainer { get; set; }
         void Update();

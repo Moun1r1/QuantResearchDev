@@ -15,6 +15,11 @@ using Newtonsoft.Json;
 using Moon.Config;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
+using Serilog;
+using Bitmex.Client.Websocket.Requests;
+using Bitmex.Client.Websocket.Client;
+using Bitmex.Client.Websocket;
+using Bitmex.Client.Websocket.Websockets;
 
 namespace Moon
 {
@@ -30,7 +35,7 @@ namespace Moon
                 {
                     string json = r.ReadToEnd();
                     var items = JsonConvert.DeserializeObject<ConfigGlobal>(json);
-                    Moon.Global.shared.Config = items;
+                    Moon.Global.Shared.Config = items;
                 }
             }
             catch
@@ -58,13 +63,13 @@ namespace Moon
 
 
 
-
-            //Core IncomingBinance = new Core();
-
+            //Global.shared.IncomingBinance.bclient.SetApiKeys("API Key", "Api Secret");
 
             ////IncomingBinance.SubscribeTo("ETHBTC");
             Application.EnableVisualStyles();
             Application.Run(new Chart()); // or whatever
+
+
 
             //IncomingBinance.SubscribeTo("BTCUSDT");
             //IncomingBinance.SubscribeTo("BTCXLM");
@@ -73,10 +78,13 @@ namespace Moon
             //{
             //    Console.WriteLine("Data Open : {0}", data.Data.Open);
             //});
-            while (true)
-            {
-                System.Threading.Thread.Sleep(500);
-            }
+
+            Console.ReadKey();
+
+            //while (true)
+            //{
+            //    System.Threading.Thread.Sleep(500);
+            //}
         }
     }
 }

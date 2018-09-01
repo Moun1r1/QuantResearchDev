@@ -12,9 +12,22 @@ namespace Moon.Data.Model
         Bitmex,
         Bitfinex
     }
-    public class Exchanger
+    public interface IExchanger
     {
+        Exchange Platform { get; set; }
+        string Name { get; set; }
+        string Provider { get; set; }
 
+
+        DateTime UpateSince { get; set; }
+        DateTime StartedSince { get; set; }
+
+        bool Init();
+        bool Connect();
+        bool Updte();
+        bool Close();
+        bool GetByTime(DateTime Start, DateTime End, string symbol);
+        
 
     }
 }

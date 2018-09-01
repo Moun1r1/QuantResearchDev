@@ -10,6 +10,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.ServiceModel.Syndication;
+using Moon.Data.Extender;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
@@ -43,7 +44,6 @@ namespace Moon.Visualizer
         public string LastUID = string.Empty;
         public ChartValues<ObservableValue> Seller { get; set; } = new ChartValues<ObservableValue>();
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-        Core IncomingBinance = new Core();
         private ChartValues<OhlcPoint> candlesvalues = new ChartValues<OhlcPoint>();
         public LiveCharts.SeriesCollection SeriesCollection { get; set; }
         public Chart()
@@ -79,7 +79,7 @@ namespace Moon.Visualizer
 
             });
             GetMarketDataOperation.ContiniousAction = GetMarketDataOperation.OperationCode;
-            Global.shared.Manager.ToManage.Add(GetMarketDataOperation);
+            Global.Shared.Manager.ToManage.Add(GetMarketDataOperation);
 
 
         }
@@ -133,7 +133,7 @@ namespace Moon.Visualizer
 
             });
             GetMarketDataOperation.ContiniousAction = GetMarketDataOperation.OperationCode;
-            Global.shared.Manager.ToManage.Add(GetMarketDataOperation);
+            Global.Shared.Manager.ToManage.Add(GetMarketDataOperation);
 
 
         }
@@ -151,7 +151,7 @@ namespace Moon.Visualizer
                 try
                 {
                     FormUtils.ClearListItem(marketnews);
-                    foreach (var source in Moon.Global.shared.Config.NewsSource)
+                    foreach (var source in Moon.Global.Shared.Config.NewsSource)
                     {
                         string url = source.Uri;
                         XmlReader reader = XmlReader.Create(url);
@@ -196,7 +196,7 @@ namespace Moon.Visualizer
                 }
             });
             GetMarketNewsOperation.ContiniousAction = GetMarketNewsOperation.OperationCode;
-            Global.shared.Manager.ToManage.Add(GetMarketNewsOperation);
+            Global.Shared.Manager.ToManage.Add(GetMarketNewsOperation);
 
 
         }
@@ -215,6 +215,8 @@ namespace Moon.Visualizer
 
         private void BBookData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            Global.Shared.IncomingBinance.BBookData.Purge();
+     
             if(e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 var bookdata = (BinanceStreamOrderBook)e.NewItems[0];
@@ -227,15 +229,15 @@ namespace Moon.Visualizer
                         var correspondingBookBidLine = bookdata.Bids[i];
                         var AskLine = Ask[i];
                         var BidLine = Bids[i];
-                        if(AskLine.Weight != double.Parse(correspondingBookAskLine.Quantity.ToString()) || AskLine.Y != double.Parse(correspondingBookAskLine.Price.ToString()))
+                        if(AskLine.Weight != correspondingBookAskLine.Quantity.ChangeType<double>() || AskLine.Y != correspondingBookAskLine.Price.ChangeType<double>())
                         {
-                            AskLine.Weight = double.Parse(bookdata.Asks[i].Quantity.ToString());
-                            AskLine.Y = double.Parse(bookdata.Asks[i].Price.ToString());
+                            AskLine.Weight = bookdata.Asks[i].Quantity.ChangeType<double>();
+                            AskLine.Y = bookdata.Asks[i].Price.ChangeType<double>();
                         }
-                        if (BidLine.Weight != double.Parse(correspondingBookBidLine.Quantity.ToString()) || BidLine.Y != double.Parse(correspondingBookBidLine.Price.ToString()))
+                        if (BidLine.Weight != correspondingBookBidLine.Quantity.ChangeType<double>() || BidLine.Y != correspondingBookBidLine.Price.ChangeType<double>())
                         {
-                            BidLine.Weight = double.Parse(bookdata.Bids[i].Quantity.ToString());
-                            BidLine.Y = double.Parse(bookdata.Bids[i].Price.ToString());
+                            BidLine.Weight = bookdata.Bids[i].Quantity.ChangeType<double>();
+                            BidLine.Y = bookdata.Bids[i].Price.ChangeType<double>();
                         }
 
 
@@ -440,13 +442,13 @@ namespace Moon.Visualizer
                 solidGauge1.Invoke((MethodInvoker)delegate
                 {
                     solidGauge1.Value = candle.Properties.Where(y => y.Key.ToString().Contains("TradeCount")).First().Value;
-                    solidGauge1.To = IncomingBinance.BData.Select(y => y.Data.TradeCount).Max();
+                    solidGauge1.To = Global.Shared.IncomingBinance.BData.Select(y => y.Data.TradeCount).Max();
                 });
 
                 solidGauge2.Invoke((MethodInvoker)delegate
                 {
                     solidGauge2.Value = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("Volume")).First().Value.ToString());
-                    solidGauge2.To = Double.Parse(IncomingBinance.BData.Select(y => y.Data.Volume).Max().ToString());
+                    solidGauge2.To = Double.Parse(Global.Shared.IncomingBinance.BData.Select(y => y.Data.Volume).Max().ToString());
 
                 });
                 Double TakerVolume = Double.Parse(candle.Properties.Where(y => y.Key.ToString().Contains("TakerBuyBaseAssetVolume")).First().Value.ToString());
@@ -530,7 +532,7 @@ namespace Moon.Visualizer
         private void button1_Click(object sender, EventArgs e)
         {
 
-            IncomingBinance.GetDataFromTo(DateTime.Now.AddDays(-2), DateTime.Now, "BTCUSDT");
+            Global.Shared.IncomingBinance.GetDataFromTo(DateTime.Now.AddDays(-2), DateTime.Now, "BTCUSDT");
 
             //if(Data_Datestart.Value.ToString() != Data_DateEnd.Value.ToString())
             //{
@@ -540,7 +542,7 @@ namespace Moon.Visualizer
             //    OxyPlot.Series.LineSeries low = new OxyPlot.Series.LineSeries();
 
             //    CSS.Title = string.Format("Pair : " + textBox2.Text);
-            //    var data =  IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
+            //    var data =  Global.shared.IncomingBinance.bclient.Client.GetKlines(textBox2.Text, KlineInterval.OneHour, Data_Datestart.Value, Data_DateEnd.Value, int.MaxValue);
 
             //    for(int i =0 ;i < data.Data.Length;i++)
             //    {
@@ -593,16 +595,16 @@ namespace Moon.Visualizer
                 RunAllPairSuscriber().GetAwaiter().GetResult();
 
             });
-            Global.shared.Manager.ToManage.Add(GetAllpairsContent);
-            IncomingBinance.RegisterAllMarket();
-            Market.SetAllBinancePairWatcher(IncomingBinance);
+            Global.Shared.Manager.ToManage.Add(GetAllpairsContent);
+            Global.Shared.IncomingBinance.RegisterAllMarket();
+            Market.SetAllBinancePairWatcher(Global.Shared.IncomingBinance);
             LoadMarketTA();
 
         }
 
         public async Task RunAllPairSuscriber()
         {
-            var data = await IncomingBinance.bclient.Client.GetAllPricesAsync();
+            var data = await Global.Shared.IncomingBinance.bclient.Client.GetAllPricesAsync();
             data.Data.ToList().ForEach(y =>
             {
                 //y.Price
@@ -638,11 +640,11 @@ namespace Moon.Visualizer
                         }
                     };
 
-            IncomingBinance.SubscribeTo(PairStr.Text);
-            IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
-            IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
-            IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
-            IncomingBinance.BBookData.CollectionChanged += BBookData_CollectionChanged;
+            Global.Shared.IncomingBinance.SubscribeTo(PairStr.Text);
+            Global.Shared.IncomingBinance.Candles.CollectionChanged += Candles_CollectionChanged;
+            Global.Shared.IncomingBinance.BDataTradeSeller.CollectionChanged += BDataTradeSeller_CollectionChanged;
+            Global.Shared.IncomingBinance.BDataTradeBuyer.CollectionChanged += BDataTradeBuyer_CollectionChanged;
+            Global.Shared.IncomingBinance.BBookData.CollectionChanged += BBookData_CollectionChanged;
             #endregion
 
             cartesianChart3.Series.Add(new HeatSeries
@@ -701,7 +703,7 @@ namespace Moon.Visualizer
 
         private void button3_Click_1(object sender, EventArgs e)
         {
-            IncomingBinance.UnsubscribeAllStreams();
+            Global.Shared.IncomingBinance.UnsubscribeAllStreams();
 
         }
     }

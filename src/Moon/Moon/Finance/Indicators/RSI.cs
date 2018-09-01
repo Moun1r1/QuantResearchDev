@@ -18,7 +18,7 @@ namespace Moon.Finance.Indicators
         public bool NeedExtraData { get; set; } = false;
         public bool ShowErrors { get; set; } = true;
         public bool OutputData { get; set; } = true;
-        public ObservableCollection<Pair> Data = new ObservableCollection<Pair>();
+        public ObservableCollection<IPair> Data = new ObservableCollection<IPair>();
         public RSI()
         {
             Console.WriteLine("Custom TA - Starting :  {0}", this.Name);

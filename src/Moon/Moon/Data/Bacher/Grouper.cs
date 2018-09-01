@@ -16,8 +16,8 @@ namespace Moon.Data.Bacher
     }
     public class Grouper
     {
-        public ObservableCollection<Pair> SourceData { get; set; } = new ObservableCollection<Pair>();
-        public Dictionary<DateTime, Pair> PerMinuteGroup { get; set; } = new Dictionary<DateTime, Pair>();
+        public ObservableCollection<IPair> SourceData { get; set; } = new ObservableCollection<IPair>();
+        public Dictionary<DateTime, IPair> PerMinuteGroup { get; set; } = new Dictionary<DateTime, IPair>();
         public string Exchanger { get; set; } = "Binance";
         public Grouper()
         {

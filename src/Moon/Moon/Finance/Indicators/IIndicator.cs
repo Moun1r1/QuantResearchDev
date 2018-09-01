@@ -34,7 +34,7 @@ namespace Moon.Finance.Indicators
         bool MultiTimeFrame { get; set; }
         bool MultiInput { get; set; }
         bool NeedExtraData { get; set; }
-        ObservableCollection<Pair> Data { get; set; }
+        ObservableCollection<IPair> Data { get; set; }
         
 
     }
@@ -48,7 +48,7 @@ namespace Moon.Finance.Indicators
         public bool NeedExtraData { get; set; }
         public bool ShowErrors { get; set; }
         public bool OutputData { get; set; }
-        public ObservableCollection<Pair> Data { get; set; }
+        public ObservableCollection<IPair> Data { get; set; }
 
         public virtual void FillData()
         {

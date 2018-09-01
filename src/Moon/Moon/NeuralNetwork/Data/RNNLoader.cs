@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moon.NeuralNetwork.Data
 {
-    class RNNLoader
+    public class RNNLoader
     {
     }
 }

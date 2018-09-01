@@ -98,7 +98,7 @@ namespace Moon.Resources
                 MonitoringRunningThread();
                 Task.Factory.StartNew(() =>
                 {
-                while (Global.shared.Running)
+                while (Global.Shared.Running)
                     {
                         Process Me = Process.GetCurrentProcess();
                         MemoryUsage = Me.PrivateMemorySize64;

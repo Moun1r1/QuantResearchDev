@@ -18,7 +18,7 @@ namespace Moon.MarketWatcher
     /// <summary>
     /// Instance to create after (direct link)
     /// </summary>
-   public class Statistics : Root
+   public class Statistics : IRoot
     {
         public string TypeOfData { get; set; } = "MarketWatcher";
         private ICoinMarketCapClient client = new CoinMarketCapClient();
@@ -106,7 +106,7 @@ namespace Moon.MarketWatcher
         public void Update()
         {
             this.Market = client.GetGlobalDataAsync(CoinMarketCap.Enums.ConvertEnum.USD).Result;
-            this.KeyPairsCapital = client.GetTickerListAsync(Global.shared.Config.Config_MarketWatcher_vars.First().KeysPairsToLoad, CoinMarketCap.Enums.ConvertEnum.USD).Result;
+            this.KeyPairsCapital = client.GetTickerListAsync(Global.Shared.Config.Config_MarketWatcher_vars.First().KeysPairsToLoad, CoinMarketCap.Enums.ConvertEnum.USD).Result;
             this.TopSymbol = this.KeyPairsCapital.Select(y => y.Symbol).ToList();
             this.Jscontainer = Newtonsoft.Json.JsonConvert.SerializeObject(this);
 

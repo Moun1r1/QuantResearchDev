@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Nodes.config
 {
-    public class Configuration : Root
+    public class Configuration : IRoot
     {
         public bool Azure_ArchiverRole { get; set; } = false;
         public bool Finance_TAProcessor { get; set; } = false;

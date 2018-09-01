@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.Model
 {
-    public interface Pair
+    public interface IPair : IModel
     {
         string Name { get; set; }
         string Exchanger { get; set; }
@@ -16,7 +16,7 @@ namespace Moon.Data.Model
         Dictionary<string, dynamic> Properties { get; set; }
         Trady.Core.Candle Candle { get;set; }
     }
-    public class BinanceCandle : TableEntity,Pair,Root
+    public class BinanceCandle : TableEntity,IPair,IRoot
     {
         
         public BinanceCandle(Trady.Core.Candle source)
@@ -63,5 +63,8 @@ namespace Moon.Data.Model
         public DateTime CollectedDate { get; set; } = DateTime.Now;
         public Dictionary<string, dynamic> Properties { get; set; } = new Dictionary<string, dynamic>();
         public string Jscontainer { get; set; }
+        public string ModelDomain { get; set; } = "Provider";
+        public string ModelId { get; set; } = "59bf4213-e145-4ead-b0f5-ba237b786965";
+        public DateTime ModelLastChange { get; set; } = DateTime.Parse("31/08/2018");
     }
 }

@@ -253,11 +253,14 @@
   <ItemGroup>
     <Compile Include="Azure\STA.cs" />
     <Compile Include="Config\Configuration.cs" />
+    <Compile Include="Data\Accounting\Core.cs" />
     <Compile Include="Data\Bacher\Grouper.cs" />
     <Compile Include="Data\Exchanger\binance.cs" />
     <Compile Include="Data\Exchanger\bitmex.cs" />
+    <Compile Include="Data\Extender\Converter.cs" />
     <Compile Include="Data\Extender\List.cs" />
     <Compile Include="Data\History\DataProvider.cs" />
+    <Compile Include="Data\Model\Exchanger.cs" />
     <Compile Include="Data\Model\Factors.cs" />
     <Compile Include="Data\Model\Messages.cs" />
     <Compile Include="Data\Model\Pair.cs" />
@@ -292,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Moon.Data.Exchanger.binance.datasource" />
     <None Include="Properties\DataSources\Moon.Data.Provider.Core.datasource" />
