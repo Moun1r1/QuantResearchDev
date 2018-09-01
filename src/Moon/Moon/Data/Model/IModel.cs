@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.Model
 {
+
+    /// <summary>
+    /// Root Model Class
+    /// </summary>
     public interface IModel : IRoot
     {
         string ModelName { get; set; }
         string ModelDomain { get; set; }
         string ModelId { get; set; }
-        DateTime LastModelChange { get; set; }
+        DateTime ModelLastChange { get; set; }
 
 
     }
