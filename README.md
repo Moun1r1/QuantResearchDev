@@ -65,3 +65,6 @@ Concept
 
 ### Azure Data Table storage
 ![cloudstorage](/media/AzureTableStorage.png)
+
+## Credits
+Bitmex - Bitfinex - Trady (with love) - Ninja
