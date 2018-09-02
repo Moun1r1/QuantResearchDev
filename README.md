@@ -63,3 +63,5 @@ Concept
 ### Real Time overall market sentiment and capital
 ![MarketSent](/media/MarketSentiment.png)
 
+### Azure Data Table storage
+![cloudstorage](/media/AzureTableStorage.png)
