@@ -50,3 +50,6 @@ Concept
 
 ### Market Automatic Pairs detections
 ![Waller](/media/MarketAutoExtract.JPG)
+
+### Real time market broadcaster
+![Market](/media/broadcaster.JPG)
