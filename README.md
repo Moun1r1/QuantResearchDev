@@ -68,7 +68,7 @@ Concept
 ![cloudstorage](/media/AzureTableStorage.png)
 
 ### Some custom TA 
-![DynamicId](/media/DAT.jpg)
+![DynamicId](/media/DAT.JPG)
 
 ## Credits
 Bitmex - Bitfinex - Trady (with love) - Ninja
