@@ -47,3 +47,6 @@ Concept
 ## Interface Overview
 ### Real Time wall bounce overview
 ![Waller](/media/Waller.JPG)
+
+### Market Automatic Pairs detections
+![Waller](/media/MarketAutoExtract.JPG)
