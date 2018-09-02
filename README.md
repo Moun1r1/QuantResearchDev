@@ -56,3 +56,10 @@ Concept
 
 ### Real time trady trading pattern & ta in server node
 ![TANode](/media/RTTA.JPG)
+
+### Real time binance market all pairs movement
+![MarketMovement](/media/RTAMarket.JPG)
+
+### Real Time overall market sentiment and capital
+![MarketSent](/media/MarketSentiment.png)
+
