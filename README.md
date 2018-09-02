@@ -33,6 +33,7 @@ Concept
 ![GitHub Logo](/media/DataModel.jpg)
 
 ## Concept
+- IDWN 
 - IExchanger -> Platform
 - IIndicator -> TA virtual method override
 - IIMarket -> Stream all market pairs to built sentiment, retrace and corelate news
@@ -65,6 +66,9 @@ Concept
 
 ### Azure Data Table storage
 ![cloudstorage](/media/AzureTableStorage.png)
+
+### Some custom TA 
+![DynamicId](/media/DAT.jpg)
 
 ## Credits
 Bitmex - Bitfinex - Trady (with love) - Ninja
