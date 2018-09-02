@@ -53,3 +53,6 @@ Concept
 
 ### Real time market broadcaster
 ![Market](/media/broadcaster.JPG)
+
+### Real time trady trading pattern & ta in server node
+![TANode](/media/RTTA.JPG)
