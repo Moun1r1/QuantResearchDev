@@ -1,4 +1,4 @@
-# QuantResearchDev
+# QuantResearchDev by Moon Hedge Fund 
 
 ![GitHub Logo](/media/logo.png)
 
