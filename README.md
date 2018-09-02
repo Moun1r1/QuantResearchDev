@@ -32,3 +32,17 @@ Concept
 ## Data Model
 ![GitHub Logo](/media/DataModel.jpg)
 
+## Concept
+- IExchanger -> Platform
+- IIndicator -> TA virtual method override
+- IIMarket -> Stream all market pairs to built sentiment, retrace and corelate news
+- INode -> Restream to node using websocket all moon roles
+- IInterface -> Use modelized view for UI rendering
+- Performance -> manage resources allocation and repeated task through timespan
+- Risk -> Risk model using RMSI (Tree based risk management) (Identify - Avoid - Hold - Transfer)
+- Risk Parking -> Parking hodler statisticals follower and manager
+- DNA -> Dynamic code agent to change runtime logic
+- RNN -> Recurent Neural Network to predict slope / direction
+
+## Interface Overview
+
