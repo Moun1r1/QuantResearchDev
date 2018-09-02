@@ -6,6 +6,9 @@ https://discord.gg/Qq4MVVV
 
 Quant Research dev & Traders open source project
 
+## Who is Moon ? 
+A community of traders & coders that want to spread some good logic to improve the overral knowledge of automated trading (no identity nor invite will ever be provided to join us, we are closed)
+
 ## User stories
 
  - I want to be able to run backtests against 1 coin pair
