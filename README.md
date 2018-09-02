@@ -70,6 +70,9 @@ Concept
 ### Some custom TA 
 ![DynamicId](/media/DAT.JPG)
 
+## Release v0.1
+Best effort for EOY 2018.
+
 ## Credits
 - Bitmex (for the good market making codes) 
 - Bitfinex (for the code websocket srv)  
