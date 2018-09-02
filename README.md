@@ -71,4 +71,7 @@ Concept
 ![DynamicId](/media/DAT.JPG)
 
 ## Credits
-Bitmex (for the good market making codes) - Bitfinex (for the code websocket srv)  - Trady (with love) - Ninja (for the good design)
+- Bitmex (for the good market making codes) 
+- Bitfinex (for the code websocket srv)  
+- Trady (with love) 
+- Ninja (for the good design)
