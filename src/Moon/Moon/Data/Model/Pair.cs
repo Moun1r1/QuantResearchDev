@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.Model
 {
-    public interface IPair : IModel
+    public interface IPair 
     {
         string Name { get; set; }
         string Exchanger { get; set; }

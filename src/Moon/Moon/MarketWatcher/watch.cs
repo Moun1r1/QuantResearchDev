@@ -46,6 +46,7 @@ namespace Moon.MarketWatcher
         public void SetAllBinancePairWatcher(Core source)
         {
             source.BAllPairsData.CollectionChanged += BAllPairsData_CollectionChanged;
+            source.RegisterAllMarket();
         }
 
         private void BAllPairsData_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
