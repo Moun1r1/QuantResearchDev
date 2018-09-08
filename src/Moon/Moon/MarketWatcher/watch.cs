@@ -43,7 +43,7 @@ namespace Moon.MarketWatcher
         {
         }
 
-        public void SetAllBinancePairWatcher(Core source)
+        public void SetAllBinancePairWatcher(BinanceProvier source)
         {
             source.BAllPairsData.CollectionChanged += BAllPairsData_CollectionChanged;
             source.RegisterAllMarket();

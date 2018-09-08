@@ -10,9 +10,32 @@ namespace Moon.Data.Bacher
 {
     public enum TimeRange
     {
-        onemin,
-        fivemin,
-        tenmin
+        Minute,
+        Minute2,
+        Minute3,
+        Minute4,
+        Minute5,
+        Minute6,
+        Minute7,
+        Minute8,
+        Minute9,
+        Minute10,
+        Minute15,
+        Minute20,
+        Minute30,
+        Minute45,
+        Hour,
+        Hour2,
+        Hour3,
+        Hour4,
+        Hour6,
+        Hour8,
+        Hour12,
+        Daily,
+        Day2,
+        Day3,
+        Weekly,
+        Monthly
     }
     public class Grouper
     {

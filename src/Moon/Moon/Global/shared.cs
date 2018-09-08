@@ -16,7 +16,7 @@ namespace Moon.Global
         public static Perf Manager = new Perf();
         public static NodeUri ConfigUri = new NodeUri();
         public static bool StoreInLocalAzureDB = true;
-        public static Core IncomingBinance = new Core();
+        public static BinanceProvier IncomingBinance = new BinanceProvier();
         public static bool Running = true;
         public static CloudTable table = null;
         public static int MaxLiveListTick = 20;

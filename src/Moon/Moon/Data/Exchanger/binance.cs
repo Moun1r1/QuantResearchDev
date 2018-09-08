@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.Exchanger
 {
-    public class binance:IRoot
+    public class BinanceExchanger:IRoot
     {
         public BinanceClient Client { get; set; } = new Binance.Net.BinanceClient();
         public BinanceSocketClient Socket { get; set; } = new BinanceSocketClient();
@@ -20,7 +20,7 @@ namespace Moon.Data.Exchanger
         public string TypeOfData { get; set; } = "BinanceConfig";
         public string Jscontainer { get; set; }
 
-        public binance()
+        public BinanceExchanger()
         {
             this.Account = new Accounting.Account(this);
 

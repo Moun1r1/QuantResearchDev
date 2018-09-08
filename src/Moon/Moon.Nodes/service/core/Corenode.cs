@@ -18,7 +18,7 @@ namespace Moon.Nodes.service.core
 {
    public class Corenode
     {
-        public Moon.Data.Provider.Core core = new Moon.Data.Provider.Core();
+        public Moon.Data.Provider.BinanceProvier core = new Moon.Data.Provider.BinanceProvier();
         public Corenode()
         {
             core.SubscribeTo("ETHUSDT");

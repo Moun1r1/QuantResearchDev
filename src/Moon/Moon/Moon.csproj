@@ -43,6 +43,9 @@
     <Reference Include="CoinMarketCap, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CoinMarketCapClient.1.1.1\lib\net45\CoinMarketCap.dll</HintPath>
     </Reference>
+    <Reference Include="Common.Controls">
+      <HintPath>C:\Users\labai\AppData\Local\Apps\2.0\0X058RM5.3MO\ZCTM9RPL.8M4\xtrader_37dabdf737419672_0003.0002_c9b7ed90cd2bbd9e\Common.Controls.dll</HintPath>
+    </Reference>
     <Reference Include="CryptoExchange.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CryptoExchange.Net.0.0.31\lib\netstandard2.0\CryptoExchange.Net.dll</HintPath>
     </Reference>
@@ -254,7 +257,8 @@
     <Compile Include="Azure\STA.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="Data\Accounting\Core.cs" />
-    <Compile Include="Data\Bacher\Grouper.cs" />
+    <Compile Include="Data\Extender\CandlesSeries.cs" />
+    <Compile Include="Data\Time\Grouper.cs" />
     <Compile Include="Data\Exchanger\binance.cs" />
     <Compile Include="Data\Exchanger\bitmex.cs" />
     <Compile Include="Data\Extender\Converter.cs" />
@@ -285,17 +289,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Provider\ExchangeOnline.cs" />
+    <Compile Include="Provider\Signals.cs" />
+    <Compile Include="Provider\TradingView.cs" />
     <Compile Include="Resources\Orchestrator.cs" />
     <Compile Include="Resources\Perf.cs" />
-    <Compile Include="Visualizer\Chart.cs" />
-    <Compile Include="Visualizer\Chart.Designer.cs">
-      <DependentUpon>Chart.cs</DependentUpon>
+    <Compile Include="Strategy\IStrategy.cs" />
+    <Compile Include="Visualizer\Form1.cs" />
+    <Compile Include="Visualizer\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Visualizer\Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visualizer\Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
     <Compile Include="Visualizer\FormUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Moon.Data.Exchanger.binance.datasource" />
     <None Include="Properties\DataSources\Moon.Data.Provider.Core.datasource" />
@@ -305,8 +318,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Visualizer\Chart.resx">
-      <DependentUpon>Chart.cs</DependentUpon>
+    <EmbeddedResource Include="Visualizer\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

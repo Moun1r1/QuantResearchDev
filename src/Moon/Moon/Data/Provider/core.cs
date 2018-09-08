@@ -21,7 +21,7 @@ namespace Moon.Data.Provider
         TicksAndTrades,
         All
     }
-    public class Core: IRoot
+    public class BinanceProvier: IRoot
     {
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
@@ -34,13 +34,13 @@ namespace Moon.Data.Provider
         public WebSocket Sender { get; set; }
         public bool UseSender { get; set; } = false;
         public ObservableCollection<BinanceCandle> Candles { get; set; } = new ObservableCollection<BinanceCandle>();
-        public binance bclient { get; set; } = new binance();
+        public BinanceExchanger bclient { get; set; } = new BinanceExchanger();
         public List<BinanceCandle> GenericCandle = new List<BinanceCandle>();
         public ProviderMode Mode { get; set; } = ProviderMode.All;
         public string Jscontainer { get; set; }
         public string TypeOfData { get; set; } = "Core";
 
-        public Core()
+        public BinanceProvier()
         {
             if(UseSender)
             {
@@ -148,42 +148,43 @@ namespace Moon.Data.Provider
 
         private void LoadAlldata()
         {
-            try
-            {
-                if(Global.Shared.table != null)
-                {
-                    Task.Run(() =>
-                    {
-                        try
-                        {
-                            TableQuery<BinanceCandle> query = new TableQuery<BinanceCandle>();
+            throw new NotImplementedException();
+            //try
+            //{
+            //    if(Global.Shared.table != null)
+            //    {
+            //        Task.Run(() =>
+            //        {
+            //            //try
+            //            //{
+            //            //    TableQuery<BinanceCandle> query = new TableQuery<BinanceCandle>();
 
-                            var content = Global.Shared.table.ExecuteQuery(query);
-                            if (content.Count() > 0)
-                            {
-                                foreach (var oldcandles in content)
-                                {
-                                    var olddata = Newtonsoft.Json.JsonConvert.DeserializeObject<BinanceCandle>(oldcandles.Jscontainer);
-                                    CandlesTable.Add(olddata);
-                                    Console.WriteLine("Loaded : {0} on History Table", CandlesTable.Count());
-                                }
+            //            //    var content = Global.Shared.table.ExecuteQuery(query);
+            //            //    if (content.Count() > 0)
+            //            //    {
+            //            //        foreach (var oldcandles in content)
+            //            //        {
+            //            //            var olddata = Newtonsoft.Json.JsonConvert.DeserializeObject<BinanceCandle>(oldcandles.Jscontainer);
+            //            //            CandlesTable.Add(olddata);
+            //            //            Console.WriteLine("Loaded : {0} on History Table", CandlesTable.Count());
+            //            //        }
 
-                            }
+            //            //    }
 
-                        }
-                        catch (Exception ex)
-                        {
+            //            //}
+            //            //catch (Exception ex)
+            //            //{
 
-                        }
+            //            //}
 
-                    });
+            //        });
 
-                }
-            }
-            catch
-            {
+            //    }
+            //}
+            //catch
+            //{
 
-            }
+            //}
         }
 
         public void RegisterAllMarket()

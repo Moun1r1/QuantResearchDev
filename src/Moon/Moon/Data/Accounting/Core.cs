@@ -26,9 +26,9 @@ namespace Moon.Data.Accounting
 
 
 
-        public Moon.Data.Exchanger.binance Service { get; set; }
+        public Moon.Data.Exchanger.BinanceExchanger Service { get; set; }
 
-        public Account(Moon.Data.Exchanger.binance svc)
+        public Account(Moon.Data.Exchanger.BinanceExchanger svc)
         {
             this.Service = svc;
         }

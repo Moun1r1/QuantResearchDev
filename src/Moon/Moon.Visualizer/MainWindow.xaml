@@ -1,12 +1,18 @@
-﻿<Window x:Class="Moon.Visualizer.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Moon.Visualizer"
+        xmlns:Charts="clr-namespace:Core.Charts;assembly=Core.Charts" xmlns:Orders="clr-namespace:Common.Controls.Controls.Orders;assembly=Common.Controls" xmlns:TextBox="clr-namespace:Common.Controls.Controls.TextBox;assembly=Common.Controls" xmlns:DockZone="clr-namespace:cTrader.Views.Controls.DockZone;assembly=cTrader.Views" x:Class="Moon.Visualizer.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
+
+
+        <TextBox:TextBox HorizontalAlignment="Left" Height="23" Margin="46,168,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+
+        <DockZone:StackPanel HorizontalAlignment="Left" Height="213" Margin="84,40,0,0" VerticalAlignment="Top" Width="201" Background="Black"/>
+
     </Grid>
 </Window>

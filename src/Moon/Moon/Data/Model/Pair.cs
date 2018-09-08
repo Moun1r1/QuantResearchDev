@@ -16,21 +16,15 @@ namespace Moon.Data.Model
         Dictionary<string, dynamic> Properties { get; set; }
         Trady.Core.Candle Candle { get;set; }
     }
-    public class BinanceCandle : TableEntity,IPair,IRoot
+    public class BinanceCandle : IPair,IRoot
     {
         
         public BinanceCandle(Trady.Core.Candle source)
         {
-            this.PartitionKey = Guid.NewGuid().ToString().Replace("-", "");
-            this.RowKey = Guid.NewGuid().ToString().Replace("-", "");
-            this.Timestamp = DateTime.Now;
             this.Pivot = source.Dpivot();
         }
         public BinanceCandle()
         {
-            this.PartitionKey = Guid.NewGuid().ToString().Replace("-", "");
-            this.RowKey = Guid.NewGuid().ToString().Replace("-", "");
-            this.Timestamp = DateTime.Now;
 
         }
         public void UpdateContainer()

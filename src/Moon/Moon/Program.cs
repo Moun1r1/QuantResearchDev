@@ -20,6 +20,7 @@ using Bitmex.Client.Websocket.Requests;
 using Bitmex.Client.Websocket.Client;
 using Bitmex.Client.Websocket;
 using Bitmex.Client.Websocket.Websockets;
+using Moon.Data.Extender;
 
 namespace Moon
 {
@@ -62,22 +63,17 @@ namespace Moon
             }
 
 
+            //Configure Api Key for svc management
 
             //Global.shared.IncomingBinance.bclient.SetApiKeys("API Key", "Api Secret");
+            Global.Shared.IncomingBinance.SubscribeTo("BTCUSDT");
+            CandlesSeries seriehandle = new CandlesSeries();
+            seriehandle.ConnectBinance(Global.Shared.IncomingBinance);
+            //Application.EnableVisualStyles();
+            //Application.Run(new Chart()); // or whatever
 
-            ////IncomingBinance.SubscribeTo("ETHBTC");
-            Application.EnableVisualStyles();
-            Application.Run(new Chart()); // or whatever
 
 
-
-            //IncomingBinance.SubscribeTo("BTCUSDT");
-            //IncomingBinance.SubscribeTo("BTCXLM");
-
-            //var tick = IncomingBinance.bclient.Socket.SubscribeToKlineStreamAsync("ETHBTC", KlineInterval.OneMinute, (data) =>
-            //{
-            //    Console.WriteLine("Data Open : {0}", data.Data.Open);
-            //});
 
             Console.ReadKey();
 
