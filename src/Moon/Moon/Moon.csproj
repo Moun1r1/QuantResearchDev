@@ -259,6 +259,7 @@
     <Compile Include="Data\Accounting\Core.cs" />
     <Compile Include="Data\Extender\CandlesSeries.cs" />
     <Compile Include="Data\Model\ISignalProvider.cs" />
+    <Compile Include="Data\Model\ITradingType.cs" />
     <Compile Include="Data\Time\Grouper.cs" />
     <Compile Include="Data\Exchanger\binance.cs" />
     <Compile Include="Data\Exchanger\bitmex.cs" />

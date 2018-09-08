@@ -89,13 +89,14 @@ namespace Moon
                 Console.WriteLine("Loaded strategy : {0}", sub.Name);
                 var Typefofstrat = (DefaultStrategyConf) Attribute.GetCustomAttribute(sub, typeof(DefaultStrategyConf));
                 var TimeRange = (StratTimeRangeOptionnal)Attribute.GetCustomAttribute(sub, typeof(StratTimeRangeOptionnal));
-
+                var tradetype = (TradingLogicAttribute)Attribute.GetCustomAttribute(sub, typeof(TradingLogicAttribute));
                 Console.WriteLine("\tType : {0}", Typefofstrat.StratyType);
                 Console.WriteLine("\tExchanger  : {0}", Typefofstrat.Exchanger);
                 Console.WriteLine("\tName  : {0}", Typefofstrat.Name);
                 Console.WriteLine("\tAutoStart  : {0}", Typefofstrat.AutoStart);
                 Console.WriteLine("\tRevision  : {0}", Typefofstrat.Revision);
                 Console.WriteLine("\tSignalFrom  : {0}", Typefofstrat.SignalFrom);
+                Console.WriteLine("\tTrading Type : {0}", tradetype.RunKind);
                 Console.WriteLine("\tTimeRange : {0}", TimeRange.PeriodNeed);
 
             }

@@ -29,6 +29,9 @@ namespace Moon.Data.Model
         }
     }
 
+
+
+
     /// <summary>
     /// Type of Strategy
     /// </summary>

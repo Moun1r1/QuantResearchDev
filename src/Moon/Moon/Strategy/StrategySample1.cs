@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 namespace Moon.Strategy
 {
     [DefaultStrategyConf(StrategyType.Mono,Exchange.Binance,"Sample1",true,SignalSource.CustomPeriod)]
+    [TradingLogicAttribute(RunTradingType.Paper)]
     [StratTimeRangeOptionnal(TimeRange.Minute5)]
     public class MyStrategyTest : StrategyCore, IStrategy
     {
