@@ -1,28 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moon.Data.Provider;
-using Binance.Net.Objects;
-using System.Windows.Forms;
-using Moon.Visualizer;
-using CoinMarketCap;
-using CoinMarketCap.Core;
-using Moon.MarketWatcher;
-using System.IO;
-using Newtonsoft.Json;
-using Moon.Config;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
-using Serilog;
-using Bitmex.Client.Websocket.Requests;
-using Bitmex.Client.Websocket.Client;
-using Bitmex.Client.Websocket;
-using Bitmex.Client.Websocket.Websockets;
+﻿using Moon.Config;
 using Moon.Data.Extender;
-using System.Reflection;
 using Moon.Data.Model;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace Moon
 {
@@ -98,6 +82,9 @@ namespace Moon
                 Console.WriteLine("\tSignalFrom  : {0}", Typefofstrat.SignalFrom);
                 Console.WriteLine("\tTrading Type : {0}", tradetype.RunKind);
                 Console.WriteLine("\tTimeRange : {0}", TimeRange.PeriodNeed);
+                var CreateStrategyFromAssembly = Activator.CreateInstance(sub);
+
+                //put parameter class from reflexion here
 
             }
             //Configure Api Key for svc management
