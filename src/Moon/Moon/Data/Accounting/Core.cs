@@ -12,7 +12,7 @@ namespace Moon.Data.Accounting
     /// <summary>
     /// Root Accounting Class
     /// </summary>
-    public class Account
+    public class Account : IRoot
     {
         public Exchange Platform { get; set; } = Exchange.Binance;
         public string Name { get; set; } = "Unknown";
@@ -27,6 +27,8 @@ namespace Moon.Data.Accounting
 
 
         public Moon.Data.Exchanger.BinanceExchanger Service { get; set; }
+        public string Jscontainer { get; set; }
+        public string TypeOfData { get; set; } = "Accounting";
 
         public Account(Moon.Data.Exchanger.BinanceExchanger svc)
         {
@@ -61,6 +63,11 @@ namespace Moon.Data.Accounting
 
                 Console.WriteLine("Pair {0} - had balance of {1}", y.Asset, y.Free);
             });
+        }
+
+        public void Update()
+        {
+            throw new NotImplementedException();
         }
     }
 

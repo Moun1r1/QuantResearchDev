@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Moon.Strategy
+namespace Moon.Data.Model
 {
     public enum StrategyType
     {
@@ -33,27 +33,26 @@ namespace Moon.Strategy
     /// Type of Strategy
     /// </summary>
     [AttributeUsage(AttributeTargets.All)]
-    public class TypeOfStrat : Attribute
+    public class DefaultStrategyConf : Attribute
     {
         public StrategyType StratyType { get; set; }
-        public TypeOfStrat(StrategyType _StratType)
+        public string Name { get; set;}
+        public Exchange Exchanger { get; set; }
+        public bool AutoStart { get; set; } = false;
+        public string Revision { get; set; } = "v1";
+        public SignalSource SignalFrom { get; set; }
+        public DefaultStrategyConf(StrategyType _StratType,Exchange platform,string name,bool autostart, SignalSource getfrom)
         {
             this.StratyType = _StratType;
+            this.Name = name;
+            this.Exchanger = Exchange.Binance;
+            this.AutoStart = autostart;
+            this.SignalFrom = getfrom;
         }
         
 
     }
-    [TypeOfStrat(StrategyType.Mono)]
-    [StratTimeRangeOptionnal(TimeRange.Minute5)]
-    public class MyStrategyTest : StrategyCore , IStrategy
-    {
-        public string Name { get; set; } = "Sample";
-        public int RiskRatioMinimal { get; set; } = 0;
-        public override Signals GetSignal()
-        {
-            return base.GetSignal();
-        }
-    }
+
 
     public class StrategyCore
     {

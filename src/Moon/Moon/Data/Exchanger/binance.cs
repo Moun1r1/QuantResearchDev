@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Moon.Data.Exchanger
 {
-    public class BinanceExchanger:IRoot
+    public class BinanceExchanger:IRoot,IExchanger
     {
         public BinanceClient Client { get; set; } = new Binance.Net.BinanceClient();
         public BinanceSocketClient Socket { get; set; } = new BinanceSocketClient();
@@ -19,6 +19,11 @@ namespace Moon.Data.Exchanger
 
         public string TypeOfData { get; set; } = "BinanceConfig";
         public string Jscontainer { get; set; }
+        public Exchange Platform { get; set; } = Exchange.Binance;
+        public string Name { get; set; } = "Binance";
+        public string Provider { get; set; } = "BinanceNETApi";
+        public DateTime UpateSince { get; set; } = DateTime.Now;
+        public DateTime StartedSince { get; set; } = DateTime.Now;
 
         public BinanceExchanger()
         {
@@ -43,6 +48,31 @@ namespace Moon.Data.Exchanger
         public void Update()
         {
             this.Jscontainer = Newtonsoft.Json.JsonConvert.SerializeObject(this);
+        }
+
+        public bool Init()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Connect()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Updte()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Close()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetByTime(DateTime Start, DateTime End, string symbol)
+        {
+            throw new NotImplementedException();
         }
     }
 }
