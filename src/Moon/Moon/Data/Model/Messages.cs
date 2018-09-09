@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moon.Data.Extender;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,7 +27,7 @@ namespace Moon.Data.Model
         }
         public override string ToString()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            return this.ToJson();
         }
     }
 }
