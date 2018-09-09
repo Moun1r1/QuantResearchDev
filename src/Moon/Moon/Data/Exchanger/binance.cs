@@ -60,10 +60,6 @@ namespace Moon.Data.Exchanger
             throw new NotImplementedException();
         }
 
-        public bool Updte()
-        {
-            throw new NotImplementedException();
-        }
 
         public bool Close()
         {
@@ -71,6 +67,11 @@ namespace Moon.Data.Exchanger
         }
 
         public bool GetByTime(DateTime Start, DateTime End, string symbol)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IExchanger.Update()
         {
             throw new NotImplementedException();
         }

@@ -24,7 +24,7 @@ namespace Moon.Data.Model
 
         bool Init();
         bool Connect();
-        bool Updte();
+        bool Update();
         bool Close();
         bool GetByTime(DateTime Start, DateTime End, string symbol);
         

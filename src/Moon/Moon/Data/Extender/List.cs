@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moon.Data.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,6 +10,10 @@ namespace Moon.Data.Extender
 {
     public static class List
     {
+        public static bool HasPeriod(this CandlesSeries values, int period)
+        {
+            return (values.Index >= period);
+        }
         public static double Mean(this List<double> values)
         {
             return values.Count == 0 ? 0 : values.Mean(0, values.Count);

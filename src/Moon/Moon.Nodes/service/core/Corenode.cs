@@ -177,7 +177,7 @@ namespace Moon.Nodes.service.core
                         candle.Properties.Add("isbreakinghistoricallowestlow", indexdcandles.IsBreakingHistoricalLowestLow());
                         candle.Properties.Add("isobvbearish", indexdcandles.IsObvBearish());
                         candle.Properties.Add("isobvbullish", indexdcandles.IsObvBullish());
-                        candle.UpdateContainer();
+                        candle.Update();
                     }
 
                 }

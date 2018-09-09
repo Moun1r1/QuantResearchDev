@@ -1,6 +1,7 @@
 ﻿using Moon.Config;
 using Moon.Data.Extender;
 using Moon.Data.Model;
+using Moon.Finance.Indicators;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace Moon
             Global.Shared.IncomingBinance.SubscribeTo("BTCUSDT");
             CandlesSeries seriehandle = new CandlesSeries();
             seriehandle.ConnectBinance(Global.Shared.IncomingBinance);
-            seriehandle.CandleUpdate += Seriehandle_CandleUpdate;
+            RSI test = new RSI(seriehandle);
             //Application.EnableVisualStyles();
             //Application.Run(new Chart()); // or whatever
 
@@ -106,10 +107,6 @@ namespace Moon
             //{
             //    System.Threading.Thread.Sleep(500);
             //}
-        }
-
-        private static void Seriehandle_CandleUpdate(object sender, CandleEventArg e)
-        {
         }
     }
 }

@@ -272,7 +272,7 @@
     <Compile Include="Data\Model\Exchanger.cs" />
     <Compile Include="Data\Model\Factors.cs" />
     <Compile Include="Data\Model\Messages.cs" />
-    <Compile Include="Data\Model\Pair.cs" />
+    <Compile Include="Data\Model\IPair.cs" />
     <Compile Include="Data\Model\Root.cs" />
     <Compile Include="Data\Provider\CandleExtension.cs" />
     <Compile Include="Data\Provider\core.cs" />

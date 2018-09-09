@@ -24,22 +24,15 @@ namespace Moon.Data.Extender
     public class CandlesSeries : ICandleFactory, INotifyPropertyChanged
     {
         private int index = 0;
-        public List<decimal> Open { get; set; } = new List<decimal>();
-        public List<decimal> High { get; set; } = new List<decimal>();
-        public List<decimal> Low { get; set; } = new List<decimal>();
-        public List<decimal> Close { get; set; } = new List<decimal>();
-        public List<decimal> Volume { get; set; } = new List<decimal>();
+        public List<double> Open { get; set; } = new List<double>();
+        public List<double> High { get; set; } = new List<double>();
+        public List<double> Low { get; set; } = new List<double>();
+        public List<double> Close { get; set; } = new List<double>();
+        public List<double> Volume { get; set; } = new List<double>();
+        public List<double> Pivot { get; set; } = new List<double>();
         public event EventHandler<CandleEventArg> CandleUpdate;
         public int Index {
-            get { return this.index; }
-            set
-            {
-                if (value != this.index)
-                {
-                    this.Index = index;
-                    NotifyPropertyChanged();
-                }
-            }            
+            get;set;        
         }
         public TimeRange RangeOfTime { get; set; }
         public ObservableCollection<IPair> DataSource { get; set; } = new ObservableCollection<IPair>();
@@ -53,6 +46,7 @@ namespace Moon.Data.Extender
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            //Raise event on new index for TA folow ?
         }
 
 
@@ -75,16 +69,15 @@ namespace Moon.Data.Extender
                         //if final candle
                         break;
                     case CandleCollectionMode.AllTicks:
-                        this.Open.Add(DataComing.Candle.Open);
-                        this.High.Add(DataComing.Candle.High);
-                        this.Low.Add(DataComing.Candle.Low);
-                        this.Close.Add(DataComing.Candle.Close);
-                        this.Volume.Add(DataComing.Candle.Volume);
+                        this.Open.Add(DataComing.Candle.Open.ChangeType<double>());
+                        this.High.Add(DataComing.Candle.High.ChangeType<double>());
+                        this.Low.Add(DataComing.Candle.Low.ChangeType<double>());
+                        this.Close.Add(DataComing.Candle.Close.ChangeType<double>());
+                        this.Volume.Add(DataComing.Candle.Volume.ChangeType<double>());
+                        this.Pivot.Add(DataComing.Candle.Dpivot().ChangeType<double>());
                         this.Index = this.Open.Count();
                         this.Candles.Add(DataComing);
                         CandleUpdate?.Invoke(this, new CandleEventArg(CandleEventType.NewCandle,DataComing));
-                        Console.WriteLine("Candle Serie SVC - Index updated to : {0}", this.Index);
-                        Console.WriteLine("Candle Serie SVC - Built-in Extension 1 : {0}",this.Open.Mean());
                         break;
                 }
             }

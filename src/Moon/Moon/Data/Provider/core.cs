@@ -254,7 +254,6 @@ namespace Moon.Data.Provider
                     try
                     {
                         Candles.Add(Standardize);
-                        Console.WriteLine("Core - Candle coming from  compute : {0}",Standardize.UID);
 
                     }
                     catch(Exception ex)

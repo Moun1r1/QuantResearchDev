@@ -1,4 +1,5 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
+using Moon.Data.Extender;
 using Moon.Data.Provider;
 using System;
 using System.Collections.Generic;
@@ -27,15 +28,9 @@ namespace Moon.Data.Model
         {
 
         }
-        public void UpdateContainer()
-        {
-            Update();
-        }
-
         public void Update()
         {
-            Console.WriteLine("Core - Candle container updating for : {0}", this.UID);
-            this.Jscontainer = Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            this.Jscontainer = this.ToJson();
 
         }
         public override string ToString()

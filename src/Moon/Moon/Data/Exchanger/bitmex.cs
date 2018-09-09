@@ -42,7 +42,7 @@ namespace Moon.Data.Exchanger
             throw new NotImplementedException();
         }
 
-        public bool Updte()
+        bool IExchanger.Update()
         {
             throw new NotImplementedException();
         }

@@ -9,17 +9,6 @@ using System.Threading.Tasks;
 namespace Moon.Finance.Indicators
 {
 
-    public enum CandleRange
-    {
-       Min1,
-       Min2,
-       Min3,
-       Min5,
-       Min10,
-       Min15,
-       Min30,
-       Min60
-    }
     public interface IIndicatorStats
     {
         bool ShowErrors { get; set; }

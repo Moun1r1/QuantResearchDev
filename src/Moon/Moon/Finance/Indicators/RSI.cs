@@ -1,4 +1,5 @@
-﻿using Moon.Data.Model;
+﻿using Moon.Data.Extender;
+using Moon.Data.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,16 +17,47 @@ namespace Moon.Finance.Indicators
         public bool MultiTimeFrame { get; set; } = false;
         public bool MultiInput { get; set; } = false;
         public bool NeedExtraData { get; set; } = false;
+        public int Period { get; set; } = 12;
         public bool ShowErrors { get; set; } = true;
         public bool OutputData { get; set; } = true;
-        public ObservableCollection<IPair> Data = new ObservableCollection<IPair>();
-        public RSI()
+        public CandlesSeries DataSource { get; set; }
+        public List<decimal> Output { get; set; } = new List<decimal>();
+        public RSI(CandlesSeries DataProvider)
         {
+            this.DataSource = DataProvider;
+            this.DataSource.CandleUpdate += DataProvider_CandleUpdate;
             Console.WriteLine("Custom TA - Starting :  {0}", this.Name);
         }
+
+        private void DataProvider_CandleUpdate(object sender, CandleEventArg e)
+        {
+            Console.WriteLine("RSI Receiving data from : {0}",e.ComingCandle.Name);
+            Compute();
+        }
+
         public override void Compute()
         {
-            base.Compute();
+            if(this.DataSource.HasPeriod(2))
+            {
+
+                double sumGain = 0;
+                double sumLoss = 0;
+                for (int i = 1; i < this.DataSource.Index; i++)
+                {
+                    var difference = this.DataSource.Pivot[i] - this.DataSource.Pivot[i - 1];
+                    if (difference >= 0)
+                    {
+                        sumGain += difference;
+                    }
+                    else
+                    {
+                        sumLoss -= difference;
+                    }
+                }
+                var relativeStrength = sumGain / sumLoss;
+                var result = 100.0 - (100.0 / (1 + relativeStrength));
+                Console.WriteLine("\tComputed RSI : {0}", result);
+            }
         }
         public override void FillData()
         {
