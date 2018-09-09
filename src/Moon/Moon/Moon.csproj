@@ -259,6 +259,7 @@
     <Compile Include="Data\Accounting\Core.cs" />
     <Compile Include="Data\Extender\CandlesSeries.cs" />
     <Compile Include="Data\Extender\Object.cs" />
+    <Compile Include="Data\Model\CandleEvent.cs" />
     <Compile Include="Data\Model\ISignalProvider.cs" />
     <Compile Include="Data\Model\IStrategyConf.cs" />
     <Compile Include="Data\Model\ITradingType.cs" />

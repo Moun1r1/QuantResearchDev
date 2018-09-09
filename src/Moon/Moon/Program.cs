@@ -93,6 +93,7 @@ namespace Moon
             Global.Shared.IncomingBinance.SubscribeTo("BTCUSDT");
             CandlesSeries seriehandle = new CandlesSeries();
             seriehandle.ConnectBinance(Global.Shared.IncomingBinance);
+            seriehandle.CandleUpdate += Seriehandle_CandleUpdate;
             //Application.EnableVisualStyles();
             //Application.Run(new Chart()); // or whatever
 
@@ -105,6 +106,10 @@ namespace Moon
             //{
             //    System.Threading.Thread.Sleep(500);
             //}
+        }
+
+        private static void Seriehandle_CandleUpdate(object sender, CandleEventArg e)
+        {
         }
     }
 }

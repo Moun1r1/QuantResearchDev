@@ -13,6 +13,31 @@ namespace Moon.Data.Extender
         {
             return values.Count == 0 ? 0 : values.Mean(0, values.Count);
         }
+        public static void Sort<T>(this IList<T> list) where T : IComparable
+        {
+            Sort(list, 0, list.Count - 1);
+        }
+
+        public static void Sort<T>(this IList<T> list,
+               int startIndex, int endIndex) where T : IComparable
+        {
+            for (int i = startIndex; i < endIndex; i++)
+                for (int j = endIndex; j > i; j--)
+                    if (list[j].IsLesserThan(list[j - 1]))
+                        list.Exchange(j, j - 1);
+        }
+
+        private static void Exchange<T>(this IList<T> list, int index1, int index2)
+        {
+            T tmp = list[index1];
+            list[index1] = list[index2];
+            list[index2] = tmp;
+        }
+
+        private static bool IsLesserThan(this IComparable value, IComparable item)
+        {
+            return value.CompareTo(item) < 0;
+        }
 
         public static double Mean(this List<double> values, int start, int end)
         {
