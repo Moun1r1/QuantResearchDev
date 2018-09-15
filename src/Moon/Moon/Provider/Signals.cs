@@ -16,9 +16,11 @@ namespace Moon.Provider
         DecreasePositive,
         IncreaseNegative,
         DecreaseNegative,
-        Median,
+        MedianMove,
         Leave,
         Keep,
+        NewLow, 
+        NewHigh,
         ExitNow,
         ExitOnIdeal,
         ExitOnLessWorst

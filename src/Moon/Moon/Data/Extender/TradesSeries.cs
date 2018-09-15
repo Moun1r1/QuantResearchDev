@@ -30,10 +30,15 @@ namespace Moon.Data.Extender
         public List<BinanceOrderBookEntry> Bids_BinanceStreamOrderBook { get; set; } = new List<BinanceOrderBookEntry>();
         public List<BinanceStreamTrade> Asks_Trades { get; set; } = new List<BinanceStreamTrade>();
         public List<BinanceStreamTrade> Bids_Trades { get; set; } = new List<BinanceStreamTrade>();
-
+        public List<double> SellerRSI_Quantity { get; set; } = new List<double>();
+        public List<double> SellerRSI_Price { get; set; } = new List<double>();
+        public List<double> BuyerRSI_Quantity { get; set; } = new List<double>();
+        public List<double> BuyerRSI_Price { get; set; } = new List<double>();
         public int overallorderparsed = 0;
         public Dictionary<string, int> MostActiveAskZone { get; set; } = new Dictionary<string, int>();
         public TradesCollectionMode Mode { get; set; } = TradesCollectionMode.Consolidated;
+        public event EventHandler<TradeEventArg> Update;
+
         public TradesSeries()
         {
             this.MostActiveAskZone.Add(0.ToString(), 0);
@@ -66,12 +71,11 @@ namespace Moon.Data.Extender
                 //Console.WriteLine("Seller filled Max Quantity : {0}", this.Asks_Trades.Select((y) => y.Quantity).ToList().Max());
                 if(this.Asks_Trades.Count() > 13)
                 {
-                    var sellerrsiq = this.Asks_Trades.Select((y) => y.Quantity.ChangeType<double>()).ToList().GetLastRSI();
-                    var sellerrsi = this.Asks_Trades.Select((y) => y.Price.ChangeType<double>()).ToList().GetLastRSI();
+                    this.SellerRSI_Price = this.Asks_Trades.Select((y) => y.Price.ChangeType<double>()).ToList().GetLastRSI();
+                    this.SellerRSI_Quantity = this.Asks_Trades.Select((y) => y.Quantity.ChangeType<double>()).ToList().GetLastRSI();
+                    Update?.Invoke(this, new TradeEventArg(TradeEventEventType.SellOrder_RSI, this, DateTime.Now));
 
-                    //Console.WriteLine("Seller - Quantity - GetLastRSI : {0}", sellerrsiq.Last());
-                    //Console.WriteLine("Seller - Price -  GetLastRSI : {0}", sellerrsi.Last());
-
+                    //Raise event update
                 }
             }
         }
@@ -87,11 +91,10 @@ namespace Moon.Data.Extender
                 //Console.WriteLine("Buyer filled Max Quantity : {0}", this.Bids_Trades.Select((y) => y.Quantity).ToList().Max());
                 if (this.Bids_Trades.Count() > 13)
                 {
-                    var buyerrsiq = this.Bids_Trades.Select((y) => y.Quantity.ChangeType<double>()).ToList().GetLastRSI();
-                    var buyerrsi = this.Bids_Trades.Select((y) => y.Price.ChangeType<double>()).ToList().GetLastRSI();
-
-                    //Console.WriteLine("Buyer - Quantity - GetLastRSI : {0}", buyerrsiq.Last());
-                    //Console.WriteLine("Buyer - Price -  GetLastRSI : {0}", buyerrsi.Last());
+                    this.BuyerRSI_Price = this.Bids_Trades.Select((y) => y.Price.ChangeType<double>()).ToList().GetLastRSI();
+                    this.BuyerRSI_Quantity = this.Bids_Trades.Select((y) => y.Quantity.ChangeType<double>()).ToList().GetLastRSI();
+                    //Raise event update
+                    Update?.Invoke(this, new TradeEventArg(TradeEventEventType.BuyOrder_RSI, this, DateTime.Now));
 
                 }
 

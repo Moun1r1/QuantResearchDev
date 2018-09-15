@@ -126,7 +126,6 @@ namespace Moon.Data.Extender
                     {
                         MaxLst.Add(list[i]);
                         max = list[i];
-                        Console.WriteLine("Max TA : {0}", list[i]);
                         lastmaxindex = i;
                     }
                 }
@@ -148,7 +147,6 @@ namespace Moon.Data.Extender
                     {
                         MinLst.Add(list[i]);
                         min = list[i];
-                        Console.WriteLine("Min TA : {0}", list[i]);
                         lastmaxindex = i;
                     }
                 }

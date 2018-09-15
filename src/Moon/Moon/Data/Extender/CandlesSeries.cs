@@ -25,7 +25,7 @@ namespace Moon.Data.Extender
     {
         CandleCollectionMode Mode { get; set; }
     }
-    public class CandlesSeries : ICandleFactory, INotifyPropertyChanged
+    public class CandlesSeries : ICandleFactory
     {
         public List<double> PercentChange { get; set; } = new List<double>();
         public List<double> Open { get; set; } = new List<double>();
@@ -54,16 +54,6 @@ namespace Moon.Data.Extender
         public CandlesSeries()
         {
         }
-
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            //Raise event on new index for TA folow ?
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public void ConnectBinance(BinanceProvier Source)
         {
             Source.Candles.CollectionChanged += DataComing;
