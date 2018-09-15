@@ -13,6 +13,7 @@ namespace Moon.Data.Model
     {
         string Name { get; set; }
         string Exchanger { get; set; }
+        bool Last { get; set; }
         DateTime CollectedDate { get; set; }
         Dictionary<string, dynamic> Properties { get; set; }
         Trady.Core.Candle Candle { get;set; }
@@ -33,6 +34,7 @@ namespace Moon.Data.Model
             this.Jscontainer = this.ToJson();
 
         }
+
         public override string ToString()
         {
             string Return = string.Empty;
@@ -55,5 +57,6 @@ namespace Moon.Data.Model
         public string ModelDomain { get; set; } = "Provider";
         public string ModelId { get; set; } = "59bf4213-e145-4ead-b0f5-ba237b786965";
         public DateTime ModelLastChange { get; set; } = DateTime.Parse("31/08/2018");
+        public bool Last { get; set; } = false;
     }
 }

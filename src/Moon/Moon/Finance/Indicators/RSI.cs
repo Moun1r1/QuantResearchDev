@@ -21,7 +21,7 @@ namespace Moon.Finance.Indicators
         public bool ShowErrors { get; set; } = true;
         public bool OutputData { get; set; } = true;
         public CandlesSeries DataSource { get; set; }
-        public List<decimal> Output { get; set; } = new List<decimal>();
+        public List<double> Output { get; set; } = new List<double>();
         public RSI(CandlesSeries DataProvider)
         {
             this.DataSource = DataProvider;
@@ -37,14 +37,14 @@ namespace Moon.Finance.Indicators
 
         public override void Compute()
         {
-            if(this.DataSource.HasPeriod(2))
+            if(this.DataSource.HasPeriod(this.Period))
             {
 
                 double sumGain = 0;
                 double sumLoss = 0;
                 for (int i = 1; i < this.DataSource.Index; i++)
                 {
-                    var difference = this.DataSource.Pivot[i] - this.DataSource.Pivot[i - 1];
+                    var difference = this.DataSource.Low[i] - this.DataSource.Low[i - 1];
                     if (difference >= 0)
                     {
                         sumGain += difference;
@@ -56,7 +56,21 @@ namespace Moon.Finance.Indicators
                 }
                 var relativeStrength = sumGain / sumLoss;
                 var result = 100.0 - (100.0 / (1 + relativeStrength));
-                Console.WriteLine("\tComputed RSI : {0}", result);
+                this.Output.Add(result);
+                //Console.WriteLine("\tBuilt In  - Extender Mean : {0}", this.DataSource.Low.RemoveNan().Mean());
+                //Console.WriteLine("\tBuilt In  - Extender Avg : {0}", this.DataSource.Low.RemoveNan().Average());
+                var test = this.DataSource.Close.MaxByPeriod();
+                var testl = this.DataSource.Close.MinByPeriod();
+                if(this.Output.HasDeviantValues())
+                {
+                    Console.WriteLine("\tRSI - Extender Mean : {0}", this.Output.RemoveNan().Mean());
+                    var Spacer = this.Output.IndexOf(this.Output.RemoveNan().RemoveSpecifiedMinAndMax().Min());
+                    Console.WriteLine("\tRSI - Last low since : {0}", (this.Output.Count() - Spacer));
+                    Console.WriteLine("\tRSI - Extender Min : {0}", this.Output.RemoveNan().RemoveSpecifiedMinAndMax().Min());
+                    Console.WriteLine("\tRSI - Extender Max : {0}", this.Output.RemoveNan().Max());
+
+                }
+                Console.WriteLine("\tRSI - Result {0}", result);
             }
         }
         public override void FillData()

@@ -91,9 +91,13 @@ namespace Moon
             //Configure Api Key for svc management
 
             //Global.shared.IncomingBinance.bclient.SetApiKeys("API Key", "Api Secret");
-            Global.Shared.IncomingBinance.SubscribeTo("BTCUSDT");
             CandlesSeries seriehandle = new CandlesSeries();
+            TradesSeries tradehandle = new TradesSeries();
             seriehandle.ConnectBinance(Global.Shared.IncomingBinance);
+            tradehandle.ConnectBinance(Global.Shared.IncomingBinance);
+            Global.Shared.IncomingBinance.GetDataFromTo(DateTime.Now.AddHours(-15),DateTime.Now, "BTCUSDT");
+            Global.Shared.IncomingBinance.SubscribeTo("BTCUSDT");
+
             RSI test = new RSI(seriehandle);
             //Application.EnableVisualStyles();
             //Application.Run(new Chart()); // or whatever
