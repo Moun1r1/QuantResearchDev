@@ -27,7 +27,6 @@ namespace Moon.Data.Extender
     }
     public class CandlesSeries : ICandleFactory, INotifyPropertyChanged
     {
-        private int index = 0;
         public List<double> PercentChange { get; set; } = new List<double>();
         public List<double> Open { get; set; } = new List<double>();
         public List<double> High { get; set; } = new List<double>();
@@ -37,8 +36,11 @@ namespace Moon.Data.Extender
         public List<double> Pivot { get; set; } = new List<double>();
         public List<double> Min { get; set; } = new List<double>();
         public IndexedCandle IndexedCandle { get; set; }
-        public List<double> TALow { get; set; } = new List<double>();
-        public List<double> TAHigh { get; set; } = new List<double>();
+        public List<double> LowestLow { get; set; } = new List<double>();
+        public List<double> HighestHigh { get; set; } = new List<double>();
+        public int IndexLowestLow { get; set; } = 0;
+        public int IndexHighestHigh { get; set; } = 0;
+
         public Dictionary<int, List<KeyValuePair<string, bool>>> DetectedPatterns { get; set; } = new Dictionary<int, List<KeyValuePair<string, bool>>>();
         public event EventHandler<CandleEventArg> CandleUpdate;
         public int Index {
@@ -71,15 +73,17 @@ namespace Moon.Data.Extender
             var LowData = new LowestLow(this.Candles.Select(y => y.Candle), 12).Compute();
             if(LowData.Last().Tick != null)
             {
-                this.TALow.Add(LowData.Last().Tick.ChangeType<double>());
-                if(this.TALow.Count() >1)
+                this.LowestLow.Add(LowData.Last().Tick.ChangeType<double>());
+                if(this.LowestLow.Count() >1)
                 {
-                    switch (this.TALow.HasChange())
+                    switch (this.LowestLow.HasChange())
                     {
-                        ///Raise signal
+                        ///Raise signal and update index
                         case List.GenericChangeType.Down:
+                            IndexLowestLow = this.LowestLow.Count() - 1;
                             break;
                         case List.GenericChangeType.Up:
+                            IndexLowestLow = this.LowestLow.Count() - 1;
                             break;
                         case List.GenericChangeType.Same:
                             break;
@@ -92,15 +96,17 @@ namespace Moon.Data.Extender
             var HighData = new HighestHigh(this.Candles.Select(y => y.Candle), 12).Compute();
             if (HighData.Last().Tick != null)
             {
-                this.TAHigh.Add(HighData.Last().Tick.ChangeType<double>());
-                if (this.TAHigh.Count() > 1)
+                this.HighestHigh.Add(HighData.Last().Tick.ChangeType<double>());
+                if (this.HighestHigh.Count() > 1)
                 {
                     switch(this.High.HasChange())
                     {
-                        ///Raise signal
+                        ///Raise signal and update index
                         case List.GenericChangeType.Down:
+                            IndexHighestHigh = this.HighestHigh.Count() - 1;
                             break;
                         case List.GenericChangeType.Up:
+                            IndexHighestHigh = this.HighestHigh.Count() - 1;
                             break;
                         case List.GenericChangeType.Same:
                             break;
@@ -128,10 +134,9 @@ namespace Moon.Data.Extender
 
                 });
                 var AnyOfPatternTrue = DetectedPatterns[Index].Where(y => y.Value == true);
-                Console.WriteLine("Candle close: {0}", Close[Index -1]);
                 foreach (var psignalin in AnyOfPatternTrue)
                 {
-                    Console.WriteLine("Detected Pattern : {0}", psignalin.Key);
+                    //Raise signal
                 }
             }
 
@@ -157,7 +162,7 @@ namespace Moon.Data.Extender
                             this.Pivot.Add(DataComing.Candle.Dpivot().ChangeType<double>());
                             this.Index = this.Open.Count();
                             this.Candles.Add(DataComing);
-                            CandleUpdate?.Invoke(this, new CandleEventArg(CandleEventType.NewCandle, DataComing));
+                            CandleUpdate?.Invoke(this, new CandleEventArg(CandleEventType.NewCandle, DataComing,this));
                             this.IndexedCandle = new IndexedCandle(this.Candles.Select(y => y.Candle), this.Index - 1);
                             GenerateLow();
                             GenerateHigh();
@@ -175,7 +180,7 @@ namespace Moon.Data.Extender
                         this.Pivot.Add(DataComing.Candle.Dpivot().ChangeType<double>());
                         this.Index = this.Open.Count();
                         this.Candles.Add(DataComing);
-                        CandleUpdate?.Invoke(this, new CandleEventArg(CandleEventType.NewCandle,DataComing));
+                        CandleUpdate?.Invoke(this, new CandleEventArg(CandleEventType.NewCandle,DataComing,this));
                         break;
                 }
             }

@@ -97,7 +97,7 @@ namespace Moon
             tradehandle.ConnectBinance(Global.Shared.IncomingBinance);
             Global.Shared.IncomingBinance.GetDataFromTo(DateTime.Now.AddHours(-15),DateTime.Now, "BTCUSDT");
             Global.Shared.IncomingBinance.SubscribeTo("BTCUSDT");
-
+            seriehandle.CandleUpdate += Seriehandle_CandleUpdate;
             RSI test = new RSI(seriehandle);
             //Application.EnableVisualStyles();
             //Application.Run(new Chart()); // or whatever
@@ -111,6 +111,16 @@ namespace Moon
             //{
             //    System.Threading.Thread.Sleep(500);
             //}
+        }
+
+        private static void Seriehandle_CandleUpdate(object sender, CandleEventArg e)
+        {
+            Console.WriteLine("Candle Series - Index : {0}", e.Candlescopy.Index);
+            Console.WriteLine("\tRSICandle Series - IndexHighestHigh : {0}", e.Candlescopy.IndexHighestHigh);
+            Console.WriteLine("\tRSICandle Series - IndexLowestLow : {0}", e.Candlescopy.IndexLowestLow);
+            Console.WriteLine("\tCandle Series - Low : {0}", e.Candlescopy.LowestLow[e.Candlescopy.IndexHighestHigh]);
+            Console.WriteLine("\tCandle Series - High : {0}", e.Candlescopy.HighestHigh[e.Candlescopy.IndexLowestLow]);
+            Console.WriteLine("\tCandle Series - Last Patterns : {0}", e.Candlescopy.DetectedPatterns.Last().ToJson());
         }
     }
 }

@@ -246,6 +246,7 @@ namespace Moon.Data.Provider
                     }
                     catch(Exception ex)
                     {
+                        
                         Console.WriteLine("Exception during core candle add (computed) : {0} ", ex.Message); 
                     }
                     //Until fix

@@ -63,11 +63,7 @@ namespace Moon.Finance.Indicators
                 var testl = this.DataSource.Close.MinByPeriod();
                 if(this.Output.HasDeviantValues())
                 {
-                    Console.WriteLine("\tRSI - Extender Mean : {0}", this.Output.RemoveNan().Mean());
                     var Spacer = this.Output.IndexOf(this.Output.RemoveNan().RemoveSpecifiedMinAndMax().Min());
-                    Console.WriteLine("\tRSI - Last low since : {0}", (this.Output.Count() - Spacer));
-                    Console.WriteLine("\tRSI - Extender Min : {0}", this.Output.RemoveNan().RemoveSpecifiedMinAndMax().Min());
-                    Console.WriteLine("\tRSI - Extender Max : {0}", this.Output.RemoveNan().Max());
 
                 }
                 Console.WriteLine("\tRSI - Result {0}", result);

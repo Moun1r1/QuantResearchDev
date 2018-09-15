@@ -69,8 +69,8 @@ namespace Moon.Data.Extender
                     var sellerrsiq = this.Asks_Trades.Select((y) => y.Quantity.ChangeType<double>()).ToList().GetLastRSI();
                     var sellerrsi = this.Asks_Trades.Select((y) => y.Price.ChangeType<double>()).ToList().GetLastRSI();
 
-                    Console.WriteLine("Seller - Quantity - GetLastRSI : {0}", sellerrsiq.Last());
-                    Console.WriteLine("Seller - Price -  GetLastRSI : {0}", sellerrsi.Last());
+                    //Console.WriteLine("Seller - Quantity - GetLastRSI : {0}", sellerrsiq.Last());
+                    //Console.WriteLine("Seller - Price -  GetLastRSI : {0}", sellerrsi.Last());
 
                 }
             }
@@ -90,8 +90,8 @@ namespace Moon.Data.Extender
                     var buyerrsiq = this.Bids_Trades.Select((y) => y.Quantity.ChangeType<double>()).ToList().GetLastRSI();
                     var buyerrsi = this.Bids_Trades.Select((y) => y.Price.ChangeType<double>()).ToList().GetLastRSI();
 
-                    Console.WriteLine("Buyer - Quantity - GetLastRSI : {0}", buyerrsiq.Last());
-                    Console.WriteLine("Buyer - Price -  GetLastRSI : {0}", buyerrsi.Last());
+                    //Console.WriteLine("Buyer - Quantity - GetLastRSI : {0}", buyerrsiq.Last());
+                    //Console.WriteLine("Buyer - Price -  GetLastRSI : {0}", buyerrsi.Last());
 
                 }
 
