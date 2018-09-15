@@ -43,6 +43,7 @@ namespace Moon.Data.Extender
 
         public Dictionary<int, List<KeyValuePair<string, bool>>> DetectedPatterns { get; set; } = new Dictionary<int, List<KeyValuePair<string, bool>>>();
         public event EventHandler<CandleEventArg> CandleUpdate;
+        public event EventHandler<PatternEvent> PatternUpdate;
         public int Index {
             get;set;        
         }
@@ -123,10 +124,47 @@ namespace Moon.Data.Extender
                     new KeyValuePair<string, bool>("IsObvBearish",this.IndexedCandle.IsObvBearish()),
 
                 });
+
+                //Isolate true cases (false are still available by object copy on event args)
                 var AnyOfPatternTrue = DetectedPatterns[Index].Where(y => y.Value == true);
+
+                //Send signal
                 foreach (var psignalin in AnyOfPatternTrue)
                 {
-                    //Raise signal
+                    switch(psignalin.Key)
+                    {
+                        case "IsBearish":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsBearish, this.Candles.Last(), this));
+                            break;
+                        case "IsBullish":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsBullish, this.Candles.Last(), this));
+                            break;
+                        case "IsAccumDistBearish":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsAccumDistBearish, this.Candles.Last(), this));
+                            break;
+                        case "IsAccumDistBullish":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsAccumDistBullish, this.Candles.Last(), this));
+                            break;
+                        case "IsBreakingHistoricalHighestClose":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsBreakingHistoricalHighestClose, this.Candles.Last(), this));
+                            break;
+                        case "IsBreakingHistoricalHighestHigh":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsBreakingHistoricalHighestHigh, this.Candles.Last(), this));
+                            break;
+                        case "IsBreakingHistoricalLowestLow":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsBreakingHistoricalLowestLow, this.Candles.Last(), this));
+                            break;
+                        case "IsBreakingHistoricalLowestClose":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsBreakingHistoricalLowestClose, this.Candles.Last(), this));
+                            break;
+                        case "IsObvBullish":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsObvBullish, this.Candles.Last(), this));
+                            break;
+                        case "IsObvBearish":
+                            PatternUpdate?.Invoke(this, new PatternEvent(PatternType.IsObvBearish, this.Candles.Last(), this));
+                            break;
+
+                    }
                 }
             }
 

@@ -25,19 +25,77 @@ namespace Moon.Strategy
             this.TradesProvider = tradein;
             this.CandleProvider.CandleUpdate += CandleProvider_CandleUpdate;
             this.TradesProvider.Update += TradesProvider_Update;
+            this.CandleProvider.PatternUpdate += CandleProvider_PatternUpdate;
+        }
+
+        private void CandleProvider_PatternUpdate(object sender, PatternEvent e)
+        {
+            Console.WriteLine("Strategy received pattern detection  : {0} for candle time : {1}", e.EventType,e.ComingCandle.CollectedDate);
+
         }
 
         private void TradesProvider_Update(object sender, TradeEventArg e)
         {
-            switch(e.EventType)
+            switch (e.EventType)
             {
+                case TradeEventEventType.Book_L0:
+                    Console.WriteLine("Strategy received an order Quantity Book_L0 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[0].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L0 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[0].Price);
+
+                    break;
+                case TradeEventEventType.Book_L1:
+                    Console.WriteLine("Strategy received an order Quantity Book_L1 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[1].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L1 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[1].Price);
+
+                    break;
+                case TradeEventEventType.Book_L2:
+                    Console.WriteLine("Strategy received an order Quantity Book_L2 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[2].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L2 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[2].Price);
+
+                    break;
+                case TradeEventEventType.Book_L3:
+                    Console.WriteLine("Strategy received an order Quantity Book_L3 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[3].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L3 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[3].Price);
+
+                    break;
+                case TradeEventEventType.Book_L4:
+                    Console.WriteLine("Strategy received an order Quantity Book_L4 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[4].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L4 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[4].Price);
+
+                    break;
+                case TradeEventEventType.Book_L5:
+                    Console.WriteLine("Strategy received an order Quantity Book_L5 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[5].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L5 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[5].Price);
+
+                    break;
+                case TradeEventEventType.Book_L6:
+                    Console.WriteLine("Strategy received an order Quantity Book_L6 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[6].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L6 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[6].Price);
+
+                    break;
+                case TradeEventEventType.Book_L7:
+                    Console.WriteLine("Strategy received an order Quantity Book_L7 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[7].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L7 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[7].Price);
+
+                    break;
+                case TradeEventEventType.Book_L8:
+                    Console.WriteLine("Strategy received an order Quantity Book_L8 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[8].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L8 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[8].Price);
+
+                    break;
+                case TradeEventEventType.Book_L9:
+                    Console.WriteLine("Strategy received an order Quantity Book_L9 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[9].Quantity);
+                    Console.WriteLine("Strategy received an order Price Book_L9 update  : {0}", e.Source.Asks_BinanceStreamOrderBook[9].Price);
+
+                    break;
+
                 case TradeEventEventType.BuyOrder_RSI:
-                    Console.WriteLine("Strategy received order RSI calculation for Buyer Price at  : {0}", e.Source.BuyerRSI_Price.Last());
-                    Console.WriteLine("Strategy received order RSI calculation for Buyer Quantity at  : {0}", e.Source.BuyerRSI_Quantity.Last());
+                    //Console.WriteLine("Strategy received order RSI calculation for Buyer Price at  : {0}", e.Source.BuyerRSI_Price.Last());
+                    //Console.WriteLine("Strategy received order RSI calculation for Buyer Quantity at  : {0}", e.Source.BuyerRSI_Quantity.Last());
                     break;
                 case TradeEventEventType.SellOrder_RSI:
-                    Console.WriteLine("Strategy received order RSI calculation for Seller Price at  : {0}", e.Source.SellerRSI_Price.Last());
-                    Console.WriteLine("Strategy received order RSI calculation for Seller Quantity at  : {0}", e.Source.SellerRSI_Quantity.Last());
+                    //Console.WriteLine("Strategy received order RSI calculation for Seller Price at  : {0}", e.Source.SellerRSI_Price.Last());
+                    //Console.WriteLine("Strategy received order RSI calculation for Seller Quantity at  : {0}", e.Source.SellerRSI_Quantity.Last());
                     break;
 
             }

@@ -130,6 +130,39 @@ namespace Moon.Data.Extender
                                 MostActiveAskZone[i.ToString()] += 1;
                                 var getPeaker = int.Parse(MostActiveAskZone.Where(y => y.Value == MostActiveAskZone.Values.Max()).Select(y => y.Key).FirstOrDefault());
                                 var valuepeak = MostActiveAskZone.Values.ToArray()[getPeaker];
+                                switch(i)
+                                {
+                                    case 0:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L0, this, DateTime.Now));
+                                        break;
+                                    case 1:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L1, this, DateTime.Now));
+                                        break;
+                                    case 2:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L2, this, DateTime.Now));
+                                        break;
+                                    case 3:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L3, this, DateTime.Now));
+                                        break;
+                                    case 4:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L4, this, DateTime.Now));
+                                       break;
+                                    case 5:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L5, this, DateTime.Now));
+                                        break;
+                                    case 6:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L6, this, DateTime.Now));
+                                        break;
+                                    case 7:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L7, this, DateTime.Now));
+                                        break;
+                                    case 8:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L8, this, DateTime.Now));
+                                        break;
+                                    case 9:
+                                        Update?.Invoke(this, new TradeEventArg(TradeEventEventType.Book_L9, this, DateTime.Now));
+                                        break;
+                                }
                                 //Console.WriteLine("Ask - Most Active Layer : {0} at rate : {1} with price {2}", getPeaker,valuepeak, correspondingBookAskLine.Price);
                                 //Console.WriteLine("Ask line {0} - Quantity change : from {1} to {2}", i, correspondingBookAskLine.Quantity, AskLine.Quantity);
                                 //Console.WriteLine("Ask line {0} - Quantity change : {1}",i, AskLine.GetQuantityChange(correspondingBookAskLine).ToString("P"));
