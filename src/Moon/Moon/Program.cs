@@ -96,8 +96,12 @@ namespace Moon
             TradesSeries tradehandle = new TradesSeries();
             seriehandle.ConnectBinance(Global.Shared.IncomingBinance);
             tradehandle.ConnectBinance(Global.Shared.IncomingBinance);
-            Global.Shared.IncomingBinance.GetDataFromTo(DateTime.Now.AddHours(-15),DateTime.Now, "BTCUSDT");
-            Global.Shared.IncomingBinance.SubscribeTo("BTCUSDT");
+            Global.Shared.IncomingBinance.GetDataFromTo(DateTime.Now.AddHours(-15),DateTime.Now, "ETHBTC");
+            Global.Shared.IncomingBinance.SubscribeTo("ETHBTC");
+
+
+
+
             //seriehandle.CandleUpdate += Seriehandle_CandleUpdate;
             RSI test = new RSI(seriehandle);
 
