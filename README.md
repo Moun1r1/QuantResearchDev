@@ -70,7 +70,7 @@ Concept
 ### Azure Data Table storage
 ![cloudstorage](/media/AzureTableStorage.png)
 
-### Auto elect pair for a given strategy before goin
+### Auto elect pair for a given strategy before live
 ![cloudstorage](/media/Autoelect.JPG)
 
 ### Some custom TA 
