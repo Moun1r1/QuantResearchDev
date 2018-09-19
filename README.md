@@ -2,7 +2,7 @@
 
 ![GitHub Logo](/media/logo.png)
 
-https://discord.gg/Qq4MVVV
+Wanna talk with us ? : https://discord.gg/Qq4MVVV
 
 Quant Research dev & Traders open source project
 
