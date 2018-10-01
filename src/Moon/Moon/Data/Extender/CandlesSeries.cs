@@ -34,6 +34,9 @@ namespace Moon.Data.Extender
         public List<double> Close { get; set; } = new List<double>();
         public List<double> Volume { get; set; } = new List<double>();
         public List<double> Pivot { get; set; } = new List<double>();
+        public int DefaultPatternPeriod { get; set; } = 12;
+        public int DefaultPatternLongPeriod { get; set; } = 24;
+
         public List<double> Min { get; set; } = new List<double>();
         public IndexedCandle IndexedCandle { get; set; }
         public List<double> LowestLow { get; set; } = new List<double>();
@@ -61,7 +64,7 @@ namespace Moon.Data.Extender
         }
         private void GenerateLow()
         {
-            var LowData = new LowestLow(this.Candles.Select(y => y.Candle), 12).Compute();
+            var LowData = new LowestLow(this.Candles.Where(y=> y.Last == true).Select(y => y.Candle), 12).Compute();
             if(LowData.Last().Tick != null)
             {
                 this.LowestLow.Add(LowData.Last().Tick.ChangeType<double>());
@@ -84,7 +87,7 @@ namespace Moon.Data.Extender
         }
         private void GenerateHigh()
         {
-            var HighData = new HighestHigh(this.Candles.Select(y => y.Candle), 12).Compute();
+            var HighData = new HighestHigh(this.Candles.Where(y => y.Last == true).Select(y => y.Candle), 12).Compute();
             if (HighData.Last().Tick != null)
             {
                 this.HighestHigh.Add(HighData.Last().Tick.ChangeType<double>());
@@ -110,7 +113,42 @@ namespace Moon.Data.Extender
         {
             if(Index > 2)
             {
-                DetectedPatterns.Add(Index, new List<KeyValuePair<string, bool>>()
+
+
+                if(DefaultPatternLongPeriod < Index -1)
+                {
+                    DetectedPatterns.Add(Index, new List<KeyValuePair<string, bool>>()
+                    {
+                        new KeyValuePair<string, bool>("IsBearish",this.IndexedCandle.IsBearish()),
+                        new KeyValuePair<string, bool>("IsBullish",this.IndexedCandle.IsBullish()),
+                        new KeyValuePair<string, bool>("IsAccumDistBearish",this.IndexedCandle.IsAccumDistBearish()),
+                        new KeyValuePair<string, bool>("IsAccumDistBullish",this.IndexedCandle.IsAccumDistBullish()),
+                        new KeyValuePair<string, bool>("IsBreakingHistoricalHighestClose",this.IndexedCandle.IsBreakingHistoricalHighestClose()),
+                        new KeyValuePair<string, bool>("IsBreakingHistoricalHighestHigh",this.IndexedCandle.IsBreakingHistoricalHighestHigh()),
+                        new KeyValuePair<string, bool>("IsBreakingHistoricalLowestLow",this.IndexedCandle.IsBreakingHistoricalLowestLow()),
+                        new KeyValuePair<string, bool>("IsBreakingHistoricalLowestClose",this.IndexedCandle.IsBreakingHistoricalLowestClose()),
+                        new KeyValuePair<string, bool>("IsObvBullish",this.IndexedCandle.IsObvBullish()),
+                        new KeyValuePair<string, bool>("IsObvBearish",this.IndexedCandle.IsObvBearish()),
+                        new KeyValuePair<string, bool>("IsRsiOverbought",this.IndexedCandle.IsRsiOverbought(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsRsiOversold",this.IndexedCandle.IsRsiOversold(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsSmaBullishCross",this.IndexedCandle.IsSmaBullishCross(DefaultPatternPeriod,DefaultPatternLongPeriod)),
+                        new KeyValuePair<string, bool>("IsSmaBearishCross",this.IndexedCandle.IsSmaBearishCross(DefaultPatternPeriod,DefaultPatternLongPeriod)),
+                        new KeyValuePair<string, bool>("IsEmaBullish",this.IndexedCandle.IsEmaBullish(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsEmaBearish",this.IndexedCandle.IsEmaBearish(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsAboveEma",this.IndexedCandle.IsAboveEma(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsBelowEma",this.IndexedCandle.IsBelowEma(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsEmaBullishCross",this.IndexedCandle.IsEmaBullishCross(DefaultPatternPeriod,DefaultPatternLongPeriod)),
+                        new KeyValuePair<string, bool>("IsEmaBearishCross",this.IndexedCandle.IsEmaBearishCross(DefaultPatternPeriod,DefaultPatternLongPeriod)),
+                        new KeyValuePair<string, bool>("IsBreakingHighestHighPeriod",this.IndexedCandle.IsBreakingHighestHigh(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsBreakingHighestClosePeriod",this.IndexedCandle.IsBreakingHighestClose (DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsBreakingLowestLowPeriod",this.IndexedCandle.IsBreakingLowestLow(DefaultPatternPeriod)),
+                        new KeyValuePair<string, bool>("IsBreakingLowestClosePeriod",this.IndexedCandle.IsBreakingLowestClose (DefaultPatternPeriod)),
+
+                    });
+                }
+                else
+                {
+                    DetectedPatterns.Add(Index, new List<KeyValuePair<string, bool>>()
                 {
                     new KeyValuePair<string, bool>("IsBearish",this.IndexedCandle.IsBearish()),
                     new KeyValuePair<string, bool>("IsBullish",this.IndexedCandle.IsBullish()),
@@ -124,6 +162,7 @@ namespace Moon.Data.Extender
                     new KeyValuePair<string, bool>("IsObvBearish",this.IndexedCandle.IsObvBearish()),
 
                 });
+                }
 
                 //Isolate true cases (false are still available by object copy on event args)
                 var AnyOfPatternTrue = DetectedPatterns[Index].Where(y => y.Value == true);

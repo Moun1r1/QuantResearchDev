@@ -33,7 +33,7 @@ namespace MarketUI
             //{
 
             Statistics CurrentMarketSts = new Statistics();
-            CurrentMarketSts.SetAllBinancePairWatcher(Moon.Global.Shared.IncomingBinance);
+            CurrentMarketSts.ConnectBinance(Moon.Global.Shared.IncomingBinance);
            
 
             //Task.Run(() =>

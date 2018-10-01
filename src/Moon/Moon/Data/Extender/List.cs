@@ -11,6 +11,55 @@ namespace Moon.Data.Extender
 {
     public static class List
     {
+
+        public static List<double> TakeLast(this List<double> values, int period)
+        {
+            return Enumerable.Reverse(values).Take(period).Reverse().ToList();
+        }
+
+        public static (double,double,double,double)  LinearRegression(
+        this double[] xVals,
+        double[] yVals)
+        {
+            if (xVals.Length != yVals.Length)
+            {
+                throw new Exception("Input values should be with the same length.");
+            }
+
+            double sumOfX = 0;
+            double sumOfY = 0;
+            double sumOfXSq = 0;
+            double sumOfYSq = 0;
+            double sumCodeviates = 0;
+
+            for (var i = 0; i < xVals.Length; i++)
+            {
+                var x = xVals[i];
+                var y = yVals[i];
+                sumCodeviates += x * y;
+                sumOfX += x;
+                sumOfY += y;
+                sumOfXSq += x * x;
+                sumOfYSq += y * y;
+            }
+
+            var count = xVals.Length;
+            var ssX = sumOfXSq - ((sumOfX * sumOfX) / count);
+            var ssY = sumOfYSq - ((sumOfY * sumOfY) / count);
+
+            var rNumerator = (count * sumCodeviates) - (sumOfX * sumOfY);
+            var rDenom = (count * sumOfXSq - (sumOfX * sumOfX)) * (count * sumOfYSq - (sumOfY * sumOfY));
+            var sCo = sumCodeviates - ((sumOfX * sumOfY) / count);
+
+            var meanX = sumOfX / count;
+            var meanY = sumOfY / count;
+            var dblR = rNumerator / Math.Sqrt(rDenom);
+
+            //rSquared = dblR * dblR;
+            //yIntercept = meanY - ((sCo / ssX) * meanX);
+            //slope = sCo / ssX;
+            return (dblR * dblR, meanY - ((sCo / ssX) * meanX), sCo / ssX, (sCo / ssX * xVals.Last()) + meanY - ((sCo / ssX) * meanX));
+        }
         //TDS
         public enum OrderBookUpdateType
         {
@@ -26,21 +75,101 @@ namespace Moon.Data.Extender
             Unknown
         }
 
+        public static double Gcd(this double a, double b)
+        {
+            if (a == 0)
+                return b;
+            else
+                return Gcd(b % a, a);
+        }
+
+
+        public static decimal FindDifference(this decimal nr1, decimal nr2)
+        {
+            return ((nr2 - nr1) / Math.Abs(nr1)) * 100;
+            
+        }
+        public static double FindDifference(this double nr1, double nr2)
+        {
+            return ((nr2 - nr1) / Math.Abs(nr1)) * 100;
+        }
+
         public static GenericChangeType HasChange(this List<double> input)
         {
             var index = input.Count();
-            var currentvalue = input[index - 1];
-            var minusvalue = input[index -2];
-            if(minusvalue > currentvalue)
+            if(index > 2)
             {
-                return GenericChangeType.Down;
+                var currentvalue = input[index - 1];
+                var minusvalue = input[index - 2];
+                if (minusvalue > currentvalue)
+                {
+                    return GenericChangeType.Down;
+                }
+                if (minusvalue < currentvalue)
+                {
+                    return GenericChangeType.Up;
+                }
+                if (minusvalue == currentvalue) { return GenericChangeType.Same; }
+                return GenericChangeType.Unknown;
             }
-            if (minusvalue < currentvalue)
-            {
-                return GenericChangeType.Up;
-            }
-            if(minusvalue == currentvalue) { return GenericChangeType.Same; }
             return GenericChangeType.Unknown;
+        }
+        public static List<double> FindPeaks(this List<double> values, double rangeOfPeaks)
+        {
+            List<double> peaks = new List<double>();
+
+            int checksOnEachSide = (int)Math.Floor(rangeOfPeaks / 2);
+            for (int i = checksOnEachSide; i < values.Count - checksOnEachSide; i++)
+            {
+                double current = values[i];
+                IEnumerable<double> window = values;
+                if (i > checksOnEachSide)
+                    window = window.Skip(i - checksOnEachSide);
+                window = window.Take((int)rangeOfPeaks);
+                if (current == window.Max())
+                    peaks.Add(current);
+            }
+            return peaks;
+        }
+        public static double StandardDeviation(this IEnumerable<double> values)
+        {
+            double avg = values.Average();
+            return Math.Sqrt(values.Average(v => Math.Pow(v - avg, 2)));
+        }
+        public static List<double> FindPeaksHigh(this List<double> values, int rangeOfPeaks)
+        {
+            List<double> peaks = new List<double>();
+
+            int checksOnEachSide = rangeOfPeaks / 2;
+            for (int i = 0; i < values.Count; i++)
+            {
+                double val = values[i];
+                IEnumerable<double> range = values;
+                if (i > checksOnEachSide)
+                    range = range.Skip(i - checksOnEachSide);
+                range = range.Take(rangeOfPeaks);
+                if (val == range.Max())
+                    peaks.Add(val);
+            }
+            return peaks;
+        }
+
+        public static List<double> FindPeaksLow(this List<double> values, int rangeOfPeaks)
+        {
+            List<double> peaks = new List<double>();
+
+            int checksOnEachSide = rangeOfPeaks / 2;
+            for (int i = 0; i < values.Count; i++)
+            {
+                double val = values[i];
+                IEnumerable<double> range = values;
+                if (i < checksOnEachSide)
+                    range = range.Skip(i - checksOnEachSide);
+                range = range.Take(rangeOfPeaks);
+                if (val == range.Min())
+                    peaks.Add(val);
+            }
+            return peaks;
         }
 
         public static List<double> GetLastRSI(this List<double> input,int period = 12)
@@ -70,6 +199,7 @@ namespace Moon.Data.Extender
 
             return output;
         }
+
         public static double GetQuantityChange(this BinanceOrderBookEntry input, BinanceOrderBookEntry compareto)
         {
             return ((input.Quantity.ChangeType<double>() - compareto.Quantity.ChangeType<double>()) / compareto.Quantity.ChangeType<double>() * 100);
@@ -231,7 +361,37 @@ namespace Moon.Data.Extender
 
             return list;
         }
+        public static List<decimal> MovingAverage(this List<decimal> data, int period)
+        {
+            decimal[] interval = new decimal[period];
+            List<decimal> MAs = new List<decimal>();
 
+            for (int i = 0; i < data.Count(); i++)
+            {
+                interval[i % period] = data[i];
+                if (i > period - 1)
+                {
+                    MAs.Add(interval.Average());
+                }
+            }
+            return MAs;
+        }
+
+        public static List<double> MovingAverage(this List<double> data, int period)
+        {
+            double[] interval = new double[period];
+            List<double> MAs = new List<double>();
+
+            for (int i = 0; i < data.Count(); i++)
+            {
+                interval[i % period] = data[i];
+                if (i > period - 1)
+                {
+                    MAs.Add(interval.Average());
+                }
+            }
+            return MAs;
+        }
         public static decimal Mean(this List<decimal> values)
         {
             return values.Count == 0 ? 0 : values.Mean(0, values.Count);

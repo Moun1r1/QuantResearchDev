@@ -76,6 +76,6 @@ namespace Moon.Data.Model
     public interface IStrategy 
     {
         string Name { get; set; }
-        int RiskRatioMinimal { get; set; }
+        double RiskRatioMinimal { get; set; }
     }
 }

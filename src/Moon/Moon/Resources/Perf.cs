@@ -53,11 +53,11 @@ namespace Moon.Resources
                     LastCheck = DateTime.Now;
                     if (MemoryUsage > Threeshold)
                     {
-                        Console.WriteLine("Perf - Memory : Last check was : {0}", LastCheck);
-                        Console.WriteLine("Perf - Memory : Check {0} bytes is higher than Threeshold : {1} bytes", MemoryUsage, Threeshold);
-                        Console.WriteLine("Perf - Memory : Starting Memory Garbage Collection");
-                        Report = Report + string.Format("Perf - Memory : Last check was : {0}", LastCheck);
-                        Report = Report + string.Format("Perf - Memory : Check {0} bytes is higher than Threeshold : {1} bytes", MemoryUsage, Threeshold);
+                        //Console.WriteLine("Perf - Memory : Last check was : {0}", LastCheck);
+                        //Console.WriteLine("Perf - Memory : Check {0} bytes is higher than Threeshold : {1} bytes", MemoryUsage, Threeshold);
+                        //Console.WriteLine("Perf - Memory : Starting Memory Garbage Collection");
+                        //Report = Report + string.Format("Perf - Memory : Last check was : {0}", LastCheck);
+                        //Report = Report + string.Format("Perf - Memory : Check {0} bytes is higher than Threeshold : {1} bytes", MemoryUsage, Threeshold);
                         GC.Collect();
                         GC.WaitForPendingFinalizers();
                         LastClean = DateTime.Now;
@@ -84,9 +84,9 @@ namespace Moon.Resources
                 {
                     if (HasChanged)
                     {
-                        Console.WriteLine("Perf - Thread : Currently Running : {0} Operations", this.NumberOfRunningOperation);
-                        Console.WriteLine("Perf - Thread : Main Task list count : {0}", this.ToManage.Count);
-                        Console.WriteLine("Perf - Thread : Second Task list : {0}", this.ToManage2.Count);
+                        //Console.WriteLine("Perf - Thread : Currently Running : {0} Operations", this.NumberOfRunningOperation);
+                        //Console.WriteLine("Perf - Thread : Main Task list count : {0}", this.ToManage.Count);
+                        //Console.WriteLine("Perf - Thread : Second Task list : {0}", this.ToManage2.Count);
                         CurrentOperationRunning = this.NumberOfRunningOperation;
                     }
                     LastOperationCheck = NumberOfRunningOperation;
@@ -104,7 +104,7 @@ namespace Moon.Resources
                 PlanifiedOperation Operation = (PlanifiedOperation)e.NewItems[0];
                 if (Operation != null)
                 {
-                    Console.WriteLine("Perf - TaskManagement :  New operation will start at : {0} for {1} ", Operation.Start, Operation.OperationName);
+                    //Console.WriteLine("Perf - TaskManagement :  New operation will start at : {0} for {1} ", Operation.Start, Operation.OperationName);
                     Task.Factory.StartNew(() =>
                     {
                         object lo = new object();

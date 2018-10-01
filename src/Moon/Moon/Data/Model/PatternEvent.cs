@@ -33,7 +33,17 @@ namespace Moon.Data.Model
         IsBreakingHistoricalLowestLow,
         IsBreakingHistoricalLowestClose,
         IsObvBullish,
-        IsObvBearish
+        IsObvBearish,
+        IsRsiOverbought,
+        IsRsiOversold,
+        IsSmaBullishCross,
+        IsSmaBearishCross,
+        IsEmaBullish,
+        IsEmaBearish,
+        IsAboveEma,
+        IsBelowEma,
+        IsEmaBullishCross,
+        IsEmaBearishCross,
 
     }
 }

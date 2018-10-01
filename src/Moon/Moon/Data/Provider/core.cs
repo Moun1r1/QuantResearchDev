@@ -26,7 +26,7 @@ namespace Moon.Data.Provider
 
         public ObservableCollection<BinanceStreamKlineData> BData { get; set; } = new ObservableCollection<BinanceStreamKlineData>();
         public ObservableCollection<BinanceStreamTick[]> BAllPairsData { get; set; } = new ObservableCollection<BinanceStreamTick[]>();
-        public ObservableCollection<BinanceStreamOrderBook> BBookData { get; set; } = new ObservableCollection<BinanceStreamOrderBook>();
+        //public ObservableCollection<BinanceStreamOrderBook> BBookData { get; set; } = new ObservableCollection<BinanceStreamOrderBook>();
         public Grouper DataOrganizer { get; set; } = new Grouper();
         public ObservableCollection<BinanceStreamTrade> BDataTradeSeller { get; set; } = new ObservableCollection<BinanceStreamTrade>();
         public ObservableCollection<BinanceStreamTrade> BDataTradeBuyer { get; set; } = new ObservableCollection<BinanceStreamTrade>();
@@ -69,7 +69,7 @@ namespace Moon.Data.Provider
         /// <param name="From"></param>
         /// <param name="To"></param>
         /// <param name="Symbol"></param>
-        public void GetDataFromTo(DateTime From, DateTime To, string Symbol)
+        public void GetDataFromTo(DateTime From, DateTime To, string Symbol, KlineInterval interval = KlineInterval.OneMinute)
         {
             Console.WriteLine("Core - Loading data for : {0}", Symbol);
 
@@ -77,7 +77,7 @@ namespace Moon.Data.Provider
 
 
 
-            var CandleMin = this.bclient.Client.GetKlines(Symbol, KlineInterval.OneMinute, startTime: From, endTime: To,limit:int.MaxValue);
+            var CandleMin = this.bclient.Client.GetKlines(Symbol, interval, startTime: From, endTime: To,limit:int.MaxValue);
             foreach(var data in CandleMin.Data)
             {
                 BinanceStreamKlineData formated = new BinanceStreamKlineData();
@@ -180,7 +180,13 @@ namespace Moon.Data.Provider
             {
                 var tick = this.bclient.Socket.SubscribeToAllSymbolTickerAsync((data) =>
                 {
+                    if(BAllPairsData.Count() > 2)
+                    {
+                        BAllPairsData.Clear();
+                    }
+
                     BAllPairsData.Add(data);
+
                     //decimal testpercent = 0;
                     //Console.WriteLine("Debug - Provider Core - Receiving data from ticker socket : {0}", data);
                     //foreach(var symbol in data)
@@ -288,13 +294,13 @@ namespace Moon.Data.Provider
         /// Subscripte to KLine Stream
         /// </summary>
         /// <param name="Pair"></param>
-        public void SubscribeTo(string Pair)
+        public void SubscribeTo(string Pair, KlineInterval interval = KlineInterval.OneMinute)
         {
             Console.WriteLine("Core - Starting thread for Kline Stream for : {0}", Pair);
 
             Task.Run(() =>
             {
-                var tick = this.bclient.Socket.SubscribeToKlineStreamAsync(Pair, KlineInterval.OneMinute, (data) =>
+                var tick = this.bclient.Socket.SubscribeToKlineStreamAsync(Pair, interval, (data) =>
                 {
                     BData.Add(data);
 
@@ -311,8 +317,8 @@ namespace Moon.Data.Provider
             {
                 var book = this.bclient.Socket.SubscribeToPartialBookDepthStreamAsync(Pair, 10, (data) =>
                  {
-                     BBookData.Add(data);
-                     if (BBookData.Count > 2) BBookData.RemoveAt(0);
+                     //BBookData.Add(data);
+                     //if (BBookData.Count > 2) BBookData.RemoveAt(0);
 
                  });
                 while (Global.Shared.Running)

@@ -1,4 +1,5 @@
 ﻿using Binance.Net;
+using Binance.Net.Objects;
 using CryptoExchange.Net.Authentication;
 using CryptoExchange.Net.Logging;
 using Moon.Data.Model;
@@ -35,6 +36,7 @@ namespace Moon.Data.Exchanger
             BinanceClient.SetDefaultOptions(new BinanceClientOptions()
             {
                 ApiCredentials = new ApiCredentials(ApiKey, ApiSecret),
+                RateLimitingBehaviour = CryptoExchange.Net.Objects.RateLimitingBehaviour.Wait
             });
             this.Client = new BinanceClient();
             BinanceSocketClient.SetDefaultOptions(new BinanceSocketClientOptions()
