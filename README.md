@@ -2,7 +2,7 @@
 
 ![GitHub Logo](/media/logo.png)
 
-https://discord.gg/Qq4MVVV
+Wanna talk with us ? : https://discord.gg/Qq4MVVV
 
 Quant Research dev & Traders open source project
 
@@ -69,6 +69,9 @@ Concept
 
 ### Azure Data Table storage
 ![cloudstorage](/media/AzureTableStorage.png)
+
+### Auto elect pair for a given strategy before live
+![cloudstorage](/media/Autoelect.JPG)
 
 ### Some custom TA 
 ![DynamicId](/media/DAT.JPG)
