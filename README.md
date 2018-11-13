@@ -1,4 +1,5 @@
 # QuantResearchDev by Moon Hedge Fund 
+# Projet has been migrated to gitlab and is now private no more update !!!!!!
 
 ![GitHub Logo](/media/logo.png)
 
